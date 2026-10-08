@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <title>商品详情页</title>
+</head>
+<style>
+    body,
+    #app {
+        width: 300px;
+    }
+
+    /* 头部 */
+    .headerbox {
+        width: 500px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    /* 图片 */
+    .headerbox img {
+        width: 240px;
+        height: 240px;
+    }
+
+    /* 商品主体信息 */
+    .content {
+        display: flex;
+        flex-direction: column;
+        margin-left: 30px;
+    }
+
+    .content h2 {
+        width: 300px;
+    }
+
+    .cart {
+        width: 150px;
+    }
+
+    .cart {
+        background-color: #df3033;
+        color: #fff;
+        height: 46px;
+        line-height: 46px;
+        padding: 0 26px;
+        font-size: 18px;
+        font-family: "microsoft yahei";
+        text-align: center;
+    }
+    /* 购物车数量 */
+    .cartbox{
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        display: flex;
+        justify-content: center;
+    }
+    .cartbox img{
+        width: 30px;
+        height: 30px;
+    }
+    .cartbox span{
+        background-color: #df3033;
+        color: #fff;
+        display: inline-block;
+        border-radius: 50%;
+        width: 18px;
+        height: 18px;
+        text-align: center;
+        line-height: 16px;
+    }
+
+    /* 动态组件区域 */
+    .trendsComponent {
+        width: 480px;
+        margin-top: 20px;
+    }
+
+    .trendsComponent>ul {
+        display: flex;
+        margin: 0;
+        padding: 0;
+    }
+
+    .trendsComponent>ul li {
+        list-style: none;
+        width: 140px;
+        border-bottom: #df3033 solid 2px;
+    }
+
+    .tab-button {
+        padding: 6px 10px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border: solid 1px #ccc;
+        cursor: pointer;
+        background: #f0f0f0;
+        margin-bottom: -1px;
+        margin-right: -1px;
+        text-align: center;
+    }
+
+    .tab-button:hover {
+        background: #e0e0e0;
+    }
+
+    .active {
+        background: #df3033;
+        color: white;
+    }
+
+    .tab {
+        border: solid 1px #ccc;
+        padding: 10px;
+    }
+
+    /* 商品介绍组件-introduceHeader子组件 */
+    .introUl {
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        padding: 0;
+        margin: 0;
+    }
+
+    .introUl li {
+        list-style: none;
+        width: 200px;
+        height: 30px;
+    }
+
+    .introImg {
+        width: 100%;
+    }
+    /* 售后服务子组件afterTitle的p标签 */
+    .after_p{
+        font-weight: bold;
+        color: #5b595958;
+    }
+</style>
+<body>
+    <div id='app'>
+        <h1>商品详情页</h1>
+        <div class="headerbox">
+            <img src="./img/main_img.jpg" alt="">
+            <div class="content">
+                <h2>{{pear.title}}</h2>
+                <p>价格：{{pear.price}}</p>
+                <p>促销：{{pear.promotion}}</p>
+                <div class="cart" @click="cartnum++">加入购物车</div>
+                <div class="cartbox">
+                    <img src="./img/jd2015img.png" alt="">
+                    <span>{{cartnum}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="trendsComponent">
+            <ul>
+                <li v-for="tab in tabList" :key="tab.title"
+                    :class="['tab-button', { active: currentTab === tab.title }]" @click="currentTab = tab.title">
+                    {{ tab.displayName }}
+                </li>
+            </ul>
+            <keep-alive>
+                <component :is="currentTab" class="tab">
+                </component>
+            </keep-alive>
+        </div>
+    </div>
+    <script src='https://unpkg.com/vue@next'></script>
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    //购物车数量
+                    cartnum:1,
+                    //商品信息
+                    pear: {id: 001,title: '河北皇冠梨生鲜水果',price: 39.90,promotion: "满99-30"
+                    },
+                    // 用于保存当前单击的组件名称
+                    currentTab: 'introduce',
+                    //tab
+                    tabList: [{
+                            title: "introduce",
+                            content: {barnd: "QF",type: "皇冠梨",bunmber: 123456,placeProduction: "河北",storageConditions: "冷藏",imgSrc: './img/pear1.jpg'},
+                            displayName: '商品详情'},
+                        {title: "pack",content: {main: "皇冠梨",weight: '2.5kg',inventory: '河北皇冠梨 2.5kg装*1'},
+                         displayName: '包装与规格'},
+                        {
+                            title: "after",
+                            content: {
+                                settlement: '理赔绿色通道',
+                                stxt:'优理赔服务是为等级2及以上的优质客户提供的售后特色服务, 符合条件的生鲜自营订单商品有破损或腐坏等问题, 可以在商品签收后48小时内提交优理赔申请,提交申请后100分钟内审核通过后即享补偿或退款,无需返回商品，为客户节省了返回商品的物流等待时间和收货检测的处理时间。',
+                                customer: '专业生鲜客服团队—让您售后无忧',
+                                ctxt:'微信在线客服：XX-fresh,生鲜客服电话：400-606-3311,服务时间：09:00-24:00。'},
+                            displayName: '售后服务'}
+                    ],
+                }
+            },
+            //依赖注入抛出根组件数据
+            provide() {return { "tabList": this.tabList}}
+        })
+        //introduceHeader-商品介绍组件的子组件
+        const introduceHeader = {
+            //introduce通过props向子组件传递数据content
+            props: ['content'],
+            template: `<div>
+                        <ul class="introUl">
+                            <li>品牌：{{content.barnd}}</li>    
+                            <li>品种：{{content.type}}</li>    
+                            <li>编号：{{content.bunmber}}</li>    
+                            <li>产地：{{content.placeProduction}}</li>    
+                            <li>贮存条件：{{content.storageConditions}}</li>      
+                        </ul>
+                </div>`
+        }
+        //introduce-商品介绍组件
+        vm.component('introduce', {
+            //依赖注入导入数据
+            inject: ['tabList'],
+            components: {"introduce-header": introduceHeader},
+            //通过props向子组件传递数据:content
+            template: `<div>
+                <introduce-header :content="tabList[0].content"></introduce-header>
+                <img :src="tabList[0].content.imgSrc" class="introImg">
+                </div>`
+        })
+        //pack-规格与包装组件
+        vm.component('pack', {
+            data() { return{content:''} },//用于保存从根组件获取的数据
+            methods: {
+                getPack() {
+                    //使用$root获取根组件数据
+                    this.content = this.$root.tabList[1].content;
+                    console.log("000",this.$root.tabList[1].content,this.content);
+                }
+            },
+            //通过生命周期触发方法，自动获取根组件数据
+            created() {this.getPack()},
+            template: `<div><ul class="introUl">
+                            <li>主体：{{content.main}}</li>    
+                            <li>重量：{{content.weight}}</li>    
+                            <li style="width:300px">包装清单：{{content.inventory}}</li>    
+                           </ul>
+                        <div>`
+        })
+        // afterTitle-售后组件的标题组件
+        const afterTitle={
+            // 依赖注入获取根组件数据
+            inject:['tabList'],
+            data(){return{content:this.tabList[2].content}},
+            template:`
+                <div>
+                    <p class="after_p">{{content.settlement}}</p>
+                    <slot name="settlement" :sx="content.stxt"></slot>
+                    <p class="after_p">{{content.customer}}</p>
+                    <slot name="customer" :cx="content.ctxt"></slot>
+                </div>`
+                // 通过插槽向父组件after传递数据。
+        }
+        //after-售后组件
+        vm.component('after', {
+            // 注册子组件afterTitle
+            components:{'after-title':afterTitle},
+            template: `
+            <div>
+                <after-title>
+                    <template v-slot:settlement="slotSettlement">
+                        <p>{{slotSettlement.sx}}</p>
+                    </template>
+                    <template v-slot:customer="slotCustomer">
+                        <p>{{slotCustomer.cx}}</p>
+                    </template>
+                </after-title>
+            </div>`
+            // 通过作用域插槽接收子组件传递过来的数据
+        })
+        vm.mount('#app')
+    </script>
+</body>

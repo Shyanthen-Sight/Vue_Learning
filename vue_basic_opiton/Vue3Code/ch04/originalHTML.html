@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VSCode信息展示页面</title>
+</head>
+<body>
+<div id="app">
+    <!-- 普通文本插值 -->
+    <h2>{{message}}</h2>
+    <!-- 输出原始HTML代码 -->
+    <h2 v-html="message"></h2>
+</div>
+<script src="https://unpkg.com/vue@next"></script>
+<script>
+    const vm = Vue.createApp({
+        data() {
+            return {
+                message: '<a href="https://code.visualstudio.com/">VSCode</a>'
+            }
+        }
+    }).mount('#app')
+    </script>
+</body>

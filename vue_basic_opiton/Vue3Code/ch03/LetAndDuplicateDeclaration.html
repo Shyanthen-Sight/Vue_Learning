@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>let与重复声明</title>
+</head>
+
+<body>
+</body>
+<script>
+    var a = 1;
+    var a = 2; //此处定义的变量a会覆盖前面定义的变量a
+    console.log(a)
+
+    // 查看a的输出结果后，查看b输出结果请取消下方注释
+    // let b = 10;
+    // let b = 20; //报错：'b' has already been declared
+    // console.log(b)
+
+    ////const与初始化
+    // const a = 10;
+    // const b;
+    // b = 100;
+
+    // //const常量的一次赋值与多次赋值
+    // const a = "hello";
+    // a = "你好";
+    
+    // //const对象常量的属性修改
+    // const obj = {prices:'100'};
+    // obj.prices="200"
+    // console.log(obj);
+    // obj={
+    //     prices:"300"
+    // }
+
+</script>
+
+</html>

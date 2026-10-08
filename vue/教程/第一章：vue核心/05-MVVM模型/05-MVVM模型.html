@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MVVM 模型</title>
+  <link rel="icon" href="../favicon.ico">
+  <!-- 引入vue -->
+  <script type="text/javascript" src="../js/vue.js"></script>
+  <style>
+    .root {
+      padding: 20px;
+      font-family: "Microsoft YaHei", sans-serif;
+    }
+    .layer {
+      border: 2px solid #42b983;
+      border-radius: 6px;
+      padding: 12px 16px;
+      margin: 10px 0;
+      max-width: 420px;
+    }
+    .layer h3 {
+      margin: 0 0 6px;
+      color: #42b983;
+    }
+    .arrow {
+      text-align: center;
+      font-weight: bold;
+      color: #888;
+      max-width: 420px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="root">
+    <h1>MVVM 模型</h1>
+
+    <!-- V：View 视图（页面模板 / DOM） -->
+    <div class="layer">
+      <h3>V —— View（视图）</h3>
+      <p>这是页面模板，用户看到的输入框和文字。</p>
+      <input type="text" v-model="msg" placeholder="在这里打字试试">
+      <p>我是一段显示数据的话：{{ msg }}</p>
+    </div>
+
+    <div class="arrow">↓ 数据绑定 / 事件监听（双向） ↓</div>
+
+    <!-- VM：ViewModel（Vue 实例），通过它连接 V 和 M -->
+    <div class="layer">
+      <h3>VM —— ViewModel（视图模型 = Vue 实例）</h3>
+      <p>你在这边输入，<strong>Model</strong> 里的数据会跟着变，上面的 <strong>View</strong> 也会刷新。</p>
+      <p>按 F12 打开控制台，在 console 里输入 <code>vm.msg = '修改了'</code>，再看页面，也会同步更新。</p>
+    </div>
+
+    <div class="arrow">↓ 数据代理 ↓</div>
+
+    <!-- M：Model 数据层（data） -->
+    <div class="layer">
+      <h3>M —— Model（模型 = data 数据层）</h3>
+      <p>这是数据层，当前 name / msg 的值：</p>
+      <p>name：{{ name }}，msg：{{ msg }}</p>
+    </div>
+
+    <p>现在去上面输入框打字，或按 F12 在控制台执行 <code>vm.msg = 'xxx'</code>，观察 V 和 M 是否同步变化。</p>
+  </div>
+
+  <script>
+    Vue.config.productionTip = false
+    // VM：ViewModel —— Vue 实例，负责连接 View 和 Model
+    const vm = new Vue({
+      el: '.root',
+      // M：Model —— 数据层
+      data: {
+        name: '张三',
+        msg: '你好，MVVM'
+      },
+    })
+    // 打印 vm，可以看到 data 里的数据被"代理"到了 vm 自身（vm.name、vm.msg 可直接访问）
+    console.log(vm)
+  </script>
+</body>
+
+</html>

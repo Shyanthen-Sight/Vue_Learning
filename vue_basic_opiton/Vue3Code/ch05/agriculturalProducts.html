@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>选择框</title>
+</head>
+<body>
+    <div id='app'>
+        <h1>选择框</h1>
+        <h5>单选选择框</h5>
+        <select v-model="selected" >
+            <option disabled value="">选择一种农产品分类</option>
+            <option >种植业产品</option>
+            <option >畜牧业产品</option>
+            <option >渔业产品</option>
+        </select>
+        <p>selected:{{selected}}</p>
+        <hr>
+        <h5>多选选择框</h5>
+        <select v-model="selectedList" multiple>
+            <option value="" disabled>选择多种种植业产品</option>
+            <option>农作物</option>
+            <option>蔬菜</option>
+            <option>果树</option>
+            <option>药材</option>
+            <option>菌菇</option>
+            <option>牧草</option>
+        </select>
+        <p>selectedList:{{selectedList}} </p>
+    </div>
+    <script src='https://unpkg.com/vue@next'></script>
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    selected:'',
+                    selectedList:[]
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>

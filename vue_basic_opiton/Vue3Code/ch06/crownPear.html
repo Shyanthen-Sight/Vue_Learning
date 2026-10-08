@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>依赖注入</title>
+</head>
+<body>
+    <div id='app'>
+        <h1>依赖注入</h1>
+        <parent></parent>
+    </div>
+    <script src='https://unpkg.com/vue@next'></script>
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    product:{
+                        name:"河北皇冠梨",price:28.90,stock:999,
+                        detail:{
+                            barnd:"远达",
+                            type:"皇冠梨",
+                            bunmber:123456,
+                            placeProduction:"河北",
+                            storageConditions:"冷藏",
+                        }
+                    }
+                }
+            },
+            provide(){
+                return {productProvide:this.product}
+            },
+            ////提供非组件实例上的数据
+            // provide:{
+            //     productProvide:{
+            //             name:"河北皇冠梨",price:28.90,stock:999,
+            //             detail:{
+            //                 barnd:"远达",
+            //                 type:"皇冠梨",
+            //                 bunmber:123456,
+            //                 placeProduction:"河北",
+            //                 storageConditions:"冷藏",
+            //             }
+            //         }
+            // }
+        })
+        vm.component('parent',{
+            template:` <child></child>`
+        })
+        vm.component('child',{
+            inject:['productProvide'],
+            template:`
+            <h3>{{productProvide.name}}</h3>
+            <p>当前价格：{{productProvide.price}}</p>
+            <p>库存：{{productProvide.stock}}</p>
+            <hr>
+            <div>
+                <ul>
+                    <li v-for="(value,key) in productProvide.detail" :key="key">{{key}}:{{value}}</li>
+                </ul>
+            </div>
+            
+            `
+        })
+        vm.mount('#app')
+    </script>
+</body>

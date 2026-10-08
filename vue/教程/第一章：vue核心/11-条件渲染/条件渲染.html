@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+  <div id="root">
+   <h2>当前的n值是:{{n}}</h2>
+   <button @click="n++">n+1</button>
+
+   <!-- ===== 情况一：v-show 实现 =====
+        元素始终在 DOM 里，只是切换 display:none -->
+   <h3>v-show 写法</h3>
+   <div v-show="n===1">v-show: this is 1</div>
+   <div v-show="n===2">v-show: this is 2</div>
+   <div v-show="n===3">v-show: this is 3</div>
+
+   <!-- ===== 情况二：v-if 实现 =====
+        条件为假时直接删除元素，不渲染 -->
+   <h3>v-if 写法</h3>
+   <div v-if="n===1">v-if: this is 1</div>
+   <div v-if="n===2">v-if: this is 2</div>
+   <div v-if="n===3">v-if: this is 3</div>
+  </div>
+
+  <script>
+    const vm = Vue.createApp({
+      data() {
+        return {
+          n: 0
+        }
+      }
+    }).mount('#root');
+  </script>
+</body>
+</html>

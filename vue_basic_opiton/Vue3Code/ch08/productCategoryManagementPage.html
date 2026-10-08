@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <title>商品类别管理页面</title>
+</head>
+
+<body>
+<div id='app'>
+    <h1>toRef()方法</h1>
+    <div>
+        <p><span v-for="(item,key) in category">{{key}}:
+            <span v-for="listitem in item">{{listitem}}、</span><br>
+        </span>
+        </p>
+        <button @click="addCategory">添加商品类别</button>
+    </div>
+</div>
+<script src='https://unpkg.com/vue@next'></script>
+<script>
+    const {reactive,toRef} =Vue;
+    const vm = Vue.createApp({
+        setup(){
+            let category=reactive({
+                vegetable:['油菜','茄子','芹菜','菠菜'],
+                fruit:['草莓','西瓜','水蜜桃','菠萝','榴莲'],
+                foodstuff:['水稻','小麦','高粱','小米','绿豆','玉米'],
+            });
+            //修改账户余额的函数
+            function addCategory(){
+                //查询category对象中是否存在fungus属性，若没有则为category对象添加fungus属性
+                //
+                let fungus=toRef(category,'fungus');
+                fungus.value=['平菇','蟹味菇','金针菇','杏鲍菇'];
+                console.log(category.fungus);
+            }
+            //抛出的数据与方法
+            return{ category,addCategory}
+        }
+    }).mount('#app')
+</script>
+</body>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>默认内容</title>
+</head>
+<body>
+    <div id='app'>
+        <h1>默认内容</h1>
+        <parent></parent>
+    </div>
+    <script src='https://unpkg.com/vue@next'></script>
+    <script>
+        const vm = Vue.createApp({})
+        //子组件
+        const Child={
+            template:`<div><slot><h3>阿尔泰山</h3></slot></div>`
+        }
+        //父组件
+        vm.component('Parent',{
+            components:{Child},
+            template:`
+            <child></child>
+            <child><img :src="loadingOver" style="width:100px,height:100px" /></child>`,
+            data(){
+                return{
+                    loadingOver:"./img/loadingOver.jpg",//保存图片地址
+                }
+            }
+        })
+        vm.mount('#app')
+    </script>
+</body>

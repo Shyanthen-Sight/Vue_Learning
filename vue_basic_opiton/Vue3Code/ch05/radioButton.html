@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>单选按钮</title>
+</head>
+<style>
+    label{
+        color: cornflowerblue;
+        font-weight: bold;
+    }
+</style>
+<body>
+    <div id='app'>
+        <h1>单选按钮</h1>
+        <input type="radio" id="first" value="大果10斤" v-model="select" />
+        <label for="first">大果10斤</label>
+        <input type="radio" id="second" value="大果5斤" v-model="select" />
+        <label for="second">大果5斤</label>
+        <input type="radio" id="third" value="中果10斤" v-model="select" />
+        <label for="third">中果10斤</label>
+        <input type="radio" id="four" value="中果5斤" v-model="select" />
+        <label for="four">中果5斤</label>
+        <p>select:{{select}}</p>
+    </div>
+    <script src='https://unpkg.com/vue@next'></script>
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    select:[]
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>

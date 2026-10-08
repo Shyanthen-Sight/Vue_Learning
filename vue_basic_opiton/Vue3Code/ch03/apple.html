@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>解构语法与变量赋值</title>
+</head>
+<body>
+</body>
+<script>
+    // // 对象解构
+    // // 基本语法
+    // let { foo, bar } = { foo: 'aaa', bar: 'bbb' };
+    // console.log(foo,bar);//"aaa,bbb"
+    // // 解构失败
+    // let { baz } = { foo: 'aaa', bar: 'bbb' };
+    // console.log(baz);//undefined
+    // // 解构赋值与默认值
+    // let msg={ foo: 'aaa', bar: 'bbb' };
+    // let { bazx = 'hello'} =  msg;
+    // console.log(bazx);//输出结果:undefined
+
+
+    // 声明对象
+    let apple={weight:'200g',sweet:'5%'};
+    // 声明变量
+    let weight='0',sweet='0%';
+    console.log(weight,sweet);//0 0%
+    //为已声明的变量赋值，即修改变量的值
+    ({weight,sweet}=apple);
+    console.log(weight,sweet);//200g,5%
+
+    // 对象解构的默认值
+    //let msg={ foo: 'aaa', bar: 'bbb' };
+    // let { baz = 'hello'} =  msg;
+    // console.log(baz);//输出结果:'hello'
+</script>
+</html>

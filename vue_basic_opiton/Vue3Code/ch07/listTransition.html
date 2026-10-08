@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <title>列表过渡</title>
+</head>
+<style>
+    li {
+        display: inline-block;/*将li设置为行内块元素*/
+        margin-right: 10px;
+    }
+    /* 进入动画开始时和离开动画结束时效果 */
+    .list-enter-from,
+    .list-leave-to {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    /* 进入动画和离开动画过程中的效果 */
+    .list-enter-active,
+    .list-leave-active {
+        transition: all 1s;
+    }
+</style>
+<body>
+    <div id='app'>
+        <h1>列表过渡</h1>
+        <div class="ListView">
+            <button @click="add">添加</button>
+            <button @click="remove">删除</button>
+            <!-- 列表过渡组件 -->
+            <transition-group tag="ul" name="list">
+                <li  v-for="item in list" :key="item">{{ item }}</li>
+            </transition-group>
+        </div>
+    </div>
+<script src='https://unpkg.com/vue@next'></script>
+<script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    list: [1,2,3,4,5,6],// 蔬菜种类
+                    num: 8// 计数
+                }
+            },
+            methods: {
+                randomIndex() {
+                    // 向下取整,根据数组长度随即生成一个数值
+                    return Math.floor(Math.random() * this.list.length)
+                },
+                add() {// 插入
+                    /* 使用splice() 方法，修改数组中的内容
+                     * 第一个参数表示开始位置
+                     * 第二个参数表示要删除的元素数量
+                     * 第三个参数表示要插入的元素*/
+                    this.list.splice(this.randomIndex(), 0,  this.num++)
+                },
+                remove() {// 移除
+                    //删除randomIndex位置的一个数据
+                    this.list.splice(this.randomIndex(), 1)
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>

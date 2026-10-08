@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品订单页面</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        li {
+            list-style: none;
+        }
+        html {
+            background-color: #EAE8EB;
+            padding-top: 4vh;
+            padding-bottom: 4vh;
+        }
+        .shop-list {
+            background-color: #fff;
+            margin: 0 auto;
+            width: 80%;
+            height: 92vh;
+            border-radius: 10px;
+        }
+        .shop-tab {
+            display: flex;
+            justify-content: space-around;
+            border-bottom: 2px solid #E8E8E8;
+            line-height: 80px;
+        }
+        .check-tab {
+            color: red;
+            border-bottom: 2px solid red;
+
+        }
+        .list-title {
+            line-height: 50px;
+            display: flex;
+            justify-content: space-between;
+            background-color: #F5F5F5;
+            /* padding: 0 50px 0 30px; */
+        }
+        .list-title li {
+            width: 20%;
+            text-align: center;
+        }
+        .list-style {
+            display: flex;
+            justify-content: space-between;
+        }
+        .list-style li {
+            width: 20%;
+            text-align: center;
+            line-height: 50px;
+            border-bottom: 1px solid #E8E8E8;
+        }
+        .page {
+            width: 100%;
+            display: flex;
+            justify-content: end;
+            /* font-size: 12px; */
+        }
+        .container {
+            width: 20%;
+            display: flex;
+            margin-top: 50px;
+        }
+        .left {
+            margin: 0 20px 0 20px;
+            color: #B8B8B8;
+        }
+        .center {
+            border: 1px solid blue;
+            border-radius: 5px;
+            width: 24px;
+            text-align: center;
+            color: blue;
+        }
+        .right {
+            margin: 0 20px 0 20px;
+            color: #000;
+        }
+        .all {
+            border: 1px solid #B8B8B8;
+            border-radius: 5px;
+            width: 66px;
+            text-align: center;
+            background-color: #F5F5F5;
+            color: #B8B8B8;
+        }
+    </style>
+</head>
+<body>
+    <div class="shop-list">
+        <!-- 商品订单tab -->
+        <div class="shop-tab">
+            <div>商品信息</div>
+            <span class="check-tab" id="0">已完成订单</span>
+            <span id="1">未完成订单</span>
+            <span id="2">全部订单</span>
+        </div>
+        <!-- 表格title -->
+        <div>
+            <ul class="list-title">
+                <li>订单编号</li>
+                <li>商品信息</li>
+                <li>订单状态</li>
+                <li>订单总价</li>
+                <li>订单成交时间</li>
+            </ul>
+            <ul id="list">
+            </ul>
+        </div>
+    </div>
+    <script type="module">
+//导入所需参数
+import {finishList as completeList,goingList} from './module.js';
+//获取list dom节点，动态渲染列表
+let listDom = document.getElementById('list');
+//获取tab列表dom，设置事件监听
+let tabContainer = document.getElementsByClassName('shop-tab');
+let tab = document.querySelectorAll('span');
+// 初始化render
+render(completeList);
+// 动态渲染列表方法
+function render(...rest){
+    const newArr = rest.length > 1 ? [...rest[0],...rest[1]] : rest[0];
+    listDom.innerHTML = '';
+    newArr.forEach((item)=>{
+    let divContainer = window.document.createElement('div');
+    let childLi = `
+        <li>${item.number}</li>    
+        <li>${item.message}</li>    
+        <li>${item.status}</li>    
+        <li>${item.price}</li>    
+        <li>${item.time}</li>    `;
+    divContainer.innerHTML = childLi;
+    divContainer.setAttribute('class','list-style');
+    listDom.appendChild(divContainer);
+})
+}
+// tab切换方法
+    for(let i = 0 ; i < tab.length ; i++){
+       tab[i].onclick = function(){
+            for(let i = 0 ; i < tab.length ; i++){
+                tab[i].className = '';
+            }
+            if(i == 0){
+                render(completeList);
+            }else if(i == 1){
+                render(goingList);
+            }else if(i == 2){
+                render(completeList,goingList);
+            }
+            this.className = 'check-tab';
+       }
+}
+    </script>
+</body>
+
+</html>

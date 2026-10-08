@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>计算属性的选择性渲染列表</title>
+    <script src="../../vue.js"></script>
+</head>
+<body>
+<div id="app">
+        <h3>已完成商品订单</h3>
+        <ul>
+            <li v-for="item in completeOrders" :key="item.number">{{item.number}}</li>
+        </ul>
+        <h3>未完成商品订单</h3>
+        <ul>
+            <li v-for="item in unOrders" :key="item.number">{{item.number}}</li>
+       </ul>
+</div>
+<script src="https://unpkg.com/vue@next"></script>
+<script>
+    const vm= Vue.createApp({
+        data(){
+          return{
+           orders: [
+              {number: '001001', isOver: false},
+              {number: '002002', isOver: true},
+              {number: '003003', isOver: false},
+              {number: '004004', isOver: true},
+              {number: '005005', isOver: false}
+            ]
+           }
+        },
+        computed:{
+            completeOrders(){
+                return this.orders.filter(order=>order.isOver);
+             },
+            unOrders(){
+                return this.orders.filter(order=>!order.isOver);
+             }
+        }
+     }).mount('#app');
+</script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>斑马纹商品表格</title>
+    <script src="../../vue.js"></script>
+    <style>
+        body { width: 600px;  }
+        table {border: 2px solid black; }
+        table { width: 100%;}
+        th {height: 50px;}
+        th,td {
+            border-bottom: 1px solid black;
+            text-align: center;
+        }
+        [v-cloak] {
+            display: none;
+        }
+        .even {
+            background-color: skyblue;
+        }
+        .odd{
+            background-color: cornflowerblue;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <table>
+            <tr>
+                <th>编号</th>
+                <th>名称</th>
+                <th>产地</th>
+                <th>价格</th>
+                <th>库存</th>
+                <th>入库时间</th>
+            </tr>
+            <tr v-for="(item, index) in proList" :key="item.id" :class="{even : (index+1) % 2 === 0,odd : index % 2 === 0}">
+                <td>{{ item.id }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.place }}</td>
+                <td>{{ item.price }}</td>
+                <td>{{ item.stock }}</td>
+                <td>{{ item.addTime }}</td>
+            </tr>
+        </table>
+    </div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    proList: [
+                        {id: 1, name: '蜂王精',place: '北京',price: '99',stock: '55',addTime: '2021-12-02'},
+                        {id: 2, name: '罗汉果',place: '广西',price: '50',stock: '173',addTime: '2021-6-21'},
+                        {id: 3,name: '龙井',place: '浙江',price: '1499',stock: '89',addTime: '2021-6-26'},
+                        {id: 4,name: '大磨盘柿',place: '北京',price: '45',stock: '76',addTime: '2022-09-14'},
+                        {id: 5,name: '百色芒果',place: '广西',price: '67',stock: '99',addTime: '2022-08-13'}
+                    ]
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+
+</html>

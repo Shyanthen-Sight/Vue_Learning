@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>v-bind vs v-model 对比演示</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    body {
+      font-family: "Microsoft YaHei", sans-serif;
+      padding: 20px;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .two {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .card {
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+      flex: 1;
+      min-width: 300px;
+    }
+    .model {
+      background: #e8f8ee;
+      border: 2px solid #42b983;
+    }
+    .bind {
+      background: #fff4e5;
+      border: 2px solid #e08a3c;
+    }
+    .plain {
+      background: #f4f4f4;
+      border: 1px solid #ccc;
+    }
+    h3 {
+      margin: 0 0 10px;
+    }
+    .model h3 {
+      color: #42b983;
+    }
+    .bind h3 {
+      color: #e08a3c;
+    }
+    input {
+      padding: 6px 10px;
+      font-size: 15px;
+      width: 90%;
+    }
+    .ok {
+      color: #42b983;
+      font-weight: bold;
+    }
+    .no {
+      color: #e05555;
+      font-weight: bold;
+    }
+    .desc {
+      color: #888;
+      font-size: 13px;
+      margin: 6px 0 0;
+    }
+    .status {
+      padding: 10px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      user-select: none;
+      width: fit-content;
+      background: #e0e0e0;
+      color: #333;
+    }
+    .status.active {
+      background: #42b983;
+      color: #fff;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root">
+    <h1>v-bind vs v-model 区别演示</h1>
+    <p>在两个输入框里打字，对比下方「数据」是否跟着变 👇</p>
+
+    <!-- ========== 第一组对比：表单输入 ========== -->
+    <div class="two">
+      <div class="card model">
+        <h3>v-model（双向绑定）</h3>
+        <input type="text" v-model="name" placeholder="在这里打字">
+        <p>数据 name = <b>{{ name }}</b> &nbsp;<span class="ok">✓ 跟着变</span></p>
+        <p class="desc">你打字 → name 数据实时更新</p>
+      </div>
+
+      <div class="card bind">
+        <h3>:value / v-bind（单向绑定）</h3>
+        <input type="text" :value="city" placeholder="在这里打字">
+        <p>数据 city = <b>{{ city }}</b> &nbsp;<span class="no">✗ 不变</span></p>
+        <p class="desc">你打字 → city 数据毫无变化（只是输入框自己显示了字）</p>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- ========== 第二组：v-bind 的正确用途 ========== -->
+    <h2>v-bind 的正确用法：给属性动态赋值（数据驱动，单向）</h2>
+
+    <div class="card plain">
+      <a :href="url" target="_blank">① 点我跳转 —— 链接由数据控制：{{ url }}</a>
+      <br><br>
+
+      <button :disabled="isDisabled">② 禁用按钮（disabled 由数据控制）</button>
+      <button @click="isDisabled = !isDisabled">点击切换禁用状态</button>
+      <p class="desc">isDisabled = {{ isDisabled }}，点右边按钮改变数据，左边按钮跟着启用/禁用</p>
+
+      <div class="status" :class="['status', { active: isActive }]" @click="isActive = !isActive">
+        ③ 点我 —— 背景色由数据 isActive 控制（当前：{{ isActive }}）
+      </div>
+      <p class="desc">这就是 v-bind 的用途：数据变 → 属性/样式变，方向只有一条</p>
+    </div>
+  </div>
+
+  <script>
+    Vue.config.productionTip = false
+    new Vue({
+      el: '#root',
+      data: {
+        name: '张三',        // 用 v-model 双向修改
+        city: '北京',        // 只被 :value 单向显示
+        url: 'https://www.baidu.com',
+        isDisabled: true,
+        isActive: false
+      }
+    })
+  </script>
+</body>
+
+</html>

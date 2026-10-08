@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <title>内联事件处理器处理简单事件</title>
+</head>
+
+<body>
+    <div id='app'>
+        <button @click="price++">增加1元</button>
+        <button @click="price--">减少1元</button>
+        <h3>商品价格为：{{price}}</h3>
+    </div>
+    <script src="../../vue.js"></script>
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    price: 655
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>

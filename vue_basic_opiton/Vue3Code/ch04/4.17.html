@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>生命周期钩子函数梳理</title>
+</head>
+<body>
+<div id="app">
+    <input type="text" v-model="msg">
+ </div>
+<script src="https://unpkg.com/vue@next"></script>
+<script>
+    const vm= Vue.createApp({
+        data(){
+          return{
+              msg : "横眉冷对千夫指"
+           }
+        },
+        //在实例初始化之后，数据观测和事件配置之前被调用。
+        beforeCreate(){
+            console.log('beforeCreate');
+        },	
+        /* 在实例创建完成后被立即调用。在这一步，实例已完成数据观测，属性和方法的运算，watch/event 事件回调。
+        然而，挂载阶段还没开始，$el 属性目前不可见。 */
+        created(){
+            console.log('created');
+        },
+        //在挂载开始之前被调用：相关的渲染函数首次被调用
+        beforeMount(){
+            console.log('beforeMount');
+        },
+        //el 被新创建的 vm.$el 替换, 挂在成功
+        mounted(){
+            console.log('mounted');
+        },
+        //数据更新时调用
+        beforeUpdate(){
+            console.log('beforeUpdate');
+        },
+        //组件 DOM 已经更新, 组件更新完毕
+        updated(){
+            console.log('updated');
+        }
+     }).mount('#app');
+</script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>赞美荷花</title>
+    <style>
+        .box{
+            position: relative;
+        }
+        img{
+            display: inline-block;
+            width: 400px;
+            height: 350px;
+        }
+        span{
+            position: absolute;
+            left: 60px;
+            top: 70%;
+            color: white;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id='app'>
+        <div class="box">
+            <img src="./img/lotus.jpg" alt="">
+            <span v-show="flag">{{message}}</span>
+        </div>
+    </div>
+    <script src='https://unpkg.com/vue@next'></script>
+    <script>
+        const {onMounted ,ref} =Vue;
+        const vm = Vue.createApp({
+            setup(){
+                const message=ref("接天莲叶无穷碧,映日荷花别样红。");
+                let flag=ref(false);
+                onMounted(()=>{//组件加载后
+                    console.log("...");
+                    setTimeout(()=>{
+                        flag.value=true;//1秒后自动更改flag的值，使诗句显示
+                    },1000)
+                })
+                return {flag,message}
+            }
+        }).mount('#app')
+    </script>
+</body>

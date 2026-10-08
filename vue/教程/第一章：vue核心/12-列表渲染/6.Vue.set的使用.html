@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>6.Vue.set的使用</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    body {
+      font-family: "Microsoft YaHei", sans-serif;
+      padding: 20px;
+      background: #f7f8fa;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .tip {
+      background: #fff7e6;
+      border: 1px solid #ffd591;
+      border-radius: 6px;
+      padding: 10px 14px;
+      margin-bottom: 16px;
+    }
+
+    h2 {
+      margin-top: 24px;
+    }
+
+    h3 {
+      margin-bottom: 4px;
+    }
+
+    button {
+      padding: 6px 14px;
+      margin: 0 6px 6px 0;
+      cursor: pointer;
+    }
+
+    .block {
+      background: #fff;
+      border: 1px solid #d9d9d9;
+      border-radius: 6px;
+      padding: 14px 18px;
+      margin-bottom: 16px;
+      line-height: 1.8;
+    }
+
+    .explain {
+      background: #fff;
+      border: 1px solid #d9d9d9;
+      border-radius: 6px;
+      padding: 14px 18px;
+      margin-top: 24px;
+      line-height: 1.8;
+    }
+
+    .no {
+      color: #f5222d;
+    }
+
+    .ok {
+      color: #52c41a;
+    }
+
+    code {
+      background: #f0f0f0;
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root" class="container">
+    <h1>Vue.set 的使用</h1>
+
+    <div class="tip">
+      <strong>动手试试：</strong>先点几个带 <span class="no">✘</span> 的按钮，再点带 <span class="ok">✔</span> 的按钮，
+      对比页面有没有变化。你会发现：改<span style="color:#f5222d">对象</span>和<span style="color:#f5222d">数组</span>，不是直接赋值就能生效的。
+    </div>
+
+    <!-- ============ 一、对象属性的添加/修改 ============ -->
+    <h2>一、对象：直接添加新属性 ≠ 响应式</h2>
+    <div class="block">
+      <h3>学生信息</h3>
+      <p>姓名：{{student.name}}</p>
+      <p>年龄：{{student.age}}</p>
+      <!-- 这里暂时没有 sex，点了下面的按钮才会出现 -->
+      <p v-if="student.sex">性别：{{student.sex}}</p>
+
+      <!-- 方式一：直接 this.student.sex = '男' —— 页面不会更新 -->
+      <button @click="addSex1">✘ 直接添加sex属性</button>
+      <!-- 方式二：用 Vue.set / this.$set —— 页面会更新 -->
+      <button @click="addSex2">✔ Vue.set添加sex属性</button>
+      <!-- 已经存在 sex 后，直接改值是可以生效的（属性已经存在，有 getter/setter） -->
+      <button @click="changeSex">修改sex属性值</button>
+    </div>
+
+    <!-- ============ 二、数组元素的操作 ============ -->
+    <h2>二、数组：按下标直接改 ≠ 响应式</h2>
+    <div class="block">
+      <h3>爱好列表</h3>
+      <ul>
+        <li v-for="(h, index) in student.hobbies" :key="index">
+          {{index}} - {{h}}
+        </li>
+      </ul>
+
+      <!-- 方式一：this.student.hobbies[0] = 'xxx' —— 页面不会更新 -->
+      <button @click="changeHobby1">✘ 按下标直接改爱好</button>
+      <!-- 方式二：用 Vue.set / splice —— 页面会更新 -->
+      <button @click="changeHobby2">✔ Vue.set修改爱好</button>
+      <!-- 往数组尾部 push 是 Vue 重写过的方法，能触发更新 -->
+      <button @click="addHobby">✔ push新增一个爱好</button>
+    </div>
+
+    <!-- ============ 三、给数组新增元素 ============ -->
+    <h2>三、数组按下标新增元素</h2>
+    <div class="block">
+      <h3>朋友列表</h3>
+      <ul>
+        <li v-for="(f, index) in student.friends" :key="index">
+          {{index}} - {{f.name}} - {{f.age}}岁
+        </li>
+      </ul>
+
+      <!-- this.student.friends.push({...}) —— 数组尾部新增可以，但按下标塞进中间不行 -->
+      <button @click="addFriend">✔ push新增一个朋友</button>
+      <!-- Vue.set 可以按下标在任意位置放数据 -->
+      <button @click="setFriend">✔ Vue.set按下标替换朋友</button>
+    </div>
+
+    <!-- ============ 原理讲解 ============ -->
+    <div class="explain">
+      <h3>一、为什么直接赋值不生效？</h3>
+      <p>Vue2 的响应式原理是用 <code>Object.defineProperty</code> 给 data 中的每个属性添加 getter/setter。
+        但 <strong>Object.defineProperty 只能拦截"已经存在的属性"</strong>：</p>
+      <ul>
+        <li>给对象<strong>新增</strong>一个 data 里没有的属性（如 <code>sex</code>）→ 没有对应的 setter，改了页面不更新</li>
+        <li>通过<strong>下标直接修改数组元素</strong>（如 <code>persons[0] = {...}</code>）→ Vue2 也没有监听下标，改了页面不更新</li>
+      </ul>
+
+      <h3>二、Vue.set 是什么</h3>
+      <p>专门用来解决上面两个问题。三种写法完全等价：</p>
+      <ul>
+        <li><code>Vue.set(target, key, value)</code> —— 全局 API</li>
+        <li><code>vm.$set(target, key, value)</code> —— 实例方法</li>
+        <li><code>this.$set(target, key, value)</code> —— 组件内部直接用</li>
+      </ul>
+
+      <h3>三、Vue.set 的用法</h3>
+      <ul>
+        <li><strong>对象新增属性</strong>：<code>this.$set(this.student, 'sex', '男')</code></li>
+        <li><strong>修改数组元素</strong>：<code>this.$set(this.student.hobbies, 0, '打篮球')</code></li>
+        <li><strong>给数组任意位置放数据</strong>：<code>this.$set(this.student.friends, 1, {name:'xxx', age:20})</code></li>
+        <li><strong>注意</strong>：target 不能是 Vue 实例或 Vue 实例的根数据对象（<code>this.$set(this, 'x', 1)</code> 会报错）</li>
+      </ul>
+
+      <h3>四、数组的常用方法其实都能触发更新</h3>
+      <p>Vue2 重写（劫持）了数组的这些方法，用了它们页面会自动更新，不需要 Vue.set：</p>
+      <ul>
+        <li><code>push、pop、shift、unshift、splice、sort、reverse</code></li>
+        <li>所以"新增元素"优先用 push 就行；只有"按下标改/塞"才必须用 Vue.set 或 splice</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    const vm = new Vue({
+      el: "#root",
+      data: {
+        student: {
+          name: '张三',
+          age: 18,
+          // 对象里没有 sex 这个属性 —— 后面要用 Vue.set 补上
+          hobbies: ['打游戏', '听音乐', '踢足球'],
+          friends: [
+            { name: '李四', age: 19 },
+            { name: '王五', age: 20 }
+          ]
+        }
+      },
+      methods: {
+        // ✘ 直接添加 —— 没有 setter，页面不更新
+        addSex1() {
+          this.student.sex = '男'
+          console.log('页面不会变，但控制台打印能看到 sex 已经加上了：', this.student)
+        },
+        // ✔ 用 Vue.set 添加 —— 页面会更新
+        addSex2() {
+          this.$set(this.student, 'sex', '男')
+          // 等价写法：Vue.set(this.student, 'sex', '男')
+        },
+        // ✔ 属性已经存在，直接改值是生效的
+        changeSex() {
+          this.student.sex = '女'
+        },
+        // ✘ 按下标直接改数组元素 —— 页面不更新
+        changeHobby1() {
+          this.student.hobbies[0] = '打篮球'
+          console.log('页面不会变，但数组确实改了：', this.student.hobbies)
+        },
+        // ✔ 用 Vue.set 按下标修改 —— 页面会更新
+        changeHobby2() {
+          this.$set(this.student.hobbies, 0, '打篮球')
+        },
+        // ✔ push 被 Vue 重写过，能触发更新
+        addHobby() {
+          this.student.hobbies.push('游泳')
+        },
+        // ✔ 往数组尾部加一个朋友
+        addFriend() {
+          this.student.friends.push({ name: '赵六', age: 21 })
+        },
+        // ✔ 用 Vue.set 按下标替换元素（比如把下标 1 的朋友换掉）
+        setFriend() {
+          this.$set(this.student.friends, 1, { name: '陈七', age: 25 })
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

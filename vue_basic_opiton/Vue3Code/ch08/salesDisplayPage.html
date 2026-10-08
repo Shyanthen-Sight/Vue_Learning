@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>销售额展示页面</title>
+    <style>
+        /* 清除页面默认边距 */
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        /* 清除li的默认样式 */
+        li {
+            list-style: none;
+            float: left;
+            height: 40px;
+            line-height: 40px;
+            border-bottom: 1px solid rgb(245, 245, 245);
+        }
+        /* 设置页面标题样式 */
+        h1 {
+            margin-left: 20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .confidentialityBox {display: flex;}
+        ul {width: 700px;}
+        .title {
+            width: 100px;
+            text-align: center;
+            background-color: rgb(245, 245, 245);
+        }
+        .content {
+            display: inline-block;
+            width: 100px;
+            text-align: center;
+        }
+        .option{
+            color:rgb(28, 94, 121);
+        }
+        form {
+            width: 150px;
+            display: flex;
+            justify-content: flex-start;
+            flex-direction: column;
+            border: 1px solid rgb(245, 245, 245);
+            margin-right: 20px;
+        }
+        form h2 {
+            text-align: center;
+            background-color: rgb(245, 245, 245);
+            height: 40px;
+            margin-bottom: 10px;
+            font-weight: normal;
+        }
+        .dalog {
+            display: flex;
+            margin-left: 20px;
+            flex-direction: column;
+            align-content: center;
+        }
+        .dalog input {
+            height: 20px;
+            width: 80px;
+            margin-top: 20px;
+        }
+        .dalog button {
+            height: 30px;
+            width: 40%;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div id='app'>
+<h1>销售额展示页面</h1>
+<div class="confidentialityBox">
+    <ul>
+        <li class="title" v-for="item in title" :key="item">{{item}}</li><br>
+        <li v-for="(item,index) in salesVolume " :key="item">
+            <span class="content">{{item.month + '月'}}</span>
+            <span class="content">{{item.vegetable + 'k'}}</span>
+            <span class="content">{{item.fruit + 'k'}}</span>
+            <span class="content"><span >{{item.foodstuff + 'k'}}</span></span>
+            <span class="content">{{item.totalSales+'k'}}</span>
+            <span class="content option"  @click="checkProfit(item,index)">查看</span>
+        </li>
+    </ul>
+    <form v-show="formFlag">
+        <h2>利润率</h2>
+        <div class="dalog">
+            <div>利润:{{newProfit}}</div>
+            <div v-show="editFlag">修改:<input  type="text" v-model="newProfit"></div>
+            <button v-show="editFlag" class="editButton" @click.prevent="submitMessage">提交</button>
+        </div>
+    </form>
+</div>
+</div>
+<script src='https://unpkg.com/vue@next'></script>
+<script>
+//引入ref、reactive、readonly方法
+const { ref, reactive ,toRef} = Vue;
+const vm = Vue.createApp({
+    setup() {
+        //定义列表项标题数组
+        const title = reactive(['月份', '蔬菜销售额', '水果销售额', '粮食销售额', '总销售额', '利润'])
+        //定义每月销售额列表
+        let salesVolume = reactive([
+            { id: 0, month: '1', vegetable: "123", fruit: "123", foodstuff: '1321', totalSales: '324', profit:' 20%' },
+            { id: 1, month: '2', vegetable: "234", fruit: "234", foodstuff: '1321', totalSales: '567', },
+            { id: 2, month: '3', vegetable: "456", fruit: "123", foodstuff: '1321', totalSales: '876', },
+            { id: 3, month: '4', vegetable: "789", fruit: "789", foodstuff: '44', totalSales: '876', profit:'39%' },
+        ])
+        //控制form表单显示与隐藏的flag变量
+        let formFlag = ref(false);
+        //存放利润变量
+        let newProfit = ref();
+        //用于控制input输入框的显示与隐藏
+        let editFlag=ref(false);
+        //用于存放当前编辑的；列表项下标
+        let itemIndex=ref();
+        //查看利润
+        function checkProfit(item, index) {
+            formFlag.value = true;//表单显示
+            //判断当前列表项是否存在profit属性
+            let profitFlag  = toRef(item,'profit');
+            //若不存在，则通过toRef()方法为当前列表项添加profit属性
+            //若存在，则通过toRef()方法解构出当前列表项的profit属性值
+            if (profitFlag.value && profitFlag.value != '暂未输入') {//profitFlag属性值为真且不为"暂未输入"时
+                newProfit.value = profitFlag.value;//将profitFlag属性值存储至newProfit中，进行展示
+                editFlag.value=false;
+            }else{//profitFlag属性值为假或"暂未输入"时
+                itemIndex.value=index;
+                editFlag.value=true;
+                newProfit.value = '暂未输入';//设置newProfit的值为"暂未输入"
+                salesVolume[index].profit=newProfit.value;//同步修改列表项的profit属性值
+            }
+        }
+        //提交编辑的利润率信息
+        function submitMessage(){
+            salesVolume[itemIndex.value].profit=newProfit.value;//将input框中的赋值给列表项数组
+            formFlag.value = false;//提交信息后，关闭form表单
+        }
+        return { title, salesVolume, formFlag, checkProfit, newProfit,editFlag,submitMessage }
+    }
+}).mount('#app')
+</script>
+</body>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./vue.js"></script>
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./Intro/Shy_Intro.css">
+  <link href="https://api.fontshare.com/v2/css?f[]=hind@400&f[]=pilcrow-rounded@600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div id="app">
+    <div id="Shyanthen_Design"><span id="wordmark">Shy<span class="accent">.</span>anthen <span class="accent">/</span>DESIGN<span class="accent">.</span></span></div>
+    
+    <div id="frame">
+      <img src="./img/Shyanthen_design_trim.png" alt="LET US FUCKING DESIGN" id="shy_logo">
+      <div id="overall_title">Student Grade Management Table</div>
+      <div id="all">
+        <div id="left_part">
+          <div id="history">
+            <div id="history_title">History</div>
+            <div id="history_list">
+              <div class="history_item" v-for="item in history" :key="item.id" :class="item.type">
+                <span class="history_time">{{ formatTime(item.time) }}</span>
+                <span class="history_text">{{ historyText(item) }}</span>
+                <span class="history_preview" v-if="item.type === 'judge' && item.after">{{ item.after }}</span>
+                <span class="history_scores" v-else-if="item.scores">{{ historyScores(item) }}</span>
+              </div>
+              <div class="none_history" v-if="history.length === 0">There is no history yet.</div>
+            </div>
+          </div>
+          <div id="operate_area">
+            <div id="btn_bar">
+              <button class="opr_btn" :class="{ active: currentArea === 'add' }"
+                @click="showAddArea($event)">Add</button>
+              <button class="opr_btn" :class="{ active: currentArea === 'del' }"
+                @click="showDelArea($event)">De
+                lete</button>
+              <button class="opr_btn" :class="{ active: currentArea === 'judge' }"
+                @click="showJudgeArea($event)">Judgement</button>
+            </div>
+            <div id="operate_content_area">
+              <div :class="{ active: currentArea === 'none' }" id="none_area" class="operate_content">
+                <div>
+                  <p>Click the buttons above </p>
+                  <p>to operate the table</p>
+                </div>
+              </div>
+              <div :class="{ active: currentArea === 'add' }" id="add_area" class="operate_content">
+                <p><label>Stu ID:</label><input class="add_input" type="text" v-model="newStudent.id"
+                    @keyup.enter="submitOnEnter($event, addStudent)"></p>
+                <p><label>Name:</label><input class="add_input" type="text" v-model="newStudent.name"
+                    @keyup.enter="submitOnEnter($event, addStudent)"></p>
+                <p><label>Math:</label><input class="add_input" type="text" v-model="newStudent.math"
+                    @keyup.enter="submitOnEnter($event, addStudent)"></p>
+                <p><label>English:</label><input class="add_input" type="text" v-model="newStudent.english"
+                    @keyup.enter="submitOnEnter($event, addStudent)"></p>
+                <p><label>Chinese:</label><input class="add_input" type="text" v-model="newStudent.chinese"
+                    @keyup.enter="submitOnEnter($event, addStudent)"></p>
+                <button id="add_submit" @click="addStudent">Add a new student</button>
+              </div>
+              <div :class="{ active: currentArea === 'del' }" id="del_area" class="operate_content">
+                <p>Please input the ID of the student to delete</p>
+                <p><input class="del_input" type="text" v-model="deleteId"
+                    @keyup.enter="submitOnEnter($event, deleteStudent)"></p>
+                <button id="del_submit" @click="deleteStudent">Submit</button>
+              </div>
+              <div :class="{ active: currentArea === 'judge' }" id="judge_area" class="operate_content">
+                <p>Input the ID of the student to show judgement</p>
+                <input class="judge_input" type="text" v-model="judgeId"
+                  @keyup.enter="submitOnEnter($event, loadJudgement)">
+                <textarea id="judgement_area" v-model="judgedComment" :readonly="!judgedStudent"
+                  :placeholder="judgedStudent ? 'No comment yet - type one here' : 'Load a student by ID first'"></textarea>
+                <button id="judge_submit" @click="loadJudgement">Submit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="right_part">
+          <div id="GO_title">Grade Table
+            <select v-model="sortKey">
+              <option value="id">ID</option>
+              <option value="totalScore">Total Score</option>
+              <option value="math">Math</option>
+              <option value="english">English</option>
+              <option value="chinese">Chinese</option>
+            </select>
+          </div>
+          <div id="table_wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Math</th>
+                  <th>English</th>
+                  <th>Chinese</th>
+                  <th>Total Score</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(student,index) in sortedStudents" :key="student.id"
+                  :class="{odd:index%2===0,even:index%2===1}">
+                  <td>{{ student.id }}</td>
+                  <td>{{ student.name }}</td>
+                  <td>{{ student.math }}</td>
+                  <td>{{ student.english }}</td>
+                  <td>{{ student.chinese }}</td>
+                  <td>{{ student.totalScore }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+      <div id="right_data_board" class="data_board">
+        <div id="data_board_content">
+          <div class="data_item">
+            <span class="data_item_title">Total Students</span>
+            <span class="data_item_value big" v-flash="totalStudents">{{ totalStudents }}</span>
+          </div>
+          <div class="data_item">
+            <div class="data_metrics">
+              <span class="data_item_title">Qualified</span>
+              <span class="data_item_value" v-flash="total_qualified">{{ total_qualified }}</span>
+              <span class="data_item_title">Unqualified</span>
+              <span class="data_item_value" v-flash="total_unqualified">{{ total_unqualified }}</span>
+            </div>
+          </div>
+
+          <div class="data_item">
+            <span class="data_item_title">Average Total Score</span>
+            <span class="data_item_value big" v-flash="averageScore">{{ averageScore }}</span>
+          </div>
+          <div class="data_item">
+            <span class="data_item_title">Top 10 in Total Score</span>
+            <span class="data_item_value" v-flash="highestScore">{{ highestScore }}</span>
+          </div>
+
+          <div class="data_item">
+            <span class="data_item_title">Bottom 10 in Total Score</span>
+            <span class="data_item_value" v-flash="lowestScore">{{ lowestScore }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="left_data_board" class="data_board">
+        <div id="data_board_content">
+          <div class="data_item">
+            <span class="data_item_title">Average Math</span>
+            <span class="data_item_value big" v-flash="averageMath">{{ averageMath }}</span>
+          </div>
+
+          <div class="data_item">
+            <span class="data_item_title">Average English</span>
+            <span class="data_item_value big" v-flash="averageEnglish">{{ averageEnglish }}</span>
+          </div>
+
+          <div class="data_item">
+            <span class="data_item_title">Average Chinese</span>
+            <span class="data_item_value big" v-flash="averageChinese">{{ averageChinese }}</span>
+          </div>
+          <div class="data_item">
+            <span class="data_item_title">Highest / Lowest</span>
+            <div class="data_metrics">
+              <span class="data_item_title">Math</span>
+              <span class="data_item_value" v-flash="highestMath + ' / ' + lowestMath">{{ highestMath }} / {{ lowestMath }}</span>
+              <span class="data_item_title">English</span>
+              <span class="data_item_value" v-flash="highestEnglish + ' / ' + lowestEnglish">{{ highestEnglish }} / {{ lowestEnglish }}</span>
+              <span class="data_item_title">Chinese</span>
+              <span class="data_item_value" v-flash="highestChinese + ' / ' + lowestChinese">{{ highestChinese }} / {{ lowestChinese }}</span>
+            </div>
+          </div>
+        </div>
+   
+
+      <div id="alert" :class="[notice.type, { show: notice.show }]" @click="closeNotice">
+        <span class="alert_title">{{ notice.title }}</span>
+        <span id="message">{{ notice.message }}</span>
+        <button id="close_btn" @click="closeNotice">Got it</button>
+      </div>
+    </div>
+    
+  </div>
+  </div>
+  
+  <script src="./script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>商品信息编辑页面</title>
+</head>
+<body>
+<div id='app'>
+    <h1>reactive()方法</h1>
+    <div>
+        <p>reactive()方法声明的对象：</p>
+        <p><span>商品编号：{{orderObject.id}}</span></p>
+        <p><span>商品名称：{{orderObject.name}}</span></p>
+        <p><span>商品价格：{{orderObject.price}}</span></p>
+        <button @click="changeObject">修改商品编号</button>
+        <hr>
+        <p>reactive()方法声明的数组：</p>
+        <p><span>商品列表：{{classifyList}}</span></p>
+        <button @click="changeClassify">修改商品列表</button>
+    </div>
+</div>
+<script src='https://unpkg.com/vue@next'></script>
+<script>
+    //引入ref()方法与reactive()方法
+    const {ref,reactive} = Vue;
+    const vm = Vue.createApp({
+        setup(){
+            const orderObject=reactive({//reactive()方法声明响应式对象
+                id:'012345',
+                name:'板栗红薯',
+                price:188
+            })
+            function changeObject(){//修改orderObject的函数
+                orderObject.id='010001';
+            }
+            const classifyList=reactive(['蔬菜','水果','粮油','药材']);//reactive()方法声明响应式数组
+            function changeClassify(){//修改classifyList的函数
+                classifyList[0]='有机蔬菜';
+            }
+            return{orderObject,classifyList,changeObject,changeClassify}
+        }
+    }).mount('#app')
+</script>
+</body>

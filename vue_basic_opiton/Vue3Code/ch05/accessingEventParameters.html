@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <title>内联事件处理器访问事件参数</title>
+</head>
+
+<body>
+    <div id='app'>
+        <button @click="sayHello('greeting',$event)">访问事件参数</button>
+        <h3>{{message}}</h3>
+    </div>
+    <script src="../../vue.js"></script>
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    message: "你好"
+                }
+            },
+            methods:{
+                sayHello(msg,event){
+                    this.message=msg;
+                    console.log(event);
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>

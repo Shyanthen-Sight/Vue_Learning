@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <title>新增商品页面</title>
+</head>
+<style>
+    /* 标题 */
+    .h1 {
+        text-align: center;
+    }
+    /* 表单和表格容器盒子 */
+    #mainbox {
+        width: 100%;
+        height: 100%;
+    }
+    /* 外层form */
+    .outForm {
+        display: flex;
+        justify-content: flex-start;
+    }
+    .outForm .addBtn {
+        height: 30px;
+        color: white;
+        border-radius: 5px;
+        border: 1px solid #1e7db9;
+        box-shadow: 0 1px 2px #8fcaee inset, 0 -1px 0 #497897 inset, 0 -2px 3px #8fcaee inset;
+        background: -webkit-linear-gradient(top, #42a4e0, #2e88c0);
+        background: -moz-linear-gradient(top, #42a4e0, #2e88c0);
+        background: linear-gradient(top, #42a4e0, #2e88c0);
+    }
+    /* 表格 */
+    table {
+        margin: 0 auto;
+        border-spacing: 0;
+    }
+    /* 表格的背景色 */
+    table tr {
+        height: 40px;
+        font-size: 14px;
+        color: #666666;
+        line-height: 14px;
+        font-weight: 400;
+        text-align: center;
+    }
+
+    /* 偶数行背景颜色为白色 */
+    table tr:nth-child(2n) {
+        background-color: #FAFAFA;
+    }
+
+    /* 奇数行背景颜色为灰色 */
+    table thead tr:nth-child(2n+1) {
+        background-color: #dddadac8;
+    }
+
+    /* 表头样式 */
+    table .head {
+        font-size: 14px;
+        color: #666666;
+        line-height: 14px;
+        font-weight: 600;
+    }
+
+    .delete {
+        width: 60px;
+        height: 30px;
+        border-radius: 5px;
+        border: 1px solid #b42323;
+        box-shadow: 0 1px 2px #e99494 inset, 0 -1px 0 #954b4b inset, 0 -2px 3px #e99494 inset;
+        background: -webkit-linear-gradient(top, #d53939, #b92929);
+        background: -moz-linear-gradient(top, #d53939, #b92929);
+        background: linear-gradient(top, #d53939, #b92929);
+        color: white;
+    }
+
+    /* 模态框 */
+    .mask {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 1000;
+    }
+
+    .modal {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 400px;
+        transform: translate(-50%, -50%);
+        border-radius: 5px;
+        background: #fff;
+        box-shadow: 2px 3px 20px rgba(0, 0, 0, 0.2);
+        z-index: 1200;
+    }
+
+    .modal .modal-header {
+        height: 50px;
+        border-bottom: 1px solid #f5f5f5;
+        padding: 0 15px;
+    }
+
+    .modal .modal-header p {
+        line-height: 50px;
+        display: inline-block;
+    }
+
+    .modal .modal-header .title {
+        font-size: 20px;
+        color: #333;
+        font-weight: bold;
+        margin-left: 20px;
+        margin-top: 0px;
+    }
+
+    .modal .modal-header .close {
+        float: right;
+        font-size: 26px;
+        margin-top: -2px;
+        color: #9C9FA4;
+        cursor: default;
+    }
+
+    .modal .modal-content {
+        min-height: 100px;
+        margin-left: 18px;
+
+    }
+
+    .modal-content p {
+        font-size: 14x;
+        align-items: center;
+        margin-left: 20px;
+        color: #838486;
+    }
+
+    .modal-content p label {
+        margin-right: 5px;
+    }
+
+    .modal .modal-footer .btn {
+        padding: 0 20px;
+        height: 36px;
+        line-height: 36px;
+        color: white;
+        background: #409EFF;
+        border: none;
+    }
+
+    .modal .modal-footer {
+        border-top: 1px solid #f5f5f5;
+        padding: 15px;
+        text-align: right;
+        display: flex;
+        justify-content: space-evenly;
+
+    }
+    [v-cloak]
+    {
+        display: none;
+    }
+</style>
+
+<body>
+    <div id='app' v-cloak>
+        <h1 class="h1">新增商品页面</h1>
+        <div id="mainbox">
+            <div></div>
+            <table>
+                <caption>
+                    <form class="outForm" @click.prevent="noDefault">
+                        <select v-model="classify">
+                            <option disabled value="选择商品分类">选择商品分类</option>
+                            <option v-for="item in classifyList" :value="item" :key="item">{{item}}</option>
+                        </select>
+                        <button class="addBtn" @click="show">新增商品</button>
+                    </form>
+                </caption>
+                <thead>
+                    <td class="head" style="width: 150px;">类别</td>
+                    <td class="head" style="width: 150px;">商品名称</td>
+                    <td class="head" style="width: 150px;">商品价格</td>
+                    <td class="head" style="width: 150px;">操作</td>
+                </thead>
+                <tbody>
+                    <tr v-for="(item,index) in productList" :key="item">
+                        <td>{{item.classify}}</td>
+                        <td>{{item.productName}}</td>
+                        <td>{{item.productPrice}}</td>
+                        <td><button class="delete" @click="deletes(index)">删除</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- 弹出框 -->
+        <div class="modal" :style="{display:flag}">
+            <div class="modal-header">
+                <p class="title">商品参数</p>
+                <p class="close" @click="close">×</p>
+            </div>
+            <div class="modal-content">
+                <p>
+                    <label for="classify">商品类别</label>
+                    <input type="text" name="" id="classify" readonly v-model="addPro.classify">
+                </p>
+                <p>
+                    <label for="productName">商品名称</label>
+                    <input type="text" name="" id="productName" v-model="addPro.productName">
+                </p>
+                <p>
+                    <label for="productPrice">商品价格</label>
+                    <input type="number" name="" id="productPrice" v-model="addPro.productPrice">
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button class="close btn" @click="submitMessage">提交</button>
+                <button class="close btn" @click="close">关闭</button>
+            </div>
+        </div>
+        <div class="mask" :style="{display:flag}"></div>
+    </div>
+    <script src='https://unpkg.com/vue@next'></script>
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    // 控制遮罩层的diplay样式的变量
+                    flag: 'none',
+                    // 当前商品分类
+                    classify: '蔬菜',
+                    // 模态框信息存储对象
+                    addPro: {
+                        classify: '',
+                        productName: '',
+                        productPrice: ''
+                    },
+                    // 商品类别数组
+                    classifyList: ["蔬菜", "水果", "粮油", "水产品", "食用菌"],
+                    // 商品信息数组
+                    productList: [
+                        { classify: "蔬菜",productName: '甘蓝', productPrice: 2.3},
+                        { classify: "水果",productName: '苹果',productPrice: 2.3},
+                        { classify: "粮油",productName: '大米',productPrice: 2.3},
+                        { classify: "水产品",productName: '犹豫',productPrice: 2.3},
+                        {classify: "食用菌",productName: '香菇',productPrice: 2.3},
+                        {classify: "食用菌",productName: '平菇',productPrice: 2.3}
+                    ]
+                }
+            },
+            methods: {
+                // 阻止form默认事件
+                noDefault() {
+                    console.log("阻止默认事件");
+                },
+                // 模态框显示方法
+                show() {
+                    // 清空表单信息
+                    this.addPro.productName = '';
+                    this.addPro.productPrice = '';
+                    this.addPro.classify = this.classify;
+                    this.flag = "block";
+                },
+                // 模态框隐藏方法
+                close() {
+                    this.flag = "none";
+                },
+                //提交商品参数的方法
+                submitMessage() {
+                    this.productList.push(this.addPro);
+                    // 隐藏模态框
+                    this.flag = "none";
+                    // 提交完成清空模态框信息
+                    this.addPro = {}
+                },
+                // 删除商品的方法
+                deletes(index) {
+                    this.productList.splice(index, 1);
+                }
+            },
+        }).mount('#app')
+    </script>
+</body>

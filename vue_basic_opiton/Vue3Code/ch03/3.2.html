@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>let与暂时性死区</title>
+</head>
+
+<body>
+</body>
+<script>
+    // 暂时性死区
+    console.log(a); // undefined 因为var存在变量提升
+    var a = '新新青年'
+    console.log(b); // 报错 Cannot access 'b' before initialization
+    let b = '新新青年'
+</script>
+
+</html>

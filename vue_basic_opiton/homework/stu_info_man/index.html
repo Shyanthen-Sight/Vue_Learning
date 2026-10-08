@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>stu_info_man</title>
+  <script src="../../vue.js"></script>
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./Shy_Intro.css">
+</head>
+
+<body>
+
+  <div id="app">
+     <div id="Shyanthen_Design"><span id="wordmark">Shyanthen<span class="accent">/</span>DESIGN<span class="accent">.</span></span></div>
+    <div id="title">STUDENT INFORMATION MANAGEMENT</div>
+    <div id="input_bar">
+      <div class="input_module">
+        <span>Name:</span>
+        <input type="text" v-model="newStudent.name">
+      </div>
+      <div class="input_module">
+        <span>Sex:</span>
+        <select v-model="newStudent.sex">
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      </div>
+      <div class="input_module">
+        <span>Age:</span>
+        <input type="text" v-model="newStudent.age">
+      </div>
+      <div class="input_module">
+        <span>Major:</span>
+        <input type="text" v-model="newStudent.major">
+      </div>
+      <button @click="addStudent">Add Student</button>
+    </div>
+    <div id="content">
+      <table>
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Sex</th>
+            <th>Age</th>
+            <th>Major</th>
+            <th>Operate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="student in students" :key="student.id">
+            <td>{{ student.id }}</td>
+            <td>{{ student.name }}</td>
+            <td>{{ student.sex }}</td>
+            <td>{{ student.age }}</td>
+            <td>{{ student.major }}</td>
+            <td><button @click="deleteStudent(student.id)">Delete</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          newStudent: {
+            name: '',
+            sex: '',
+            age: '',
+            major: ''
+          },
+          students: [
+            { id: 1, name: 'Alice', sex: 'female', age: 20, major: 'Computer Science' },
+            { id: 2, name: 'Bob', sex: 'male', age: 22, major: 'Mathematics' },
+            { id: 3, name: 'Charlie', sex: 'male', age: 21, major: 'Physics' },
+          ]
+        }
+      },
+      methods: {
+        addStudent() {
+          const hasEmptyField = Object.values(this.newStudent).some(value => {
+            return String(value).trim() === ''
+          })
+
+          if (hasEmptyField) {
+            alert('Please fill in all fields before adding a student.')
+            return
+          }
+
+          this.students.push({
+            id: this.students.length + 1,
+            name: this.newStudent.name,
+            sex: this.newStudent.sex,
+            age: this.newStudent.age,
+            major: this.newStudent.major
+          })
+          this.newStudent.name = ''
+          this.newStudent.sex = ''
+          this.newStudent.age = ''
+          this.newStudent.major = ''
+        },
+        deleteStudent(id) {
+          this.students = this.students.filter(student => student.id !== id)
+
+          this.students.forEach((student, index) => {
+            student.id = index + 1
+          })
+      
+        }
+      
+
+      }
+    }).mount('#app')
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>密保问题管理页面</title>
+    <style>
+        /* 清除页面默认边距 */
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        /* 清除li的默认样式 */
+        li{
+            list-style: none;
+            float: left;
+            height: 40px;
+            line-height: 40px;
+            border-bottom: 1px solid rgb(245,245,245);
+        }
+        /* 设置页面标题样式 */
+        h1{
+            margin-left: 20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        /* 设置密保问题盒子的布局 */
+        .confidentialityBox{
+            display: flex;
+        }
+        /* 密保问题列表样式 */
+        ul{
+            width: 800px;
+        }
+        /* 列表标题样式 */
+        .title{
+            width: 150px;
+            text-align: center;
+            background-color: rgb(245,245,245);
+        }
+        .content{
+            display: inline-block;
+            width: 150px;
+            text-align: center;
+        }
+        .content input{
+            height: 30px;
+            width: 100px;
+        }
+        /* 生效中状态的样式 */
+        .state{
+            width: 50px;
+            height: 30px;
+            color: white;
+            padding: 4px;
+            font-size: 14px;
+            border: 1px solid rgb(12, 93, 12);
+            background-color: rgb(105, 164, 105);
+            
+        }
+        /* 已失效状态的样式 */
+        .stateFalse{
+            width: 50px;
+            height: 30px;
+            font-size: 14px;
+            color: white;
+            padding: 4px;
+            border: 1px solid rgb(88, 12, 12);
+            background-color: rgb(193, 86, 86);
+        }
+        /* Edit与Submit的文本样式 */
+        .editButton{
+            color: rgb(87, 121, 195);
+        }
+    </style>
+</head>
+<body>
+<div id='app'>
+<h1>密保问题管理页面</h1>
+<div class="confidentialityBox">
+    <ul>
+        <li class="title" v-for="item in titleList" :key="item">{{item}}</li><br>
+        <li  v-for="(item,index)  in confidentiality" :key="item">
+            <span class="content">
+                <p >{{index+1}}</p>
+            </span>
+            <span class="content">
+                <p v-show="item.flag">{{item.question}}</p>
+                <input v-show="!item.flag" type="text" v-model="item.question">
+            </span>
+            <span class="content">
+                <p v-show="item.flag">{{item.answer}}</p>
+                <input v-show="!item.flag" type="text" v-model="item.answer">
+            </span>
+            <span class="content"><span :class="{state:item.state,stateFalse:!item.state}">{{item.state?'生效中':'已失效'}}</span></span>
+            <span class="content">
+                <span v-if="item.flag && item.state " class="editButton" @click="editItem(item,index)">编辑</span>
+                <span v-else-if="!item.flag  && item.state" class="editButton" @click="submit(item,index)">提交</span>
+                <span v-else-if="!item.state " class="editButton">不可编辑</span>
+            </span>
+        </li>
+    </ul>
+</div>
+</div>
+<script src='https://unpkg.com/vue@next'></script>
+<script>
+//引入ref、reactive、readonly方法
+const {ref,reactive,readonly} =Vue;
+const vm = Vue.createApp({
+    setup(){
+    //定义列表标题数组
+    const title=reactive(['密保编号','密保问题','密保答案','密保状态','操作']);
+    const titleList=readonly(title);//列表标题是只读的
+    //定义密保信息数组
+    let confidentiality=reactive([
+        {question:"您的联系方式",answer:"12345678910",state:true,flag:true},
+        {question:"您最喜欢的水果",answer:"西瓜",state:true,flag:true},
+        {question:"您父亲的姓名",answer:"王小明",state:true,flag:true},
+        {question:"您最喜爱的书籍",answer:"《西游记》",state:false,flag:true},
+        {question:"您的家乡在哪里",answer:"山东",state:false,flag:true},
+        {question:"您最喜欢的颜色",answer:"蓝色",state:false,flag:true},
+        {question:"您工作的城市",answer:"北京",state:false,flag:true},
+    ])
+    //有效密保列表的编辑函数
+    function editItem(params,index){
+        confidentiality[index].flag=false;
+    }
+    function submit(params,index){
+        confidentiality[index].flag=true;
+    }
+    return {titleList,confidentiality,editItem,submit,}
+    }
+}).mount('#app')
+</script>
+</body>

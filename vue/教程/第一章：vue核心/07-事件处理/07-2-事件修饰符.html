@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script type="text/javascript" src="../js/vue.js"></script>
+  <style>
+    .box {
+      padding: 20px;
+      border: 1px dashed #999;
+      margin-bottom: 6px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root">
+    <h1>welcom to {{ name }}</h1>
+    <!-- @click.prevent="show" 为事件修饰符 -->
+    <a href="https://www.baidu.com" @click.prevent="show('1. 点了百度，被 .prevent 阻止跳转了')">1. 点击我（.prevent 阻止默认行为）</a>
+    <hr>
+
+    <h3>补充：其他常用事件修饰符</h3>
+
+    <!-- .stop：阻止冒泡 -->
+    <p>2. .stop —— 阻止事件冒泡（点内层按钮时，外层 div 不再收到事件）：</p>
+    <div class="box" @click="show('外层 div 被点了（冒泡上来了）')">
+      外层 div（有 @click）
+      <button @click.stop="show('内层按钮，.stop 阻止了冒泡')">内层按钮（.stop）</button>
+    </div>
+    <hr>
+
+    <!-- .once：只触发一次 -->
+    <p>3. .once —— 事件只触发一次：</p>
+    <button @click.once="show('3. 这是第一次，也是最后一次')">点我（.once）</button>
+    <hr>
+
+    <!-- .capture：捕获阶段触发 -->
+    <p>4. .capture —— 捕获阶段触发（外层先执行，与冒泡相反）：</p>
+    <div class="box" @click.capture="show('外层 div（捕获阶段，先触发）')">
+      外层 div（@click.capture）
+      <button @click="show('内层按钮（冒泡阶段，后触发）')">内层按钮</button>
+    </div>
+    <hr>
+
+    <!-- .self：只有点到自己才触发 -->
+    <p>5. .self —— 只有事件目标是当前元素本身才触发：</p>
+    <div class="box" @click.self="show('点到了 div 自己')">
+      外层 div（@click.self）
+      <button @click="show('内层按钮触发的，不是 div 自己')">内层按钮（点了不会触发 div）</button>
+    </div>
+    <hr>
+
+    <!-- 键盘修饰符 -->
+    <p>6. .enter —— 键盘修饰符，按回车才触发：</p>
+    <input type="text" @keyup.enter="show('6. 你按了回车！')" placeholder="输入文字后按回车">
+  </div>
+
+  <script>
+    Vue.config.productionTip = false
+    const vm = new Vue({
+      el: '#root',
+      data: {
+        name: '清华大学'
+      },
+      methods: {
+        show(msg) {
+          alert(msg)
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

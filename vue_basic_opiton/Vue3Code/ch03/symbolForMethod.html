@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symbol</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    // Symbol创建
+    let fristSn = Symbol();
+    console.log(typeof fristSn);
+    // Symbol的可选字符串参数
+    let secondSn = Symbol("Descriptive information");
+    console.log(fristSn);
+    console.log(secondSn); 
+    // Symbol作为属性名
+    // 方式1：
+    let thirdSn=Symbol("thirdSn")
+    let obj={};
+    obj[thirdSn]="Method 1";
+    console.log(obj);//{Symbol(thirdSn): 'Method 1'}
+    // 方式2：
+    let obj2={
+        [thirdSn]:"Method 2"
+    };
+    console.log(obj2);//{Symbol(thirdSn): 'Method 2'}
+    // 方式3：
+    let obj3={};
+    Object.defineProperty(obj3,thirdSn,{value:"Method 3"});
+    console.log(obj3);//{Symbol(thirdSn): 'Method 3'}
+
+
+    // Symbol.for()创建多个同标识Symbol
+    let id=Symbol.for("identifier");
+    let objects={
+        [id]:123456
+    }
+    let id2=Symbol.for("identifier");
+
+    console.log(id === id2);//true
+    console.log(id);//Symbol(identifier)
+    console.log(id2);//Symbol(identifier)
+    console.log(objects[id]);//123456
+    console.log(objects[id2]);//123456
+
+    //Symbol.keyFor()搜索已存在的Symbol
+    let name=Symbol.for("username");
+    let name2=Symbol.for("username");
+    let name3=Symbol("username");
+    console.log(Symbol.keyFor(name));//username
+    console.log(Symbol.keyFor(name2));//username
+    console.log(Symbol.keyFor(name3));//undefined
+
+
+
+
+
+
+</script>
+
+</html>

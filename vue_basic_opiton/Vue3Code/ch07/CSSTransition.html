@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>CSS过渡</title>
+</head>
+<style>
+    /* 进入过渡的起始状态*/
+    .v-enter-from{
+        opacity: 0;
+        transform:translateX(200px);/*元素开始显示的初始位置*/
+    }
+    /* 进入过渡与离开过渡的阶段状态 */
+    .v-enter-active,.v-leave-active{
+        transition: all 5s ease;/*整个过渡阶段的时常与速度*/
+    }
+    /* 离开过渡的最终状态 */
+    .v-leave-to{
+        opacity: 0;
+        transform:translateX(200px);/*元素隐藏的最终位置*/
+    }
+</style>
+<body>
+    <div id='app'>
+        <h1>CSS过渡</h1>
+        <button v-on:click="show = !show">
+            古诗欣赏
+        </button>
+        <h5>《喜晴》</h5>
+        <!-- 元素显示后，会显示在标签默认位置 -->
+        <transition>
+            <p v-if="!show">
+                连雨不知春去，
+                一晴方觉夏深。
+            </p>
+        </transition>
+    </div>
+    <script src='https://unpkg.com/vue@next'></script>
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    show: true
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>

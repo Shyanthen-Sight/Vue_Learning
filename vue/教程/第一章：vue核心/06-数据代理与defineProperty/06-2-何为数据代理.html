@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>何为数据代理</title>
+</head>
+
+<body>
+  <h1>数据代理</h1>
+  <p>按 F12，控制台输入 vm.age 和 data.age 试试。</p>
+
+  <script>
+    // data 是数据，vm 是代理
+    let data = { age: 18 }
+    let vm = {}
+
+    // 把 vm.age 和 data.age 连起来
+    Object.defineProperty(vm, 'age', {
+      get() { return data.age },     // 读 vm.age → 拿 data.age
+      set(value) { data.age = value } // 改 vm.age → 写 data.age
+    })
+  </script>
+</body>
+
+</html>

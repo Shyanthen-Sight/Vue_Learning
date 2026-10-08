@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>绑定样式</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    .basic {
+      width: 300px;
+      height: 120px;
+      border: 1px solid #333;
+      line-height: 120px;
+      text-align: center;
+      margin: 10px;
+    }
+
+    .normal {
+      background-color: #f0f0f0;
+    }
+
+    .happy {
+      background-color: #ffd700;
+      color: #8b4513;
+    }
+
+    .sad {
+      background-color: #87ceeb;
+      color: #2f4f4f;
+    }
+
+    .big {
+      font-size: 40px;
+    }
+
+    .c1 {
+      border: 3px solid red;
+    }
+
+    .c2 {
+      background-color: #90ee90;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <!-- 一、class 绑定 -->
+
+    <!-- 1. class 绑定：字符串写法（用的最频繁） -->
+    <h2>class 字符串写法</h2>
+    <div class="basic" :class="mood">文字</div>
+    <button @click="changeMood">切换心情</button>
+
+    <!-- 2. class 绑定：数组写法 -->
+    <h2>class 数组写法</h2>
+    <div class="basic" :class="classArr">数组写法</div>
+
+    <!-- 3. class 绑定：对象写法 -->
+    <h2>class 对象写法</h2>
+    <div class="basic" :class="classObj">对象写法</div>
+    <button @click="toggleC1">切换红色边框</button>
+    <button @click="toggleC2">切换绿色背景</button>
+
+    <hr>
+
+    <!-- 二、style 绑定 -->
+
+    <!-- 4. style 绑定：对象写法 -->
+    <h2>style 对象写法</h2>
+    <div class="basic" :style="{ fontSize: fontSize + 'px', backgroundColor: bgColor }">style 对象写法</div>
+    <button @click="fontSize += 2">加大字号</button>
+    <button @click="changeColor">换背景色</button>
+
+    <!-- 5. style 绑定：数组写法 -->
+    <h2>style 数组写法</h2>
+    <div class="basic" :style="styleArr">style 数组写法</div>
+  </div>
+
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        // class 字符串写法
+        mood: 'normal',
+
+        // class 数组写法
+        classArr: ['c1', 'c2'],
+
+        // class 对象写法
+        classObj: {
+          c1: false,
+          c2: false,
+        },
+
+        // style 对象写法
+        fontSize: 16,
+        bgColor: '#f0f0f0',
+
+        // style 数组写法
+        styleObj1: { color: '#ff4500' },
+        styleObj2: { border: '3px solid blue' },
+      },
+
+      computed: {
+        // style 数组写法：把两个 style 对象包成数组
+        styleArr() {
+          return [this.styleObj1, this.styleObj2];
+        }
+      },
+
+      methods: {
+        changeMood() {
+          this.mood = this.mood === 'normal' ? 'happy' : 'sad';
+        },
+
+        toggleC1() {
+          this.classObj.c1 = !this.classObj.c1;
+        },
+
+        toggleC2() {
+          this.classObj.c2 = !this.classObj.c2;
+        },
+
+        changeColor() {
+          this.bgColor = this.bgColor === '#f0f0f0' ? '#add8e6' : '#f0f0f0';
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

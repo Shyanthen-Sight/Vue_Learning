@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>竹石</title>
+    <script src="../../vue.js"></script>
+</head>
+<body>
+    
+<div id="app">
+    字符串：<input type="text" v-model="str"><br/>
+    <!-- 在模板语法中使用计算属性 -->
+    翻转字符串：{{reversedStr}}
+</div>
+
+<script>
+const vm= Vue.createApp({
+    data(){
+        return{
+        str: '千磨万击还坚劲'
+        }
+    },
+    computed: {
+        //计算属性的getter方法简写
+        reversedStr(){
+            return this.str.split('').reverse().join('');
+        }
+    }
+    }).mount('#app');
+</script>
+</body>
+</html>

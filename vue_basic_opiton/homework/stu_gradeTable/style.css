@@ -1,0 +1,986 @@
+/* 让 width/height 包含 padding 和 border，避免 100% 加边框后溢出 */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+:root {
+  /* 两个标题栏共用的高度，改这一处两边一起变，保证永远等齐 */
+  --title-h: 6vh;
+
+  /* 光标图也走变量：路径只写一次，以后换图只改这两行。
+     每一行的结构都是「图片 热点x 热点y, 关键字兜底」——
+     关键字不能省，否则整条 cursor 声明非法、直接失效。
+     热点用 0 0 = 图片左上角对准鼠标实际位置 */
+  --cursor-arrow: url(./img/cursor/cursor.svg) 0 0, auto;
+  --cursor-hand: url(./img/cursor/hand-pointer.svg) 0 0, pointer;
+}
+
+/* 标题字体 */
+@font-face {
+  font-family: 'TitleFont';
+  src: url('./TTF/Hind/Fonts/WEB/fonts/Hind-Regular.woff2') format('woff2'),
+    url('./TTF/Hind/Fonts/WEB/fonts/Hind-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
+
+/* 正文字体 */
+@font-face {
+  font-family: 'BodyFont';
+  src: url('./TTF/Pilcrow Rounded/Fonts/WEB/fonts/PilcrowRounded-Semibold.woff2') format('woff2'),
+    url('./TTF/Pilcrow Rounded/Fonts/WEB/fonts/PilcrowRounded-Semibold.ttf') format('truetype');
+  font-weight: 600;
+  font-display: swap;
+  font-style: normal;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(16, 16, 14);
+  color: rgb(255, 255, 227);
+}
+
+#frame {
+  width: 70vw;
+  height: 90vh;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  border: 5px solid rgb(255, 255, 227);
+  background-color: rgb(30, 30, 26);
+
+}
+
+#overall_title {
+  background-color: rgb(254, 254, 217);
+  min-height: 10%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'BodyFont', 'Pilcrow Rounded', sans-serif;
+  /* 字号跟视口绑定：#frame 宽 70vw，标题约 16em 宽，4vw 时文字占满约 92% */
+  font-size: clamp(1.25rem, 2.2vw, 6rem);
+  line-height: 1.2;
+  text-align: center;
+  font-weight: 600;
+
+  color: rgb(16, 16, 14)
+}
+
+#all {
+  display: flex;
+  /* 关键：left_part / right_part 并排，否则默认上下堆叠 */
+  width: 100%;
+  height: 90%;
+}
+
+#all #left_part {
+  width: 40%;
+  height: 100%;
+}
+
+#all #left_part #history {
+  /* 相对 #left_part 铺满，即占 #all 的 40%（原来写 40% 会被再乘一层，只剩 16%） */
+  width: 100%;
+  height: 30%;
+  /* 纵向排列，让 history_list 用 flex:1 吃掉标题以外的剩余高度 */
+  display: flex;
+  flex-direction: column;
+}
+
+#all #left_part #history #history_title {
+  display: flex;
+  width: 100%;
+  /* 固定高度，与 GO_title 等齐 */
+  flex: 0 0 var(--title-h);
+  align-items: center;
+  justify-content: center;
+  font-family: 'BodyFont', 'Pilcrow Rounded', sans-serif;
+  text-align: center;
+  border-bottom: 5px solid rgb(255, 255, 227);
+  font-size: clamp(0.75rem, 2vw, 3rem);
+  border-right: 5px solid rgb(255, 255, 227);
+}
+
+#all #left_part #history #history_list {
+  width: 100%;
+  /* 吃掉标题以外的剩余高度；min-height:0 是让 overflow 能正常滚动 */
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  border-right: 5px solid rgb(255, 255, 227);
+
+  /* 历史条目从上往下竖着排。newest 由 JS 的 unshift 保证排在最前 */
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.6rem;
+
+  /* 隐藏滚动条但保留滚动能力，跟 #table_wrap 一个处理 */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* 旧版 Edge / IE */
+}
+
+#all #left_part #history #history_list::-webkit-scrollbar {
+  display: none;
+  /* Chrome / Safari / 新版 Edge */
+}
+
+#all #left_part #operate_area {
+  width: 100%;
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+}
+
+#all #left_part #operate_area #btn_bar {
+
+  width: 100%;
+  height: 15%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-top: 5px solid rgb(255, 255, 227);
+  border-right: 5px solid rgb(255, 255, 227);
+
+}
+
+/* 四个面板叠在同一格里（absolute + inset），靠 opacity/visibility 做交叉淡入淡出。
+   这里不能再配合 v-show：它切的是 display:none，而 display 不可过渡，
+   一个刚被 display 出来的元素没有「上一帧的样式」可供插值，动画不会播放 */
+.operate_content {
+  position: absolute;
+  inset: 2.5%;
+  overflow-y: auto;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  /* 隐藏时禁止鼠标事件 */
+  transform: translateY(7px);
+  /* 初始向下偏移一点 */
+
+  /* 只过渡 opacity 和 transform，visibility不参与transition */
+  transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+}
+
+.operate_content.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+  transition: opacity 0.4s ease-in, transform 0.4s ease-in;
+}
+
+
+#all #left_part #operate_area #btn_bar .opr_btn {
+  flex: 1;
+  min-width: 0;
+  font-size: clamp(0.75rem, 1.5vw, 3rem);
+  margin: 0.5rem;
+  font-family: 'BodyFont', 'Pilcrow Rounded', sans-serif;
+  height: 80%;
+  margin-top: rem;
+  border-radius: 0.5rem;
+  color: rgb(10, 10, 10);
+  border: 3px solid rgb(255, 255, 227);
+  transition: all 0.3s ease;
+  background-color: rgb(1254, 254, 217);
+
+  /* ---- 下面三条是波纹特效要用的 ---- */
+  /* ::after 是绝对定位，得有个定位参照物 */
+  position: relative;
+  /* 超出的部分裁掉，波纹就只出现在按钮的圆角范围内，不会溢出成一个方块 */
+  overflow: hidden;
+  /* 让按钮自己成为层叠上下文。波纹写了 z-index:-1，
+     没有这一条它会一路沉到 #frame 各层背景后面，直接看不见；
+     有了它，波纹正好夹在「按钮底色之上、按钮文字之下」 */
+  isolation: isolate;
+}
+
+#all #left_part #operate_area #btn_bar .opr_btn:hover {
+  cursor: var(--cursor-hand);
+}
+
+#all #left_part #operate_area #btn_bar .opr_btn.active {
+  background-color: rgb(46, 46, 44);
+  color: rgb(254, 254, 217);
+  transform: scale(0.9);
+}
+
+/* ========== 按钮点击波纹 Button Ripple ==========
+   波纹本体就是按钮的 ::after 这一个人造元素：平时缩成 0 尺寸且全透明，
+   所以它一直待在 DOM 里也看不见，动画播完不需要 JS 去清理。
+   点击时由 JS 挂上 .rippling，动画负责「以落点为圆心放大 + 淡出」。
+   --x / --y 是 JS 每次点击写进来的、鼠标落点相对按钮内边距盒的坐标。 */
+#all #left_part #operate_area #btn_bar .opr_btn::after {
+  content: "";
+  position: absolute;
+  /* 圆心对准鼠标落点；变量还没被赋值时兜底到按钮正中 */
+  left: var(--x, 50%);
+  top: var(--y, 50%);
+  /* 直径由 JS 精确算好写成 --d（落点到按钮最远角的距离 × 2），宽高都给同一个值。
+     这里故意不用 aspect-ratio / 百分比：绝对定位元素的 height:auto 是按内容算的，
+     而 ::after 的 content 是空串 → 高度 0。宽高推不出来时盒子就是 300px×0，
+     宽度再大也画不出东西，症状正是「点了完全没反应」，而且完全没有报错可查。
+     给死 px 就绝不会是 0。 */
+  width: var(--d, 200%);
+  height: var(--d, 200%);
+  border-radius: 50%;
+  /* currentColor 会跟着 color 走：浅底时是深色波纹，
+     深底（hover / active）时自动变成浅色波纹 —— 一套写法适配两套配色 */
+  background-image: radial-gradient(circle closest-side,
+      currentColor 0%,
+      currentColor 45%,
+      transparent 85%);
+  /* 把圆心从「元素左上角」平移到 left / top 指定的那一点上 */
+  transform: translate(-50%, -50%) scale(0);
+  /* 静止时完全透明 */
+  opacity: 0;
+  /* 波纹是画上去的装饰，不能拦住按钮自己的点击 */
+  pointer-events: none;
+  /* 沉到文字下面（配合按钮上的 isolation: isolate，不会沉到背景后面） */
+  z-index: -1;
+}
+
+/* 一次点击 = 播一次动画。animation 不写 forwards，
+   播完自动回到上面那套静止样式（scale(0) + opacity:0），所以不用 JS 收尾 */
+#all #left_part #operate_area #btn_bar .opr_btn.rippling::after {
+  animation: btn-ripple 0.6s ease-out;
+}
+
+@keyframes btn-ripple {
+  from {
+    /* 从落点处的一个小点开始 */
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0.5;
+  }
+
+  to {
+    /* 扩散到 250% 宽，同时淡到全透明 */
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+  }
+}
+
+#all #left_part #operate_area #operate_content_area {
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  border-right: 5px solid rgb(255, 255, 227);
+  /* 作为四个绝对定位面板的定位参照物（子面板靠 inset:2.5% 定位在这里面） */
+  position: relative;
+}
+
+.operate_content {
+  /* 尺寸和位置由上面的 position:absolute + inset 决定，
+     这里只管面板内部的排布，跟面板自身在哪儿无关 */
+  display: flex;
+  /* flex 默认 flex-direction: row，子元素会全部挤在一行；改成 column 才能竖着排 */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgb(139, 139, 137);
+  border-radius: 1rem;
+  font-family: 'BodyFont', 'Pilcrow Rounded', sans-serif;
+}
+
+#none_area {
+  font-family: 'BodyFont', 'Pilcrow Rounded', sans-serif;
+  font-size: clamp(0.75rem, 1.5vw, 3rem);
+  text-align: center;
+  letter-spacing: 0.15rem;
+  color: rgb(109, 109, 109);
+}
+
+#add_area p {
+  margin: 0.5rem 0;
+  font-size: clamp(0.75rem, 1.5vw, 3rem);
+}
+
+
+
+.add_input {
+  text-align: center;
+  font-family: 'BodyFont', 'Pilcrow Rounded', sans-serif;
+  appearance: none;
+  -webkit-appearance: none;
+  border: 2px solid rgb(141, 136, 136);
+  /* 边框，不需要就删掉 */
+  border-radius: 10px;
+  background: transparent;
+  height: 100%;
+  outline: rgb(60, 60, 55);
+  caret-color: rgb(254, 253, 253);
+  color: rgb(254, 254, 254);
+  font-size: clamp(0.75rem, 1.5vw, 3rem);
+}
+
+.add_input:focus {
+  border-color: rgb(248, 248, 235);
+}
+
+#add_area label {
+  display: inline-block;
+  width: 8rem;
+}
+
+#add_submit {
+  font-family: 'BodyFont', 'Pilcrow Rounded', sans-serif;
+  margin-top: 2rem;
+  background-color: transparent;
+  width: 90%;
+  font-size: clamp(0.75rem, 1.5vw, 3rem);
+  padding: 0.5rem 1rem;
+  border-radius: 3rem;
+  color: rgb(255, 255, 227);
+  border: 3px solid rgb(255, 255, 227);
+  transition: all 0.4s ease;
+  background-color: rgb(49, 49, 49);
+}
+
+#add_submit:hover {
+  background-color: rgb(255, 255, 227);
+  color: rgb(16, 16, 14);
+  cursor: var(--cursor-hand);
+}
+
+#del_area {
+  gap: 2rem;
+}
+
+#del_area p {
+  margin: 0.5rem 0;
+  font-size: clamp(0.75rem, 1.5vw, 3rem);
+  text-align: center;
+}
+
+
+
+#del_area input {
+  font-family: 'BodyFont', 'Pilcrow Rounded', sans-serif;
+  appearance: none;
+  -webkit-appearance: none;
+  border: 2px solid rgb(141, 136, 136);
+  /* 边框，不需要就删掉 */
+  border-radius: 10px;
+  background: transparent;
+  height: 100%;
+  outline: rgb(60, 60, 55);
+  caret-color: rgb(254, 253, 253);
+  color: rgb(254, 254, 254);
+  font-size: clamp(0.75rem, 1.5vw, 3rem);
+  text-align: center;
+}
+
+
+#del_submit {
+  font-family: 'BodyFont', 'Pilcrow Rounded', sans-serif;
+  margin-top: 0.5rem;
+  background-color: transparent;
+  width: 50%;
+  font-size: clamp(0.75rem, 1vw, 3rem);
+  padding: 0.5rem 1rem;
+  border-radius: 3rem;
+  color: rgb(255, 255, 227);
+  border: 3px solid rgb(255, 255, 227);
+  transition: all 0.4s ease;
+  background-color: rgb(49, 49, 49);
+}
+
+#del_submit:hover {
+  background-color: rgb(255, 255, 227);
+  color: rgb(16, 16, 14);
+  cursor: var(--cursor-hand);
+}
+
+#judge_area input {
+  font-family: 'BodyFont', 'Pilcrow Rounded', sans-serif;
+  appearance: none;
+  -webkit-appearance: none;
+  border-bottom: 2px solid rgb(141, 136, 136);
+  /* 边框，不需要就删掉 */
+  width: 20%;
+  background: transparent;
+  text-align: center;
+  outline: rgb(60, 60, 55);
+  caret-color: rgb(254, 253, 253);
+  color: rgb(254, 254, 254);
+  font-size: clamp(0.75rem, 1.5vw, 3rem);
+  border-radius: 5px;
+  border: 2px solid rgb(141, 136, 136);
+  margin-bottom: 1rem;
+}
+
+#judgement_area {
+  resize: none;
+  appearance: none;
+  width: 90%;
+  height: 50%;
+  box-sizing: border-box;
+  padding: 8px 10px;
+  font-family: 'BodyFont', 'Pilcrow Rounded', sans-serif;
+  border: 2px solid rgb(141, 136, 136);
+  border-radius: 10px;
+  background: rgb(30, 30, 26);
+  outline: rgb(60, 60, 55);
+  caret-color: rgb(254, 253, 253);
+  color: rgb(255, 255, 255);
+  font-size: clamp(0.75rem, 1vw, 3rem);
+  transition: all 0.4s ease;
+}
+
+#judgement_area::-webkit-scrollbar {
+  display: none;
+}
+
+#judgement_area:focus {
+  border-color: rgb(0, 0, 0);
+  border: 2px solid rgb(160, 160, 31);
+  ;
+}
+
+/* 没加载学生时，HTML 那边的 :readonly="!judgedStudent" 会给 textarea 加上只读。
+   这条规则写在 :focus 后面，同权重后者生效，所以只读时即使被点中也保持暗边框。
+   光靠 placeholder 提示不够显眼，得让「现在还改不了」看得出来 */
+#judgement_area:read-only {
+  border-color: rgb(70, 68, 66);
+  cursor: default;
+}
+
+#judge_area p {
+  margin: 0.5rem 0;
+  font-size: clamp(0.75rem, 1.2vw, 3rem);
+  text-align: center;
+}
+
+
+#judge_area button {
+  margin-top: 1rem;
+  background-color: transparent;
+  width: 50%;
+  font-size: clamp(0.75rem, 1vw, 3rem);
+  padding: 0.5rem 1rem;
+  border-radius: 3rem;
+  color: rgb(255, 255, 227);
+  border: 3px solid rgb(255, 255, 227);
+  transition: all 0.4s ease;
+  background-color: rgb(49, 49, 49);
+  font-family: 'BodyFont', 'Pilcrow Rounded', sans-serif;
+}
+
+#judge_area button:hover {
+  background-color: rgb(255, 255, 227);
+  color: rgb(16, 16, 14);
+  cursor: var(--cursor-hand);
+}
+
+#all #right_part {
+  width: 60%;
+  height: 100%;
+  /* 纵向排列：标题定高，下面的表格容器吃掉剩余高度并自己滚 */
+  display: flex;
+  flex-direction: column;
+}
+
+/* 表格的滚动容器：只有这里滚，上面的 Grade Table 标题保持不动 */
+#table_wrap {
+  /* flex:1 吃掉标题以外的高度；min-height:0 是关键 ——
+     flex 子项默认 min-height:auto 会被内容撑高，容器不收缩，滚动条就永远不出现 */
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  /* 隐藏滚动条但保留滚动能力，三种写法覆盖不同内核 */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* 旧版 Edge / IE */
+}
+
+#table_wrap::-webkit-scrollbar {
+  display: none;
+  /* Chrome / Safari / 新版 Edge */
+}
+
+#all #right_part table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#GO_title {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: var(--title-h);
+  flex: none;
+  text-align: center;
+  font-family: 'BodyFont', 'Pilcrow Rounded', sans-serif;
+  font-size: clamp(0.75rem, 2vw, 3rem);
+  border-bottom: 5px solid rgb(255, 255, 227);
+}
+
+#right_part table th {
+  /* 用 sticky 而不是 fixed：fixed 以视口为基准且脱离文档流，
+     表头会被抽走、列宽和下面的单元格脱钩；sticky 仍留在流内，
+     只在滚到边界时粘住，且粘的范围限定在 #table_wrap 这个滚动容器里 */
+  position: sticky;
+  top: 0;
+  /* 相对最近的可滚动祖先 #table_wrap 的顶边 */
+  z-index: 1;
+  /* 保证盖在滚上来的行上面 */
+  /* 必须是不透明底色：表头一旦粘住，下面的行会从它背后滚过去 */
+  background-color: rgb(72, 72, 6);
+  border-bottom: 2px solid rgb(84, 84, 82);
+  padding: 0.5rem;
+  text-align: center;
+  font-family: 'BodyFont', 'Pilcrow Rounded', sans-serif;
+  font-size: clamp(0.75rem, 1.5vw, 3rem);
+}
+
+#GO_title select {
+  position: absolute;
+  right: 3%;
+  width: 15%;
+  height: 60%;
+  cursor: var(--cursor-hand);
+  background: transparent;
+  border-bottom: 1px solid #999;
+
+  font-family: 'BodyFont', 'Pilcrow Rounded', sans-serif;
+  box-sizing: border-box;
+  text-align: center;
+  font-size: 14px;
+  color: rgb(255, 255, 227);
+  outline: none;
+}
+
+#GO_title select option {
+  background-color: rgb(30, 30, 26);
+
+}
+
+#GO_title select option:hover {
+  background-color: rgb(49, 49, 49);
+  color: rgb(255, 255, 227);
+}
+
+/* ========== 操作历史 History ==========
+   加=绿、删=红、评语=黄 */
+.history_item {
+  /* flex 子项在 column 方向默认 flex-shrink:1，条目一多就会被压扁。
+     flex:none 让每条都保持内容需要的高度，超出的交给容器去滚 */
+  flex: none;
+  border-left: 4px solid rgb(109, 109, 109);
+  padding: 0.15rem 0 0.15rem 0.5rem;
+  font-family: 'BodyFont', 'Pilcrow Rounded', sans-serif;
+  font-size: clamp(0.6rem, 0.85vw, 1.1rem);
+  line-height: 1.4;
+  /* 新条目淡入 + 轻微下移，跟操作面板切换用的是同一套动画语言 */
+  animation: history-in 0.35s ease-out;
+}
+
+@keyframes history-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.history_item.add {
+  border-left-color: rgb(122, 168, 116);
+}
+
+.history_item.del {
+  border-left-color: rgb(196, 92, 84);
+}
+
+.history_item.judge {
+  border-left-color: rgb(189, 189, 15);
+}
+
+.history_time {
+  display: block;
+  color: rgb(124, 124, 109);
+  font-size: 0.85em;
+  /* 日期和时间之间那个空格是唯一的换行点，面板一窄就会从那儿断开成两行。
+     禁止换行，宁可让它整行溢出（面板有 padding，19 个字符放得下） */
+  white-space: nowrap;
+}
+
+.history_text {
+  display: block;
+  color: rgb(255, 255, 227);
+}
+
+/* 评语预览 / 成绩行 + 名字过长时都走这里：一行装不下就省略号，
+   不让一条历史撑成三四行把整个面板占满 */
+.history_text,
+.history_preview,
+.history_scores {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 条目最下面那一行：评语条目显示改完的评语，加/删条目显示当时的成绩。
+   两者位置、颜色、字号完全一致，只有评语多一个斜体 ——
+   斜体在这儿是用来分开「这是人写的字」和「这是系统算的数」 */
+.history_preview,
+.history_scores {
+  display: block;
+  color: rgb(139, 139, 137);
+  font-size: 0.9em;
+}
+
+.history_preview {
+  font-style: italic;
+}
+
+/* 一条历史都没有时的占位文字。原来的选择器写的是 #none_history，
+   而 HTML 上是 class，样式其实一直没生效 —— 这里跟着改成类选择器。
+   同时去掉重复的 border-right：#history_list 自己已经有一条了 */
+.none_history {
+  /* 唯一一个吃掉整格高度的条目，好让文字居中 */
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: 'BodyFont', 'Pilcrow Rounded', sans-serif;
+  font-size: clamp(0.75rem, 1.5vw, 2rem);
+  letter-spacing: 0.15rem;
+  color: rgb(109, 109, 109);
+}
+
+#right_part table td {
+  border-bottom: 2px solid rgb(84, 84, 82);
+  padding: 0.5rem;
+  text-align: center;
+  font-family: 'BodyFont', 'Pilcrow Rounded', sans-serif;
+  font-size: clamp(0.75rem, 1.5vw, 3rem);
+  color: rgb(184, 184, 110);
+
+}
+
+.odd {
+  background-color: rgb(79, 79, 62);
+}
+
+.even {
+  background-color: rgb(53, 53, 40);
+}
+
+/* 左右两块面板的公共样式，差异只有贴左边还是贴右边 */
+.data_board {
+  color: rgb(124, 124, 109);
+  background-color: rgb(30, 30, 26);
+  position: absolute;
+  top: 5%;
+  width: 12%;
+  height: 90%;
+  border: 3px dashed rgb(75, 75, 68);
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+#right_data_board {
+  right: 1.2%;
+}
+
+#left_data_board {
+  left: 1.2%;
+  height:55%;
+}
+
+/* ========== 数据面板的内容 Data Board ==========
+   一块面板 = 若干 .data_item 竖着摞。每个条目是「小字标签 + 大字数值」，
+   跟右边表格一样用暗黄做主色，靠字号和明度拉开层次。
+   注意：原来这里是一条 .data_board span 的兜底规则，它把字体、外边距、
+   居中一股脑按在了所有 span 上，而且权重比单个类名高（0,1,1 > 0,1,0），
+   会在下面这些类生效之后再赢一次。现在每个 span 都有自己的类了，
+   那条兜底规则已经删掉，样式全部由具体的类说了算 */
+#data_board_content {
+  /* 面板本身是 flex 列（见 .data_board），这里吃掉标题以外的整个高度。
+     min-height:0 配 overflow 是让窗口太矮时面板内部滚动，而不是把内容挤出去 */
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 0.8rem 0.6rem;
+  gap: 0.7rem;
+  /* 垂直居中不在这里做，见下面 .data_item:first-child 那段注释 */
+
+  /* 隐藏滚动条但保留滚动能力，跟 #table_wrap 一个处理 */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+#data_board_content::-webkit-scrollbar {
+  display: none;
+}
+
+/* ---- 内容整体垂直居中 ----
+   这里刻意不在容器上写 justify-content: center。
+   容器是 overflow-y: auto 的滚动区，而 flex 的居中对齐默认是「不安全」的：
+   内容一旦比容器高，它会以容器中点为基准往两头溢出，
+   顶部那一截落到滚动区起始边之外，滚轮永远够不着 —— 看着就是内容被吃掉了。
+   （CSS 里管这个叫 unsafe center，要显式写 justify-content: safe center 才能避免，
+   那个写法的浏览器支持还不齐。）
+   改用子项的 auto 外边距：富余空间全部分给这两个 auto，
+   没富余时它们就是 0 —— 空间够就居中，不够就从顶部正常排、能滚到底，两头都不误 */
+#data_board_content .data_item:first-child {
+  margin-top: auto;
+}
+
+#data_board_content .data_item:last-child {
+  margin-bottom: auto;
+}
+
+/* 水平方向不用另外写：容器是 column 方向，align-items 默认 stretch，
+   每个条目本来就占满整宽，里面的文字和网格各自居中对齐 */
+.data_item {
+  /* 条目不参与压缩，高度由内容决定，超出的部分交给上面的容器滚 */
+  flex: none;
+  /* 条目之间画一条几乎看不见的分隔线：
+     比单纯拉开间距更有结构感，又不会像实线那样抢戏 */
+  border-bottom: 1px solid rgb(48, 48, 42);
+  padding-bottom: 0.7rem;
+}
+
+/* 最后一条不要分隔线，否则会和面板底边凑成两条挨着 */
+.data_item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+/* 标签：小、暗、字距拉开。全大写是数据面板的惯例写法，
+   能让「Qualified」这种词一眼跟数值区分开，不用加粗也认得出来 */
+.data_item_title {
+  display: block;
+  text-align: center;
+  font-family: 'BodyFont', 'Pilcrow Rounded', sans-serif;
+  font-size: clamp(0.5rem, 0.68vw, 0.95rem);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: rgb(124, 124, 109);
+  /* 标签和数值贴紧一点，两者才算一组 */
+  margin-bottom: 0.15rem;
+}
+
+/* 数值：暗黄，跟表格里的分数同色，一眼知道这是「数」 */
+.data_item_value {
+  display: block;
+  text-align: center;
+  font-family: 'BodyFont', 'Pilcrow Rounded', sans-serif;
+  font-size: clamp(0.7rem, 0.95vw, 1.35rem);
+  line-height: 1.4;
+  color: rgb(184, 184, 110);
+  /* 前 10 / 后 10 那两格的内容是 \n 连起来的多行字符串。
+     默认 HTML 会把换行折叠成空格，名字会糊成一整行，
+     pre-line 只认换行、其余空白照常折叠 */
+  white-space: pre-line;
+  /* 平时没有背景色，看不出圆角；闪起来那一下才是圆头的，
+     免得糊一个方角色块在面板上 */
+  border-radius: 0.25rem;
+}
+
+/* 单独占一格的数字（总人数、各项平均分）：让它明显大一号，
+   一眼就能读到，跟下面成串的名单拉开主次 */
+.data_item_value.big {
+  font-size: clamp(0.95rem, 1.35vw, 2rem);
+  letter-spacing: 0.02em;
+}
+
+/* ========== 数值变化闪烁 Value Flash ==========
+   增删学生之后，数据面板里真的变了的那几格会闪一下背景色。
+   「谁该闪」由 script.js 里的 v-flash 指令说了算，这里只管「闪起来长什么样」 */
+@keyframes value-flash {
+  from {
+    background-color: rgb(184 184 110 / 55%);
+  }
+
+  to {
+    background-color: rgb(184 184 110 / 0%);
+  }
+}
+
+.data_item_value.flash {
+  animation: value-flash 5s ease-out;
+}
+
+/* 一个条目里要放好几组「标签 + 数值」时套这一层。
+   两列网格：标签列靠右、数值列靠左，中间的 column-gap 就是分隔，
+   不需要再画竖线。justify-content: center 让整块网格在面板里居中 */
+.data_metrics {
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: center;
+  align-items: baseline;
+  column-gap: 0.5rem;
+  row-gap: 0.1rem;
+}
+
+/* 网格里的一行本来就贴在一起，不需要再留下边距 */
+.data_metrics .data_item_title {
+  margin-bottom: 0;
+  text-align: right;
+}
+
+.data_metrics .data_item_value {
+  text-align: left;
+}
+
+/* ========== 提示窗口 Alert ==========
+   必须用 fixed。.data_board 是 absolute，而它的定位参照物是视口
+   （#frame 没写 position）。如果为了给 #alert 找个参照物而给 #frame 补上
+   position: relative，两块数据面板的参照物会一起从视口变成 #frame，
+   位置当场跑掉。fixed 不需要任何祖先配合，谁都不得罪。 */
+#alert {
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  z-index: 999;
+  display: block;
+  display: flex;
+  /* 纵向排列：.alert_title 在上、#message 在下。
+     flex 默认 flex-direction: row，两个子元素会被塞进同一行 ——
+     而 .alert_title 是 width:100% 的整条标题栏，会把 #message 挤到没位置。
+     align-items 在 column 方向管的是横轴，所以标题栏仍然是整宽、文字居中 */
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  border: 3px solid rgb(117, 117, 116);
+  border-radius: 0.75rem;
+  background-color: rgb(46, 46, 44);
+  font-family: 'BodyFont', 'Pilcrow Rounded', sans-serif;
+  font-size: clamp(0.75rem, 1vw, 2rem);
+  color: rgb(254, 254, 217);
+  /* 第一条是弹窗自己的投影，第二条是压暗整页的遮罩 */
+  box-shadow:
+    0 0.5rem 1.5rem rgb(0 0 0 / 80%),
+    0 0 0 100vmax rgb(0 0 0 / 80%);
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, -1rem);
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+  width: 30%;
+  height: 40%;
+}
+
+#alert.show {
+  opacity: 1;
+  visibility: visible;
+  /* 窗口就会整体右移半个身位 */
+  transform: translate(-50%, 0);
+}
+
+
+#alert .alert_title {
+  width: 100%;
+  height: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 100;
+  font-size: clamp(0.75rem, 3vw, 3rem);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  background-color: rgb(139, 139, 137);
+  color: rgb(30, 30, 26);
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  overflow: hidden;
+}
+
+#alert.error .alert_title {
+  background-color: rgb(196, 92, 84);
+  overflow: hidden;
+}
+
+#alert.success .alert_title {
+  background-color: rgb(122, 168, 116);
+}
+
+#alert #message {
+  /* 关键的一条：把标题栏和 gap 以外的剩余高度全部吃掉。
+     少了它，这个盒子的高度就等于一行文字，align-items: center 没有余量可居，
+     看起来就像完全没生效 —— flex 子项在 column 容器里默认高由内容决定，
+     不会自己撑满 */
+  flex: 1;
+  /* 内容超过剩余高度时允许被压缩，否则 min-height:auto 会把它顶出弹窗 */
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* 文字换行成多行时逐行居中靠它 */
+  text-align: center;
+
+  /* 保留消息里的 \n。默认 HTML 会把换行符折叠成一个空格，
+     多条错误就会糊成一整行；pre-line 只认换行、其余空白照常折叠，
+     比 pre-wrap 合适（那个会连缩进和连续空格一起保留） */
+  white-space: pre-line;
+  font-size: clamp(0.75rem, 1.5vw, 2rem);
+
+}
+
+#alert #close_btn {
+  margin-bottom: 1rem;
+  height: 15%;
+  width: 30%;
+  font-family: 'BodyFont', 'Pilcrow Rounded', sans-serif;
+  background-color: transparent;
+  font-size: clamp(0.75rem, 1vw, 2rem);
+  padding: 0.5rem 1rem;
+  border-radius: 3rem;
+  color: rgb(194, 194, 164);
+  border: 3px solid rgb(77, 77, 67);
+  transition: all 0.4s ease;
+  cursor: var(--cursor-hand);
+}
+
+#alert #close_btn:hover {
+  background-color: rgb(255, 255, 227);
+  color: rgb(16, 16, 14);
+}
+
+
+#shy_logo {
+  position: fixed;
+  left: 1.2%;
+  width: 13vw;
+  height: auto;
+  bottom: 15vh;
+}
+
+body {
+  /* 箭头本体。路径和热点都写在 :root 的 --cursor-arrow 里，
+     这一条只负责说「整个页面的默认光标用哪个」 */
+  cursor: var(--cursor-arrow);
+  
+}

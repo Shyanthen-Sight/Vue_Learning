@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>动态组件</title>
+</head>
+<style>
+    .box{
+        width:300px;
+        display: flex;
+        justify-content: flex-start;
+    }
+    ul {
+        display: flex;
+        justify-content: flex-start;
+        flex-direction: column;
+        padding: 0 ;
+        margin: 0;
+    }
+    .tab-button {
+        padding: 6px 10px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border: solid 1px #ccc;
+        cursor: pointer;
+        background: #f0f0f0;
+        margin-bottom: -1px;
+        margin-right: -1px;
+        list-style: none;
+    }
+    .tab-button:hover {
+        background: #8a9dbe;
+    }
+    .active {
+        background: #8a9dbe;
+    }
+    .tab {
+        border: solid 1px #ccc;
+        padding: 10px;
+    }
+</style>
+<body>
+    <div id='app'>
+        <h1>动态组件</h1>
+        <div class="box">
+            <ul>
+                <li v-for="item in tabList" :key="item.title"
+                    :class="['tab-button', { active: currentTab === item.title }]" @click="currentTab = item.title">
+                    {{ item.displayName }}
+                </li>
+            </ul>
+            <keep-alive>
+                <component :is="currentTab" class="tab">
+                </component>
+            </keep-alive>
+        </div>
+    </div>
+    <script src='https://unpkg.com/vue@next'></script>
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    currentTab: 'home',
+                    tabList: [
+                        { title: 'home',displayName: '首页'},
+                        {title: 'user',displayName: '用户管理'},
+                        {title: 'commodity',displayName: '商品管理'},
+                        {title: 'order',displayName: '订单管理'}
+                    ]
+                }
+            }
+        })
+        vm.component('home', {
+            template: '<div>欢迎进入后台管理系统</div>'
+        })
+        vm.component('user', {
+            data() {
+                return {username: 'admin',password:123456}
+            },
+            template: '<div><input v-model="username"><br><input type="password" v-model="password"></div>'
+        })
+        vm.component('commodity', {
+            template: '<div>商品管理页面</div>'
+        })
+        vm.component('order', {
+            template: '<div>订单管理页面</div>'
+        })
+        vm.mount('#app');
+    </script>
+</body>

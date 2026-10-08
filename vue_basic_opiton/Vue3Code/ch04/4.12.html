@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>计算属性的getter和setter方法</title>
+</head>
+<script src="../../vue.js"></script>
+<style>
+    [v-cloak] {
+        display: none;
+    }
+</style>
+<body>
+
+        <div id="app" v-cloak>
+            <p>学生姓名：{{name}}</p>
+            <p>学生班级：{{classes}}</p>
+            <p>学生姓名和班级：{{nameClasses}}</p>
+        </div>
+
+
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    name: "小明",
+                    classes: "初1-3班"
+                }
+            },
+            computed: {
+                nameClasses: {
+                    //getter方法，显示nameClasses时调用
+                    get() {
+                        return this.name + ":" + this.classes;
+                    },
+                    //setter方法，设置nameClasses时调用，其中的参数用来接收计算属性被修改后的新值
+                    set(newValue) {
+                        var array = newValue.split(' ');
+                        this.name = array[0];
+                        this.classes = array[1];
+                    }
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+
+</html>

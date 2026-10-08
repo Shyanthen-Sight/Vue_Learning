@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <title>购物车动画</title>
+</head>
+<style>
+    .store {
+        width: 300px;
+        height: 300px;
+        border: 1px solid #333;
+        margin-left: 20px;
+    }
+    .goodsBox {
+        height: 88%;
+        position: relative;
+        padding: 10px;
+    }
+
+    .goodItem {
+        width: 96px;
+        display: inline-block;
+    }
+
+    .good {
+        border: 1px solid #ddd;
+        width: 150px;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .goodName {
+        font-weight: bold;
+        display: block;
+        text-align: left;
+        margin-left: 60px;
+    }
+
+    .addButton {
+        display: inline-block;
+        width: 100px;
+        border: 1px solid silver;
+        border-radius: 4px;
+        margin-left: 20px;
+        padding: 2px 3px;
+        text-align: center;
+    }
+
+    .addButton:hover {
+        cursor: pointer;
+        border: 1px solid #666;
+    }
+
+    .miniBall {
+        display: inline-block;
+        position: absolute;
+        top: 135px;
+        left: 100px;
+        width: 8px;
+        height: 8px;
+        background-color: red;
+        border: 1px solid red;
+        border-radius: 50%;
+    }
+
+    .goodCar {
+        display: inline-block;
+        position: absolute;
+        bottom: 0;
+        right: 10px;
+    }
+
+    .goodCar span {
+        color: red;
+        font-size: 10px;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+</style>
+
+<body>
+    <div id='app'>
+        <div class="store">
+            <div class="goodsBox">
+                <div class="itemBox">
+                        <label class="goodName">草莓</label>
+                        <img src="./img/cm.jpeg" class="good" />
+                        <label class="addButton" @click="addCart">加入购物车</label>
+                    <!-- 半场动画，包括js的三个钩子函数：before-enter、enter、after-enter -->
+                    <transition @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter">
+                        <div v-show="flag" class="miniBall"></div>
+                    </transition>
+                </div>
+                <!-- 购物车 -->
+                <label class="goodCar">
+                    <img src="./img/carts.jpg" alt="">
+                    <span>{{num}}</span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <script src='https://unpkg.com/vue@next'></script>
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    flag: false,
+                    num: 1
+                }
+            },
+            methods: {
+                //进入动画前的钩子函数
+                beforeEnter(el) {
+                    // 1.结束点
+                    el.style.transform = "translate(50px, 10px)";
+                    el.style.color = 'white'; //小球进入动画前为白色
+                },
+                //进入动画钩子函数
+                enter(el, done) {
+                    // 2.需要加上这句才会刷新，执行过渡期间的效果
+                    el.offsetWidth;
+                    el.style.color = 'red'; //小球进入动画后颜色为红色
+                    // 3.结束点
+                    if (this.flag) {
+                        // 向右移动260px，向下移动230px
+                        el.style.transform = "translate(150px, 130px)";
+                    }
+                    el.style.transition = "all 1s ease";
+                    // 4.动画结束后，隐藏（done代表afterEnter函数）
+                    done()
+                },
+                //进入动画完成后的钩子函数
+                afterEnter(el) {
+                    if (this.flag) { //flag为true,动画已激活
+                        this.flag = !this.flag; //将动画激活标记取反，使flag为false,等待再次激活动画
+                        this.num++
+
+                    }
+                },
+                //加入购物车
+                addCart() {
+                    this.flag = !this.flag; //将动画激活标记取反，使flag为true,激活动画
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>

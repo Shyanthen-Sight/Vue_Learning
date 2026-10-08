@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>促销活动管理页面</title>
+  <style>
+    /* 清除页面默认边距 */
+    * {
+      padding: 0;
+      margin: 0;
+    }
+    /* 清除li的默认样式 */
+    li {
+      list-style: none;
+      float: left;
+      height: 40px;
+      line-height: 40px;
+      border-bottom: 1px solid rgb(245, 245, 245);
+    }
+    /* 页面背景颜色 */
+    body {
+      background-color: #ccc;
+    }
+    /* 主体背景 */
+    .main {
+      margin: 0 auto;
+      height: 70vh;
+      width:75%;
+      background-color: #fff;
+      border-radius: 5px;
+      margin-top: 50px;
+      position: relative;
+    }
+    /* 添加活动模块 */
+    .activity-list {
+      display: flex;
+      border-bottom: 1px solid #ccc;
+      justify-content: space-between;
+      padding: 0 30px 0 30px;
+      height: 60px;
+    }
+    /* "活动列表" 文字样式*/
+    .list-title {
+      font-size: 24px;
+      line-height: 60px;
+      color: #ff5000;
+    }
+    /* 添加活动 按钮样式 */
+    .add-active {
+      background-color: #ff5900;
+      color: #fff;
+      height: 40px;
+      line-height: 40px;
+      margin-top: 10px;
+      width: 100px;
+      text-align: center;
+      border-radius: 10px;
+      font-size: 17px;
+      cursor: pointer;
+    }
+    /* 列表项的标题样式 */
+    .title-contioner {
+      display: flex;
+      justify-content: space-evenly;
+    }
+    /* 每一条活动信息样式 */
+    .title {
+      font-size: 20px;
+      width: 25%;
+      text-align: center;
+      border: none;
+    }
+    .list {
+      display: flex;
+      justify-content: space-evenly;
+      width: 100%;
+      border-bottom: 1px dashed #e8e8e8;
+    }
+
+    .list div {
+      width: 25%;
+      text-align: center;
+    }
+    /* 编辑按钮样式 */
+    .edit {
+      color: blueviolet;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-evenly;
+    }
+    /* 活动数量样式 */
+    .num {
+      margin-left: 30px;
+      line-height: 70px;
+    }
+    /* 模态框样式 */
+    .modal {
+      height: 350px;
+      width: 400px;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      margin-left: -200px;
+      margin-top: -175px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #fff;
+      overflow: hidden;
+    }
+    /* 模态框标题样式 */
+    .modal-title {
+      font-size: 20px;
+      text-align: center;
+      height: 40px;
+      line-height: 40px;
+      margin-bottom: 20px;
+    }
+    /* 模态框中的单行文本输入框样式 */
+    .edit-input {
+      width: 100%;
+      text-align: center;
+      line-height: 40px;
+    }
+    /* 模态框按钮的父标签 */
+    .edit-group {
+      margin-top: 60px;
+      display: flex;
+      justify-content: space-evenly;
+    }
+    /* 模态框中的按钮的样式 */
+    .modal-btn {
+      display: inline-block;
+      background-color: #e8e8e8;
+      height: 50px;
+      line-height: 50px;
+      width: 100px;
+      text-align: center;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<div id="app" class="main">
+  <!-- 列表组件 -->
+  <list @addactive="addActivity" @change="edit"></list>
+  <modal @abolish="cancel" @add="submit"></modal>
+</div>
+<script src='https://unpkg.com/vue@next'></script>
+<script>
+  const { reactive, provide, inject, ref, toRefs, watch } = Vue;
+  //根组件
+  const vm = Vue.createApp({
+    setup() {
+      //活动列表标题
+      let activityTitle = reactive([
+        '活动类型', '活动名称', '活动优惠', '活动限制', '操作'
+      ])
+      //活动列表
+      let activityList = reactive([
+        { id: 1, type: '满减', name: '五一特惠', preferent: '满50-5', limitation: '5.1-5.31' },
+        { id: 2, type: '无门槛', name:'周年庆', preferent: '单一订单减5', limitation: '2023.4.10' },
+        { id: 3, type: '新用户', name: '新注册会员红包', preferent: '全场任意商品减10', limitation: '注册十天内可用' },
+        { id: 4, type: '满减', name: '春节特惠', preferent: '满100-10', limitation: '春节假期期间可用' },
+      ])
+      //模态框表单信息对象
+      let modalObj = reactive({
+        id: new Date().valueOf(),
+        type: '',
+        name: '',
+        preferent: '',
+        limitation: '',
+      })
+      //活动数量
+      let activityNum = ref(activityList.length);
+      //活动数量
+      watch(activityList, () => activityNum.value = activityList.length);
+
+      //控制模态框当前执行的功能：编辑或新增。默认状态false,即为编辑功能
+      let modalState = ref(false);//false:编辑,true:新增
+
+      //控制模态框的显示与隐藏，默认隐藏
+      let modalFlag = ref(false);//false:模态框隐藏,true:模态框显示
+      
+      //清空modal对象数据方法
+      function empty() {
+        let { type, name, preferent, limitation } = toRefs(modalObj);//从模态框的表单数据保存对象中，解构出对应属性
+        type.value = '';//清空对应属性值
+        name.value = '';
+        preferent.value = '';
+        limitation.value = '';
+      }
+      //新增活动的方法
+      function addActivity() {
+        empty();//每次新增活动前，将模态框表单清空
+        modalFlag.value = true;//模态框显示
+        modalState.value = true;//模态框当前用于新增活动
+      }
+      //当前编辑的列表项的index
+      let itemIndex = ref('');
+      //编辑活动信息的方法
+      function edit(index) {
+        modalFlag.value = true;//模态框显示
+        modalState.value = false;//模态框当前用于编辑活动
+        itemIndex.value = index;//保存模态框传递过来的当前编辑的列表项的index
+        //从模态框表单信息对象中解构出对应属性
+        let { type, name, preferent, limitation } = toRefs(modalObj);
+        //将当前列表项的属性赋值给模态框表单信息对象，并在模态框表单中渲染对应列表项数据
+        type.value = activityList[index].type;
+        name.value = activityList[index].name;
+        preferent.value = activityList[index].preferent;
+        limitation.value = activityList[index].limitation;
+      }
+      //取消编辑或新增的方法
+      function cancel() {
+        modalFlag.value = false;//模态框隐藏
+        empty();//清空模态框数据
+      }
+      //submit方法
+      //确认模态框当前执行的是"新增活动"的提交方法，还是"编辑活动"的提交方法
+      //进而判断是向activityList数组中追加数据，还是修改activityList数组中的对应列表项的属性值
+      function submit() {
+        if (modalState.value) {//modalState为真,当前进行的是新增活动
+          //如果模态框的单行文本输入框中存在空值
+          if (Object.values(modalObj).includes('')) {
+            alert("请补全信息再提交");//提示补全信息
+          } else {//模态框的单行文本输入框中不存在空值
+            //则向activityList数组新增modalObj对象
+            activityList.push({ ...modalObj });
+            empty();//新增完成，清空模态框中的数据
+            modalFlag.value = false;//模态框隐藏
+          }
+        } else {//modalState为假,当前进行的是编辑活动
+          if (Object.values(modalObj).includes('')) {
+            alert("请补全信息再提交");//提示补全信息
+          } else {
+            activityList[itemIndex.value] = { ...modalObj };
+            empty();
+            modalFlag.value = false;
+          }
+        }
+      }
+      //向后代组件传递数据
+      //活动列表标题数组
+      provide('activityTitle', activityTitle);
+      //活动列表数组
+      provide('activityList', activityList);
+      //活动数量
+      provide('activityNum', activityNum);
+      //modle对象
+      provide('modalObj', modalObj);
+      //模态框状态
+      provide('modalFlag', modalFlag);
+      //编辑or新增
+      provide('modalState', modalState);
+
+      return {
+        activityTitle, activityList, modalState, modalFlag, modalObj, activityNum,
+        addActivity, cancel, edit, submit
+      }
+    }
+  })
+  //列表子组件
+  vm.component('list', {
+    template: `
+    <div class="activity-list">
+      <p class="list-title">活动列表</p>
+      <p class="add-active" @click="addActivity">添加活动</p>
+    </div>
+    <div>
+      <div class="title-contioner">
+        <li v-for="item in activityTitle" class="title">{{item}}</li>
+      </div>
+      <div class="list-container">
+        <li v-for="(item,index) in activityList" class="list" :key="item.id">
+          <div>{{item.type}}</div>
+          <div>{{item.name}}</div>
+          <div>{{item.preferent}}</div>
+          <div>{{item.limitation}}</div>
+          <div class="edit">
+            <span @click="edit(index)">编辑</span>
+          </div>
+        </li>
+      </div>
+      <div class="num">
+        <span>活动数量：</span>
+        <span>{{activityNum}}</span>
+      </div>
+    </div>
+  `,
+    setup(props, context) {
+      //接收父组件传递过来的数据
+      let activityTitle = inject('activityTitle');
+      let activityList = inject('activityList');
+      let activityNum = inject('activityNum');
+      let { emit } = context;//从context中解构出emit方法,用于分发事件
+
+      //新增事件
+      function addActivity() {
+        emit('addactive');//向父组件分发addactive事件
+      }
+      //编辑事件
+      function edit(index) {
+        emit('change', index);//向父组件分发change事件，并传递index参数
+      }
+      return { activityTitle, activityList, activityNum, addActivity, edit }
+    }
+  })
+  //模态框子组件组件
+  vm.component('modal', {
+    template: `
+      <div class="modal-box">
+        <div class=" modal" v-show="modalFlag">
+          <div class="modal-title">
+            <h3 v-if="modalState">新增活动</h3>
+            <h3 v-else>编辑活动</h3>
+            <!-- <p>添加活动</p> -->
+          </div>
+          <div>
+            <div class="edit-input">
+              <span>活动类型：</span>
+              <input type="text" v-model="modalObj.type">
+            </div>
+            <div class="edit-input">
+              <span>活动名称：</span>
+              <input type="text" v-model="modalObj.name">
+            </div>
+            <div class="edit-input">
+              <span>活动优惠：</span>
+              <input type="text" v-model="modalObj.preferent">
+            </div>
+            <div class="edit-input">
+              <span>活动限制：</span>
+              <input type="text" v-model="modalObj.limitation">
+            </div>
+            <div class="edit-group">
+              <span class="modal-btn" v-if="modalState" @click="submit">添加</span>
+              <span class="modal-btn" v-else @click="submit">编辑</span>
+              <span class="modal-btn" @click="cancel">取消</span>
+            </div>
+        </div>
+      </div>
+  `,
+    setup(props, context) {
+      //接收父组件数据
+      let modalObj = inject('modalObj');
+      let modalFlag = inject('modalFlag');
+      let modalState = inject('modalState');
+
+      let { emit } = context;//从context参数中解构出emit方法，用于向父组件分发事件
+      //编辑or新增确认按钮
+      function submit() {
+        emit('add');//向父组件分发add事件
+      }
+      //取消按钮
+      function cancel() {
+        emit('abolish');//向父组件分发abolish事件
+      }
+      return { modalObj, modalFlag, modalState, submit, cancel }
+    }
+  })
+  vm.mount('#app');
+</script>
+</body>
+</html>

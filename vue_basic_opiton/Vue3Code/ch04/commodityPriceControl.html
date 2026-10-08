@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>商品价格控制页面</title>
+</head>
+<body>
+    <div id='app'>
+        <h1>商品价格控制</h1>
+        <p>商品现价:{{price}}</p>
+        <!-- 插值语法调用method方法 -->
+        <p>商品数量：{{nums()}}</p>
+        <!-- 事件调用methods方法 -->
+        <button v-on:click="add(10)">商品涨价10元</button>
+        <button v-on:click="down(10)">商品降价10元</button>
+    </div>
+    <script src='https://unpkg.com/vue@next'></script>
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    //初始价格
+                    price:50,
+                    //商品初始数量
+                    num:0
+                }
+            },
+            //methods选项
+            methods:{
+                //商品价格重置
+                nums(){
+                   return this.num = 20
+                },
+                //商品涨价
+                add(n){
+                this.price += 10 
+                },
+                //商品降价
+                down(n){
+                    if(this.price<=0){
+                        this.price =0
+                    }else{
+                        this.price -= 10
+                    }
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <title>用户身份判断指令</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <div id='app'>
+        <h1>用户身份判断指令</h1>
+        <table>
+            <th>用户名称</th>
+            <th>用户身份</th>
+            <tr>
+                <td>客服一号</td>
+                <td v-permission="'admin1'"></td>
+            </tr>
+            <tr>
+                <td>小红</td>
+                <td v-permission="'user'"></td>
+            </tr>
+        </table>
+    </div>
+    <script src='https://unpkg.com/vue@next'></script>
+    <script>
+        const vm = Vue.createApp({
+            directives: { //局部注册自定义指令
+                permission: { //指令名称
+                    mounted(el, binding) {
+                        let permission = binding.value; // 获取到 v-permission的值
+                        if (permission) {
+                            let arr = ['admin', 'admin1', 'admin2', 'admin3'];
+                            let index = arr.indexOf(permission); //存储permission值的查询结果，判断permission是否存在于arr中
+                            if (index == -1) {
+                                // 没有管理者权限，文本显示为"普通用户"
+                                el.innerText= "普通用户";
+
+                            } else if (index == 1){
+                                el.innerText= "管理员";
+                            }
+                        }
+                    }
+                }
+            }
+        }).mount('#app');
+        // 全局注册指令
+        // vm.directive('permission', {
+        //     mounted(el, binding) {
+        //         let permission = binding.value; // 获取到 v-permission的值
+        //         if (permission) {
+        //             let arr = ['admin', 'admin1', 'admin2', 'admin3'];
+        //             let index = arr.indexOf(permission); //存储permission值的查询结果，判断permission是否存在于arr中
+        //             if (index == -1) {
+        //                 // 没有管理者权限，文本显示为"普通用户"
+        //                 el.innerText = "普通用户";
+
+        //             } else if (index == 1) {
+        //                 el.innerText = "管理员";
+        //             }
+        //         }
+        //     }
+        // })
+    </script>
+</body>

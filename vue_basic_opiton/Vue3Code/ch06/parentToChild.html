@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>父组件向子组件传递数据</title>
+</head>
+<body>
+    <div id='app'>
+        <h1>父组件向子组件传递数据</h1>
+        <!-- 借助prop属性向子组件传递数据 -->
+        <parent></parent>
+    </div>
+    <script src='https://unpkg.com/vue@next'></script>
+    <script>
+        const vm = Vue.createApp({});
+        
+        //子组件child
+        const Child={
+            //id、title属性接收父组件在子组件标签中传递过来的数据：'001'、greeting
+            props:['id','title'],
+            //id、title与该子组件data中定义的其他数据一样，均可通过this.title、{{title}}调用
+            data(){
+                return{
+                    name:"张三"
+                }
+            },
+            template:`<p>{{id}}-{{title}}-{{name}}</p>`
+        }
+        //父组件
+        vm.component('Parent',{
+            components:{Child},
+            data(){
+                return {
+                    greeting:'hello'//将该数据传递给子组件Child的title属性
+                }
+            },
+            template:`<p><Child id='001' :title="greeting" ></Child></p>`//模板字符串中可使用组件的原始名称
+
+        })
+        vm.mount("#app")
+    </script>
+</body>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>用户信息展示页面</title>
+    <style>
+        .litte{
+            font-size: 15px;
+            color: gray;
+            width: 450px;
+        }
+    </style>
+</head>
+<body>
+    <div id='app'>
+        <!-- 将根组件中的poem数组，通过poem属性传递给子组件Child -->
+        <child :user="user" :identity="identity" @show="getOrder">用户信息展示页面</child>
+        <div class="litte">
+            <!-- 用户历史订单信息展示 -->
+            <span v-for="item in orderList">{{item}} </span>
+        </div>
+    </div>
+    <script src='https://unpkg.com/vue@next'></script>
+    <script>
+        //局部注册子组件Child
+        const Child={
+            props:['user'],
+            setup(props,context){//入口函数
+                const {attrs,emit,slots}=context;//解构context对象中的属性
+                //信息展示
+                const slotText=slots.default()[0].children;//根组件传递的插槽内容:"用户信息页面"
+                //用户身份
+                const attrsText=attrs.identity;//根组件传递过来的Non-props:identity
+                //用户基本信息数组
+                const userList=props.user;//根组件传递的userList数组
+                //用户历史订单
+                const historyOrder =['历史订单：','北京鸭梨*2 ','红富士苹果*3 ','云朵面包*1 ','有机紫薯*5 ']
+
+                //通过emit函数向父组件传递作者信息
+                function checkOrder(){emit('show',historyOrder)}//emit()将show事件分发给父组件，并传递数据
+                return {slotText,attrsText,userList,checkOrder}//抛出子组件所需的数据和函数
+            },
+            template:`
+                <div>
+                    <h3>{{slotText}}</h3>
+                    <p>用户名称:{{userList[0]}}</p>
+                    <p>联系方式:{{userList[1]}}</p>
+                    <p>收件地址:{{userList[2]}}</p>
+                    <p>账户余额:{{userList[3]}}</p>
+                    <p style="color:red">用户身份:{{attrsText}}</p>
+                    <button @click="checkOrder">查看历史订单</button>
+                <div>`
+        }
+        //创建一个根组件实例
+        const vm=Vue.createApp({
+            components:{Child},//在根组件中注册子组件Child
+            data(){
+                return{
+                    user:['李小明','12345678910','北京市朝阳区',232],//用户基本信息
+                    identity:'白金会员',//用户身份
+                    orderList:[]//用户历史订单，保存子组件传递过来的数据
+                }
+            },
+            methods:{
+                //接收子组件传递过来的historyOrder
+                getOrder(params){
+                    this.orderList=params;//historyOrder保存至orderList
+                }
+            }
+        })
+        //在指定DOM上挂载根组件是实例
+        vm.mount('#app')
+    </script>
+</body>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body {
+            width: 600px;
+        }
+
+        a {
+            text-decoration: none;
+            display: block;
+            color: #fff;
+            width: 120px;
+            height: 40px;
+            line-height: 40px;
+            border: 1px solid #fff;
+            border-width: 1px 1px 0 0;
+            background: #094f99;
+        }
+
+        li {
+            list-style-type: none;
+        }
+
+        #app>li {
+            list-style-type: none;
+            float: left;
+            text-align: center;
+            position: relative;
+        }
+
+        #app li a:hover {
+            color: #fff;
+            background: #4b86c5;
+        }
+
+        #app li ul {
+            position: absolute;
+            left: -40px;
+            top: 40px;
+            margin-top: 1px;
+            font-size: 12px;
+        }
+
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <li v-for="menu in menus" @mouseover="menu.show = !menu.show" @mouseout="menu.show = !menu.show">
+            <a :href="menu.url">
+                {{menu.name}}
+            </a>
+            <ul v-show="menu.show">
+                <li v-for="subMenu in menu.subMenus">
+                    <a :href="subMenu.url">{{subMenu.name}}</a>
+                </li>
+            </ul>
+        </li>
+    </div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    menus: [{
+                            name: '资讯要闻',
+                            url: '#',
+                            show: false,
+                            subMenus: [{
+                                    name: '姑苏古城',
+                                    url: '#'
+                                },
+                                {
+                                    name: '奇瑰编钟',
+                                    url: '#'
+                                }
+                            ]
+                        },
+                        {
+                            name: '热点专题',
+                            url: '#',
+                            show: false,
+                            subMenus: [{
+                                    name: '正青春',
+                                    url: '#'
+                                },
+                                {
+                                    name: '奋斗者',
+                                    url: '#'
+                                }
+                            ]
+                        }
+                    ]
+                };
+            }
+        }).mount('#app');
+    </script>
+</body>
+
+</html>

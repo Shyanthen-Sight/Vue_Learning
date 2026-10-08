@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品订单页</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        li{
+            list-style: none;
+        }
+        html{
+            background-color: #EAE8EB;
+            padding-top: 4vh;
+            padding-bottom: 4vh;
+        }
+        .shop-list{
+            background-color: #fff;
+            margin: 0 auto;
+            width: 80%;
+            height: 92vh;
+            border-radius: 10px;
+        }
+        .shop-tab{
+            display: flex;
+            justify-content: space-around;
+            border-bottom: 2px solid #E8E8E8;
+            line-height: 80px;
+        }
+        .check-tab{
+            color: red;
+            border-bottom: 2px solid red;
+            
+        }
+        .list-title{
+            line-height: 50px;
+            display: flex;
+            justify-content: space-between;
+            background-color: #F5F5F5;
+            /* padding: 0 50px 0 30px; */
+        }
+        .list-title li{
+            width: 20%;
+            text-align: center;
+        }
+        .list-style{
+            display: flex;
+            justify-content: space-between;
+        }
+        .list-style li{
+            width: 20%;
+            text-align: center;
+            line-height: 50px;
+            border-bottom: 1px solid #E8E8E8;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="shop-list">
+        <!-- 商品订单tab -->
+        <div class="shop-tab">
+            <div>商品信息</div>
+            <span class="check-tab" id="0">已完成订单</span>
+            <span id="1">未完成订单</span>
+            <span id="2">全部订单</span>
+        </div>
+        <!-- 表格title -->
+        <div>
+            <ul class="list-title">
+                <li>订单编号</li>
+                <li>商品信息</li>
+                <li>订单状态</li>
+                <li>订单总价</li>
+                <li>订单成交时间</li>
+            </ul>
+            <ul id="list">
+            </ul>
+        </div>        
+    </div>
+
+    <script>
+        // tab 状态
+        let tabStatus = 1;
+        // 进行中订单
+        const unfinishList = [
+            {id:'a001',number :'001' , message:'陕西花牛苹果' , status : '已完成', prices:'200',time:'05-01'},
+            {id:'a001',number :'002' , message:'四川麻椒鸡' , status : '已完成', prices:'103',time:'05-01'},
+            {id:'a001',number :'003' , message:'重庆古法手工腊肠' , status : '已完成', prices:'1040',time:'05-01'}
+        ];
+        // 已完成订单
+        const finishedList = [
+            {id:'a001',number :'004' , message:'金华火腿陈年熏制' , status : '进行中', prices:'1002',time:'05-01'},
+            {id:'a001',number :'005' , message:'北京同仁堂燕窝养生' , status : '进行中', prices:'1050',time:'05-01'},
+            {id:'a001',number :'006' , message:'成都野生菌菇套装' , status : '进行中', prices:'1060',time:'05-01'}
+        ];
+        //获取list dom节点，动态渲染列表
+        let listDom = document.getElementById('list');
+        //获取tab列表dom，设置事件监听
+        let tabContainer = document.getElementsByClassName('shop-tab');
+        let tab = document.querySelectorAll('span');
+        // 初始化render
+        render(unfinishList);
+        // 动态渲染方法
+        function render(...rest){
+            console.log(rest);
+            const newArr = rest.length > 1 ? [...rest[0],...rest[1]] : rest[0];
+            listDom.innerHTML = '';
+            newArr.forEach((item)=>{
+            let divContainer = window.document.createElement('div');
+            let childLi = `
+                <li>${item.number}</li>    
+                <li>${item.message}</li>    
+                <li>${item.status}</li>    
+                <li>${item.prices}</li>    
+                <li>${item.time}</li>    `
+            divContainer.innerHTML = childLi;
+            divContainer.setAttribute('class','list-style');
+            listDom.appendChild(divContainer);
+        })
+        }
+        // tab切换方法
+            for(let i = 0 ; i < tab.length ; i++){
+               tab[i].onclick = function(){
+                    for(let i = 0 ; i < tab.length ; i++){
+                        tab[i].className = '';
+                    }
+                    if(i == 0){
+                        render(unfinishList);
+                    }else if(i == 1){
+                        render(finishedList);
+                    }else if(i == 2){
+                        render(unfinishList,finishedList);
+                    }
+                    this.className = 'check-tab';
+               }
+        }
+    </script>
+
+</body>
+</html>

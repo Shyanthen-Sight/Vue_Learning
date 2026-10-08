@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>作用域插槽</title>
+</head>
+<body>
+    <div id='app'>
+        <h3>作用域插槽</h3>
+        <pear>
+            <template #furit="slotProps">
+                <h4>商品名称：{{slotProps.message.productName}}</h4>
+                <p>商品别名：{{slotProps.message.otherName}}</p>
+                <p style="width: 400px;">商品详情：{{slotProps.message.point}}</p>
+            </template>
+        </pear>
+    </div>
+    <script src='https://unpkg.com/vue@next'></script>
+    <script>
+        //子组件
+        const Pear = {
+            data() {
+                return {
+                    product: {
+                        productName: "库尔勒香梨",
+                        otherName: "梨中珍品、果中王子",
+                        point: "色泽悦目、味甜爽滑、香气浓郁、皮薄肉细、汁多渣少、落地即碎、入口即化、耐久贮藏、营养丰富"
+                    }
+                }
+            },
+            template: `<div>
+                <slot name="furit" v-bind:message="product"></slot>
+                </div>`
+        }
+        const vm = Vue.createApp({
+            components:{Pear}
+        }).mount("#app")
+    </script>
+</body>

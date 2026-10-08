@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>$root访问根组件实例</title>
+</head>
+<body>
+    <div id='app'>
+        <h1>$root访问根组件实例</h1>
+        <parent></parent>
+    </div>
+    <script src='https://unpkg.com/vue@next'></script>
+    <script>
+        const vm = Vue.createApp({
+            data(){
+                return{
+                    name:'库尔勒香梨'
+                }
+            }
+        })
+        
+        vm.component('parent',{
+            template:`<child></child>`
+        })
+        vm.component('child',{
+            data(){
+                return{
+                    text:'child默认文本'
+                }
+            },
+            methods:{
+                getRoot(){
+                    this.text=this.$root.name;
+                }
+            },
+            template:`<div><button @click="getRoot">访问根组件</button><p>商品名称：{{text}}</p></div>`,
+        })
+        vm.mount('#app')
+    </script>
+</body>

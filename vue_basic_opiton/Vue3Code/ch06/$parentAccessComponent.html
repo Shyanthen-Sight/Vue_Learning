@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>$parent访问父组件实例</title>
+</head>
+<body>
+    <div id='app'>
+        <h1>$parent访问父组件实例</h1>
+        <p>rootMsg:{{rootMsg}}</p>
+        <button @click="getParent">根组件的父组件</button>
+        <parent></parent>
+    </div>
+    <script src='https://unpkg.com/vue@next'></script>
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    rootName:'北京',
+                    rootMsg:'root组件默认值'
+                }
+            },
+            methods:{
+                //访问根组件的父组件实例
+                getParent(){this.rootMsg=this.$parent + ""}
+            }
+        })
+        vm.component('parent',{
+            data(){
+                return{
+                    parentName:'朝阳',
+                    parentMsg:'parent组件默认值'
+                }
+            },
+            methods:{
+                //访问parent组件的父组件实例
+                getParent(){this.parentMsg=this.$parent.rootName}
+            },
+            template:`<div><p>parentMsg:{{parentMsg}}</p><button @click="getParent">parent组件的父组件</button></div>`
+        })
+        vm.mount('#app')
+    </script>
+</body>

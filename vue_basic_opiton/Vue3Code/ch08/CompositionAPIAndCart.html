@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>组合式API实现的购物车页面</title>
+    <!-- <title>组合式API实现的购物车页面
+        后需修改为：computed()方法实现的购物车页面
+    </title> -->
+    <style>
+        th,
+        td {
+            width: 80px;
+            text-align: center;
+        }
+
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+<div id="app" v-cloak>
+<h1>组合式API实现的购物车页面</h1>
+<table>
+    <tr>
+        <th>序号</th>
+        <th>商品名称</th>
+        <th>单价</th>
+        <th>数量</th>
+        <th>金额</th>
+    </tr>
+    <tr v-for="(item, index) in goods" :key="item.id">
+        <td>{{ item.id }}</td>
+        <td>{{ item.title }}</td>
+        <td>{{ item.price }}</td>
+        <td>
+            <button :disabled="item.num === 0" @click="item.num-=1">-</button>
+            {{ item.num }}
+            <button @click="item.num+=1">+</button>
+        </td>
+        <td>
+            {{ itemPrice(item.price, item.num) }}
+        </td>
+    </tr>
+</table>
+<hr>
+<span>总价：￥{{ totalPrice }}</span>
+</div>
+<script src="https://unpkg.com/vue@next"></script>
+<script>
+const {reactive,computed} = Vue;
+const vm = Vue.createApp({
+    setup() {
+        //响应式的商品信息数组
+        const goods = reactive([
+            {id: 1,title: '盐水鸭',price: 66,num: 2},
+            {id: 2,title: '羊蝎子',price: 99,num: 3},
+            {id: 3,title: '京酱肉丝',price: 39,num: 1}
+        ])
+        //计算单个商品总价的函数
+        function itemPrice(price, num) {
+            return price * num;
+        }
+        //总金额的计算属性
+        const totalPrice = computed(
+            () => { //get()方法
+                let total = 0;
+                for (let book of goods) {
+                    total += book.price * book.num;
+                }
+                return total;
+            }
+        )
+        return {goods,totalPrice,itemPrice}
+    }
+}).mount('#app');
+</script>
+</body>
+
+</html>

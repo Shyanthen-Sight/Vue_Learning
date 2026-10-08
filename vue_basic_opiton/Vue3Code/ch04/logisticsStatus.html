@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>物流状态展示页面</title>
+</head>
+
+<body>
+    <div id="app">
+        <p>收件地址：{{place}}</p>
+        <p>当前位置：{{nowSeat}}</p>
+        <p>包裹状态：{{packageStatus}}</p>
+    </div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    place: "北京",
+                    nowSeat: "浙江"
+                }
+            },
+            computed: {
+                packageStatus: {
+                    //getter方法，显示packageStatus时调用
+                    get() {
+                        if (this.place === this.nowSeat) {
+                            return "已送达"
+                        } else {
+                            return this.nowSeat + "->" + this.place;
+                        }
+                    },
+                    //setter方法，设置packageStatus时调用，其中的参数用来接收计算属性被修改后的新值
+                    set(newValue) {
+                        if (newValue === "已送达") {
+                            this.nowSeat = this.place;
+                        } else {
+                            this.nowSeat + "->" + this.place;
+                            var array = newValue.split('->');
+                            this.nowSeat = array[0];
+                            this.place = array[1];
+                        }
+                    }
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+
+</html>

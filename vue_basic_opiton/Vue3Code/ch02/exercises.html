@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>编程题</title>
+</head>
+<body>
+    <!-- DOM容器 -->
+    <div id="app">
+        <h1>{{message}}</h1>
+    </div>
+    <!-- CDN方式引入vue -->
+    <script src="https://unpkg.com/vue@next"></script>
+    <script> 
+    //创建一个应用程序实例
+    const vm=Vue.createApp({
+        //该函数返回数据对象
+        data(){
+            return{
+                message:'宝剑锋从磨砺出，梅花香自苦寒来',
+            }
+        }
+    }).mount('#app')
+    //在指定的DOM元素容器上挂载应用程序实例的根组件
+    </script>
+</body>
+</html>

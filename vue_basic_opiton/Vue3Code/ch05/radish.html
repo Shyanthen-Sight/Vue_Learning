@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>复选框</title>
+</head>
+<style>
+    label,a{
+        color: cornflowerblue;
+        font-weight: bold;
+    }
+</style>
+<body>
+    <div id='app'>
+        <h3>单一复选框：</h3>
+        <input type="checkbox" v-model="flag" id="agreement" />
+        <label for="agreement"><a href="">交易协议</a></label>
+        <p >flag:{{flag}}</p>
+        <hr>
+        <h3>多个复选框：</h3>
+        <input type="checkbox" id="first" value="冰淇淋萝卜" v-model="checkedList">
+        <label for="first">冰淇淋萝卜</label>
+        <input type="checkbox" id="second" value="西瓜萝卜" v-model="checkedList">
+        <label for="second">西瓜萝卜</label>
+        <input type="checkbox" id="third" value="紫美人萝卜" v-model="checkedList">
+        <label for="third">紫美人萝卜</label>
+        <p>checkedList: {{ checkedList}}</p>
+    </div>
+    <script src='https://unpkg.com/vue@next'></script>
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    flag:true,
+                    checkedList:[]
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>

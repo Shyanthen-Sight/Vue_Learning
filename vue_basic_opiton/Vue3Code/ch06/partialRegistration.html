@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>局部注册</title>
+</head>
+<body>
+    <div id='app'>
+        <h1>局部注册</h1>
+        <!-- 使用全局注册的 my-conpoment组件-->
+        <button-component></button-component>
+    </div>
+    <script src='https://unpkg.com/vue@next'></script>
+    <script>
+        // 定义MyComponent选项对象
+        const MyComponent = {
+            data() {
+                return {
+                    msg:"计数器",
+                    num: 100
+                }
+            },
+            template: `<h3>{{msg}}:{{num}}</h3><button @click="num++">加1</button><button @click="num--">减1</button>`
+        }
+        //创建一个应用程序实例
+        const vm = Vue.createApp({
+            //局部注册组件
+            components: {
+                //将组件名称自定义为ButtonComponent
+                ButtonComponent: MyComponent
+            }
+        })
+        //vm.mount()生成应用程序实例的根组件
+        //vm.mount('#app')将根组件挂载到指定DOM元素上
+        vm.mount('#app')
+    </script>
+</body>

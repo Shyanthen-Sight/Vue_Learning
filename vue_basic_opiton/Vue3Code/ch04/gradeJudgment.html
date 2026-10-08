@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>商品等级判断页面</title>
+</head>
+<body>
+    <div id='app'>
+        <h2 v-show="showYes">商品等级判断</h2>
+        <h2 v-show="showNo">商品产地判断</h2>
+        <span>花牛苹果-200g:</span>
+        <span v-if="proLevel >=200">优秀级</span>
+        <span v-else-if="proLevel >=150">良好级</span>
+        <span v-else-if="proLevel >=100">及格级</span>
+        <span v-else>瑕疵品</span>
+    </div>
+    <script src='https://unpkg.com/vue@next'></script>
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    showYes:true,
+                    showNo:false,
+                    proLevel:200
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>

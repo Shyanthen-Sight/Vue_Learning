@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>元素间过渡</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+</head>
+<style>
+    img{
+        width: 200px; /* 规定四季图片的尺寸大小 */
+        height: 200px;
+        border-radius: 50%;/* 设置元素为圆形 */
+    }
+    .firsetBtn{
+        margin-left: 30px;
+    }
+</style>
+<body>
+    <div id='app'>
+        <h1>元素间过渡</h1>
+        <transition 
+            enter-active-class="animate__animated animate__fadeIn"
+            leave-active-class="animate__animated animate__fadeOut"
+            mode="out-in"
+            appear
+        >
+        <!-- 四季图片的切换显示 -->
+            <div v-if="flag == 'spring'" >
+                <img  src="./img/spring.jpg" alt="">
+            </div>
+            <div v-else-if="flag == 'summer'" >
+                <img src="./img/summer.jpg" alt="">
+            </div>
+            <div v-else-if="flag == 'autumn'">
+                <img src="./img/autumn.jpg" alt="">
+            </div>
+            <div v-else="flag == 'winter'">
+                <img src="./img/winter.jpg" alt="">
+            </div>
+        </transition>
+        <!-- 控制变量值的变化 -->
+        <button @click="flag = 'spring'" class="firsetBtn">春</button>
+        <button @click="flag = 'summer'">夏</button>
+        <button @click="flag = 'autumn'">秋</button>
+        <button @click="flag = 'winter'">冬</button>
+    </div>
+    <script src='https://unpkg.com/vue@next'></script>
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    flag: 'spring'//flag默认值为'spring'
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>

@@ -1,0 +1,293 @@
+@font-face {
+  font-family: "Chillax";
+  src: url("./ClashDisplay-Variable.ttf") format("truetype");
+  font-weight: 200 700;
+  font-style: normal;
+  font-display: swap;
+}
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background-color: #ffffff;
+}
+
+#app {
+  min-height: 100%;
+}
+
+@-webkit-keyframes tracking-in-expand {
+  0% {
+    letter-spacing: -0.5em;
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes tracking-in-expand {
+  0% {
+    letter-spacing: -0.5em;
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+#Shyanthen_Design {
+  /* 斜杠和句点的强调色，改这一处就能换色 */
+  --accent: #ff3b30;
+
+  /* 整句统一用淡灰 #ffffe3（= rgb(255, 255, 227)）。
+     哪天想再拆成两种颜色，给其中一半套个 span 单独指定 color 就行 */
+
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  word-spacing: 0.3em;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: "Chillax", system-ui, sans-serif;
+  font-weight: 450;
+  font-size: clamp(2.2rem, 8vw, 50rem);
+  color: #ffffe3;
+  background-color: #000;
+  /* 遮罩只负责看，不拦截鼠标，动画结束后也不会挡住下面的页面 */
+  pointer-events: none;
+  -webkit-animation: shyanthen-intro 4s cubic-bezier(0.215, 0.61, 0.355, 1) both;
+  animation: shyanthen-intro 4s cubic-bezier(0.215, 0.61, 0.355, 1) both;
+}
+
+/* 强调字符（/ 和 .）的淡入淡出。
+   动 opacity 而不是 color —— 两个属性互不干扰，也不会和别处的 color 抢。
+   letter-spacing 不用管，从父元素继承下来会跟着一起动 */
+#Shyanthen_Design .accent {
+  color: var(--accent);
+  -webkit-animation: shyanthen-accent 4s cubic-bezier(0.215, 0.61, 0.355, 1) both;
+  animation: shyanthen-accent 4s cubic-bezier(0.215, 0.61, 0.355, 1) both;
+}
+
+/* 文字本体单独裹一层，给上下两条横线当定位参照。
+   注意不能把伪元素直接挂在 #Shyanthen_Design 上 —— 那是个 flex 容器，
+   伪元素会变成 flex item 跑到文字左右两边去，不是上下。
+   这一层是 flex item，宽度天生就是文字的宽度（shrink-wrap），
+   所以横线的 left/right: 0 永远贴着文字两端，字号和字距怎么变都对得上 */
+#wordmark {
+  position: relative;
+  display: inline-block;
+}
+
+/* 上下两条横线，用伪元素画。
+   颜色写死不用 currentColor：父级正拿 color 的 alpha 做淡入淡出，
+   继承过来的话线会多叠一层淡出，节奏和文字对不上。这里只让 opacity 动。
+   线本身画成渐变而不是纯色，做彗星拖尾：起点那头透掉，朝运动方向那头保持原色。
+   关键在 scaleX 会把整条渐变连同盒子一起压进可见范围，
+   所以不管画到多长，渐变都正好铺满当下这条线 —— 前进的那头永远是满色 */
+#wordmark::before,
+#wordmark::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: clamp(2px, 0.04em, 6px);
+  /* 这里刻意不用别处的 easeOutCubic：展开要横跨 3s，
+     用缓出会在头 1s 就冲掉将近九成，后面看着像卡住了，所以走 linear 匀速 */
+  -webkit-animation: shyanthen-rule 4s linear both;
+  animation: shyanthen-rule 4s linear both;
+}
+
+/* 上面那条：原点靠右，从右往左展开。
+   渐变跟着朝左 —— 右端（起点）透明，左端（前进方向）满色 */
+#wordmark::before {
+  bottom: 100%;
+  margin-bottom: 0.1em;
+  transform-origin: right center;
+  background-image: linear-gradient(to left, rgba(52, 61, 63, 0), #343d3f 55%);
+}
+
+/* 下面那条：原点靠左，从左往右展开。
+   渐变跟着朝右 —— 左端（起点）透明，右端（前进方向）满色。
+   想调线的粗细、离文字的远近就改这里；拖尾长短改那个 55%（越小尾巴越长） */
+#wordmark::after {
+  top: 100%;
+  margin-top: 0.1em;
+  transform-origin: left center;
+  background-image: linear-gradient(to right, rgba(52, 61, 63, 0), #343d3f 55%);
+}
+
+/* 时间点必须和 shyanthen-intro 里的文字对齐：
+   文字是 0→12% 淡入（color 透明→#ffffe3），78→88% 淡出（#ffffe3→透明），
+   所以红色也得在 78%→88% 这段淡完。88% 之后是遮罩层自己的淡出，别混进来 */
+@-webkit-keyframes shyanthen-accent {
+  0% {
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  78% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes shyanthen-accent {
+  0% {
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  78% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* 横线的展开时机：跟文字动画同时起步（0%），一路画到 75%。
+   4s 的动画里 75% = 3s，也就是文字结束前 1s。
+   所以线是全程慢慢“长”出来的，不是开头一下画完再干等。
+   12% 是文字淡入完成的时刻，线也在这时候完全显形，两者一起浮现。
+   75%→78% 停住，78%→88% 再跟文字同步淡出，别让线孤零零留在上面。
+   transform 只动 scaleX，方向交给各自的 transform-origin */
+@-webkit-keyframes shyanthen-rule {
+  0% {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  /* scaleX 取 12/75 ≈ 0.16，这样淡入那段也接得上匀速的进度 */
+  12% {
+    opacity: 1;
+    transform: scaleX(0.16);
+  }
+  75% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  78% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  88% {
+    opacity: 0;
+    transform: scaleX(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleX(1);
+  }
+}
+@keyframes shyanthen-rule {
+  0% {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  12% {
+    opacity: 1;
+    transform: scaleX(0.16);
+  }
+  75% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  78% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  88% {
+    opacity: 0;
+    transform: scaleX(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleX(1);
+  }
+}
+
+@-webkit-keyframes shyanthen-intro {
+  /* 0%：纯黑遮罩铺满，字距收紧、文字透明 */
+  0% {
+    letter-spacing: -0.5em;
+    color: rgba(255, 255, 227, 0);
+    opacity: 1;
+  }
+  /* 12%：文字在纯黑上淡入 */
+  12% {
+    color: #ffffe3;
+  }
+  /* 32%：字距展开到位 */
+  32% {
+    letter-spacing: normal;
+  }
+  /* 78%：停留展示。遮罩始终不透明，页面内容被完全挡住 */
+  78% {
+    letter-spacing: normal;
+    color: #ffffe3;
+    opacity: 1;
+  }
+  /* 88%：文字先淡出 */
+  88% {
+    letter-spacing: normal;
+    color: rgba(255, 255, 227, 0);
+    opacity: 1;
+  }
+  /* 100%：遮罩整层淡出，真正的页面内容在最后一刻从黑色里浮现 */
+  100% {
+    letter-spacing: normal;
+    color: rgba(255, 255, 227, 0);
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+@keyframes shyanthen-intro {
+  0% {
+    letter-spacing: -0.5em;
+    color: rgba(255, 255, 227, 0);
+    opacity: 1;
+  }
+  12% {
+    color: #ffffe3;
+  }
+  32% {
+    letter-spacing: normal;
+  }
+  78% {
+    letter-spacing: normal;
+    color: #ffffe3;
+    opacity: 1;
+  }
+  88% {
+    letter-spacing: normal;
+    color: rgba(255, 255, 227, 0);
+    opacity: 1;
+  }
+  100% {
+    letter-spacing: normal;
+    color: rgba(255, 255, 227, 0);
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+

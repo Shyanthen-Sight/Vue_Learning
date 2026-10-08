@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文本插值</title>
+</head>
+<body>
+    <div id="app">
+        <!-- 文本插值 -->
+        <h1>{{message}}</h1>
+    </div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    message: "少壮不努力"//组件实例中的message属性
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>

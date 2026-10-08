@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <title>用户注册页面</title>
+</head>
+<style type="text/css">
+    /* 整个boby页面的样式 */
+    body {
+        background: url(./img/background.jpg) no-repeat;
+        background-size: 100% 100%;
+        height: 100vh;
+    }
+
+    /* 盒子外围的样式设置 */
+    .box2 {
+        width: 100%;
+        height: 100vh;
+        /* 弹性布局 */
+        display: flex;
+        /* 上下居中对齐 */
+        align-items: center;
+        /* 左右居中对齐 */
+        justify-content: center;
+    }
+
+    /* 整个注册界面的样式设置 */
+    .register_box {
+        width: 600px;
+        height: 500px;
+        /* 圆角边框 */
+        border-radius: 30px;
+        text-align: center;
+        background: white;
+    }
+
+    /* 注册标识文字的样式设置 */
+    .title {
+        font-size: 40px;
+        color: #145dff;
+        font-weight: bold;
+        font-family: "microsoft yahei";
+        line-height: 100px;
+    }
+
+    /* 提示语文字的样式设置 */
+    .notice {
+        font-size: 16px;
+        margin-top: 10px;
+        text-align: left;
+        padding-left: 86px;
+    }
+
+    /* 输入框的样式设置 */
+    .input_box input {
+        width: 70%;
+        height: 30px;
+        margin-bottom: 20px;
+    }
+
+    /* 选择框样式 */
+    select {
+        height: 30px;
+        float: left;
+        margin-left: 86px;
+        width: 30%;
+    }
+
+    /* 性别 */
+    .sex {
+        float: left;
+        margin-left: 10px;
+        margin-bottom: 20px;
+    }
+
+    /* 协议整体文字的样式设置 */
+    .agreement {
+        clear: both;
+        font-size: 16px;
+        margin-top: 20px;
+        text-align: left;
+        padding-left: 86px;
+        margin-bottom: 20px;
+    }
+
+    /* 用户协议文字的样式设置 */
+    .agreement a {
+        color: #145dff;
+        font-weight: bold;
+    }
+
+    /* 提交按钮的样式设置 */
+    button {
+        font-size: 17px;
+        color: white;
+        background: #145dff;
+        border: none;
+        height: 40px;
+        width: 71.5%;
+    }
+
+    /* 提示语文字的样式设置 */
+    .login_now {
+        font-size: 16px;
+        margin-top: 20px;
+        line-height: 40px;
+    }
+
+    /* 立即登录的样式设置 */
+    .login_now a {
+        color: #145dff;
+    }
+</style>
+
+<body>
+<div id='app'>
+    <form @submit.prevent="submitPost">
+        <div class="box2">
+            <div class="register_box">
+                <div class="title">用户注册</div>
+                <div class="notice">
+                    <p>手机号注册</p>
+                </div>
+                <div class="input_box">
+                    <input type="text" placeholder="请输入手机号或邮箱" v-model="user.username">
+                </div>
+                <div class="input_box">
+                    <input type="password" placeholder="请输入密码" v-model="user.password">
+                </div>
+                <select v-model="user.choseCity">
+                    <option value="" disabled>居住地</option>
+                    <option v-for="item in cityList" :value="item" :key="item">{{item}}</option>
+                </select>
+                <div class="sex">
+                    <input type="radio" id="boy" v-model="user.sex" :value="sexList[0]">
+                    <label for="boy">男</label>
+                    <input type="radio" id="girl" v-model="user.sex" :value="sexList[1]">
+                    <label for="girl">女</label>
+                </div>
+
+                <div class="agreement">
+                    <input v-model="user.agreement" type="checkbox" true-value="yes" false-value="no">同意
+                    <a href="#">用户服务协议</a>
+                </div>
+                <button type="submit">完 成 注 册</button>
+                <div class="login_now">
+                    <p>已有账号？<a href="#">立即登录</a></p>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script src='https://unpkg.com/vue@next'></script>
+<script>
+    const vm = Vue.createApp({
+        data() {
+            return {
+                user: {
+                    username: '',
+                    password: '',
+                    sex: '',
+                    agreement: '',
+                    choseCity: '',
+                },
+                cityList: ["北京","河北", "山西", "黑龙江", "吉林","等"],
+                sexList: ['男', '女']
+            }
+        },
+        methods: {
+            // 信息提交方法
+            submitPost() {
+                alert(JSON.stringify(this.user));
+            }
+        }
+    }).mount('#app')
+</script>
+</body>

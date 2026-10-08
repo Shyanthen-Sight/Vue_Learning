@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>全局注册</title>
+</head>
+<body>
+    <div id='app'>
+        <h1>全局注册</h1>
+        <!-- 使用全局注册的 my-conpoment组件-->
+        <my-component></my-component>
+        <!-- 多次复用my-component组件 -->
+        <my-component></my-component>
+        <my-component></my-component>
+    </div>
+    <script src='https://unpkg.com/vue@next'></script>
+    <script>
+        //创建一个应用程序实例
+        const vm = Vue.createApp({})
+        // 全局注册MyComponent组件
+        const MyComponent={
+            data(){
+                return{
+                    msg:'连雨不知春去，一晴方觉夏深。'
+                }
+            },
+            template:`<h3>{{msg}}</h3>`}
+        vm.component('MyComponent',MyComponent);
+        //vm.mount()生成应用程序实例的根组件
+        //vm.mount('#app')将根组件挂载到指定DOM元素上
+        vm.mount('#app')
+    </script>
+</body>

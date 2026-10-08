@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+   <script src="../vue.js"></script>
+</head>
+<body>
+  <div id="app">
+    <h2 v-show="showYes">Goods level Judgment</h2>
+    <h2 v-show="!showYes">Goods production Judgment</h2>
+    <span>apple-200g</span>
+    <span v-if="proLevel>=200">excellent</span>
+    <span v-else-if="proLevel>=150">good</span>
+    <span v-else-if="proLevel>=100">medium</span>
+    <span v-else>bad</span>
+  </div>
+  <script>
+    const vm=Vue.createApp({
+      data(){
+        return {
+          proLevel: 200,
+          showYes: true,
+        }
+      },
+    }).mount('#app')
+  </script>
+</body>
+</html>

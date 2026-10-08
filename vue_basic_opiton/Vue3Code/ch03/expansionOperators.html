@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数组与展开运算符</title>
+</head>
+
+<body>
+</body>
+<script>
+    // 展开运算符实现数组的深拷贝
+    // 数组与展开运算符-数组深拷贝
+    let arr1 = [1, 2, 3, 4, 5];
+    let arr2 = arr1; //浅拷贝
+    let arr3 = [...arr1]; //深拷贝
+    arr1[0] = 6;
+    console.log("arr2：" + arr2);
+    console.log("arr3：" + arr3);
+    // 展开运算符实现数组的快速合并
+    // 数组与展开运算符-数组合并
+    let array1=['北京','上海'];
+    let array2=['广东','深圳','成都'];
+    let array3=['杭州','南京',...array1];
+    array3.push(...array2);
+    console.log(array3);
+
+</script>
+
+</html>

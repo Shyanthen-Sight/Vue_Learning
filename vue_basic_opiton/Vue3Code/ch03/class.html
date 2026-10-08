@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ES5的近类结构</title>
+</head>
+<body>
+    
+</body>
+<script>
+    function SystemWlcome(name,level,day){
+        this.name=name;
+        this.level=level;
+        this.day=day;
+    }
+    // 在原型上添加方法
+    SystemWlcome.prototype.sayHello=function(){
+     console.log(`欢迎进入后台首页，${`亲爱的${this.level}用户:${this.name}`},您已连续上线${this.day}天`);
+    }
+    var user=new SystemWlcome("张三","level1",10);
+    user.sayHello();
+    ////ES6类声明
+    // class WlcomeClass{
+    //     //等价于SystemWlcome构造函数
+    //     constructor(name,level,day){
+    //         this.name=name;
+    //         this.level=level;
+    //         this.day=day;
+    //     }
+    //     //等价于SystemWlcome.prototype.sayHello方法
+    //     sayHello(){
+    //         console.log(`欢迎进入后台首页，${`亲爱的${this.level}用户:${this.name}`},您已连续上线${this.day}天`);
+    //     }
+    // }
+    // let user=new WlcomeClass("李四","level2",20);
+    // user.sayHello();
+</script>
+</html>

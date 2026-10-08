@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数组解构</title>
+</head>
+<body>
+</body>
+<script>
+    // 数组解构的基本语法
+    let arr=[1,2,3];
+    let [first,second,third]=arr;
+    console.log(first,second,third);
+    // 数组结构的不完全解构
+    let orderList=['订单编号','订单名称','交易时间','备注'];
+    let [,,time]=orderList;
+    console.log(time);
+    // 数组结构的默认值应用
+    let orderList2=['订单编号','订单名称','交易时间','备注'];
+    let [,,time2,,money='交易金额']=orderList;
+    console.log(time2,money);
+    // //数组解构赋值
+    // let arr = [1, 2, 3],
+    //     first = 'empty1',
+    //     second = 'empty2';
+    // [first, second] = arr;
+    // console.log(first, second); //输出结果:"1,2"
+
+</script>
+</html>

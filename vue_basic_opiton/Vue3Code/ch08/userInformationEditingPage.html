@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>ref()方法</title>
+</head>
+<body>
+<div id='app'>
+    <h1>ref()方法</h1>
+    <p>姓名：{{username}}</p>
+    <button @click="changeName">姓名修改</button>
+    <p>年龄：{{age}}</p>
+    <button @click="changeAge">年龄增加</button>
+</div>
+<script src='https://unpkg.com/vue@next'></script>
+<script>
+    //从Vue中解构出ref方法
+    const {ref} = Vue;
+    //创建一个应用程序实例
+    const vm = Vue.createApp({
+        setup(){
+            let username='小力';
+            let age=ref(18);
+            function changeAge(){//年龄增加函数
+                age.value++;
+                console.log(age.value);
+            }
+            function changeName(){//姓名修改函数
+                username="小明";
+                console.log(username);
+            }
+            //返回一个对象，抛出组件所需的数据与方法
+            return{username,age,changeName,changeAge}
+        }
+    }).mount('#app')
+</script>
+</body>

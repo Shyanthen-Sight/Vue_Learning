@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>编程题</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    ul{
+        padding-left: 20px;
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+    }
+    li{
+        list-style: none;
+        width: 25%;
+    }
+    li p{
+        width: 80%;
+    }
+    li img{
+        width: 300px;
+        height: 400px;
+    }
+</style>
+
+<body>
+    <!-- DOM容器 -->
+    <div id="app">
+        <ul>
+            <li>
+                <h1>{{lu.style}}-{{lu.repDishes}}</h1>
+                <div><img src="./img/lu.jpeg" alt="" style="width: 200px;height: 250px;"></div>
+                <p>{{lu.detail}}</p>
+            </li>
+            <li>
+                <h1>{{chuan.style}}-{{chuan.repDishes}}</h1>
+                <div><img src="./img/chuan.jpg" alt="" style="width: 200px;height: 250px;"></div>
+                <p>{{chuan.detail}}</p>
+            </li>
+            <li>
+                <h1>{{xiang.style}}-{{xiang.repDishes}}</h1>
+                <div><img src="./img/xiang.jpg" alt="" style="width: 200px;height: 250px;"></div>
+                <p>{{xiang.detail}}</p>
+            </li>
+            <li>
+                <h1>{{su.style}}-{{su.repDishes}}</h1>
+                <div><img src="./img/su.jpg" alt="" style="width: 200px;height: 250px;"></div>
+                <p>{{su.detail}}</p>
+            </li>
+            
+        </ul>
+        <ul>
+            <li>
+                <h1>{{yue.style}}-{{yue.repDishes}}</h1>
+                <div><img src="./img/yue.jpg" alt="" style="width: 200px;height: 250px;"></div>
+                <p>{{yue.detail}}</p>
+            </li>
+            <li>
+                <h1>{{min.style}}-{{min.repDishes}}</h1>
+                <div><img src="./img/min.jpg" alt="" style="width: 200px;height: 250px;"></div>
+                <p>{{min.detail}}</p>
+            </li>
+            <li>
+                <h1>{{zhe.style}}-{{zhe.repDishes}}</h1>
+                <div><img src="./img/zhe.jpeg" alt="" style="width: 200px;height: 250px;"></div>
+                <p>{{zhe.detail}}</p>
+            </li>
+            <li>
+                <h1>{{hui.style}}-{{hui.repDishes}}</h1>
+                <div><img src="./img/hui.jpeg" alt="" style="width: 200px;height: 250px;"></div>
+                <p>{{hui.detail}}</p>
+            </li>
+        </ul>
+
+    </div>
+    <!-- CDN方式引入vue -->
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+        //创建一个应用程序实例
+        const vm = Vue.createApp({
+            //该函数返回数据对象
+            data() {
+                return {
+                 lu: { style: '鲁菜',repDishes: '九转大肠',detail: '成菜后有辣觉，并且酸、甜、香、咸四味俱全，色泽红润，质地软嫩。'},
+                 chuan: { style: '川菜',repDishes: '冒菜',detail: '冒菜是一道以肉类、豆制品、青菜、海鲜、菌菇类作为主要食材制作而成的菜品。'},
+                 xiang: { style: '湘菜',repDishes: '剁椒鱼头',detail: '菜品色泽红亮、味浓、肉质细嫩。肥而不腻、口感软糯、鲜辣适口。'},
+                 su: { style: '苏菜',repDishes: '松鼠桂鱼',detail: '松鼠鳜鱼，又名松鼠桂鱼，为苏帮菜中色香味兼具的代表之作。'},
+                 yue: { style: '粤菜',repDishes: '梅菜扣肉',detail: '成菜后，肉烂味香，吃起来咸中略带甜味，肥而不腻。'},
+                 min: { style: '闽菜',repDishes: '佛跳墙',detail: '成菜后，软嫩柔润，浓郁荤香，又荤而不腻，味中有味。'},
+                 zhe: { style: '浙菜',repDishes: '东坡肉',detail: '成品菜都是码得整整齐齐的麻将块儿，红得透亮，色如玛瑙，入口软而不烂，肥而不腻。'},
+                 hui: { style: '徽菜',repDishes: '毛豆腐',detail: '毛豆腐是安徽驰名中外的素食佳肴，一般叫黄山毛豆腐或者徽州毛豆腐。'},
+                   
+                }
+            }
+        }).mount('#app')
+        //在指定的DOM元素容器上挂载应用程序实例的根组件
+    </script>
+</body>
+
+</html>

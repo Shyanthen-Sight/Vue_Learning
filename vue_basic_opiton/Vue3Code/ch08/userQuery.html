@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>用户查询页面</title>
+    <!-- userQuery.html -->
+    <style>
+        /* 清除页面默认边距 */
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        /* 清除li的默认样式 */
+        li {
+            list-style: none;
+            float: left;
+            height: 40px;
+            line-height: 40px;
+            border-bottom: 1px solid rgb(245, 245, 245);
+        }
+        /* 设置页面标题样式 */
+        h1 {
+            margin-left: 20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .box {
+            display: flex;
+            flex-direction: column;
+        }
+        /* 搜索框 */
+        input,
+        ul,
+        .total {
+            margin-left: 20px;
+            margin-bottom: 4px;
+        }
+        input {
+            height: 30px;
+            width: 120px;
+        }
+        /* 列表标题样式 */
+        .title {
+            width: 150px;
+            text-align: center;
+            background-color: rgb(245, 245, 245);
+        }
+        li span {
+            display: inline-block;
+            width: 150px;
+            text-align: center;
+        }
+        .ullist {
+            width: 600px;
+        }
+    </style>
+</head>
+
+<body>
+<div id='app'>
+    <h1>用户查询页面</h1>
+    <div class="box">
+        <!-- 查询数据的关键字 -->
+        <input type="text" v-model="keyValue" placeholder="查询用户名称">
+        <ul class="ullist">
+            <!-- 遍历列表标题数组 -->
+            <li class="title" v-for="item in title" :key="item">{{item}}</li><br>
+            <!-- 提示信息 当查询到的信息数为0时,InformationFlag为false，提示"暂无数据"-->
+            <li v-if="InformationFlag">暂无数据！</li>
+            <!-- 根据keyValue是否为空判断遍历filterList数组还是userList数组-->
+            <li v-for="(item,index)  in (keyValue ? filterList : userList)" :key="item" v-else >
+                <span>{{item.name}}</span>
+                <span>{{item.age}}</span>
+                <span>{{item.hobby}}</span>
+                <span>{{item.identity}}</span>
+            </li>
+        </ul>
+        <!-- 当渲染filterList数组时，显示查询条数-->
+        <p class="total" v-show="keyValue">查询到 {{userTotal}} 条数据</p>
+    </div>
+</div>
+<script src='https://unpkg.com/vue@next'></script>
+<script>
+    const { ref, reactive, computed, watch } = Vue;
+    const vm = Vue.createApp({
+        setup() {
+            let title = reactive(['用户名', '年龄', '爱好', '用户身份']);//列表标题数组
+            let userList = reactive([//默认用户信息数组
+                { name: '王小亮', age: 18, hobby: '烹饪', identity: '未注册' },
+                { name: '孙小冰', age: 21, hobby: '烘焙', identity: '已注册' },
+                { name: '王小明', age: 19, hobby: '美食', identity: '已注册' },
+                { name: '李小红', age: 22, hobby: '旅游', identity: '未注册' },
+                { name: '李小丽', age: 23, hobby: '盆栽', identity: '已注册' },
+                { name: '赵小芬', age: 19, hobby: '绘画', identity: '未注册' },
+            ])
+            let keyValue = ref('');//查询关键字
+            let filterList = reactive([]);//过滤用户数组信息
+            let InformationFlag = ref(false);//控制提示信息显示与隐藏的变量
+            //侦听器
+            watch(//侦听器监听keyValue,即查询关键字
+                keyValue,//数据源
+                (keyValue) => {//回调函数
+                    if (keyValue) {//当查询关键字存在时
+                        filterList.length = 0;//清空过滤用户数组filterList
+                        userList.forEach((element, index) => {//遍历默认用户数组userList
+                            if (element.name.includes(keyValue)) {//若当前数组项的name属性包含keyValue字符时
+                                filterList.push(element);//将当前数组项加入过滤用户数组filterList中，在模板中渲染filterList数组
+                                InformationFlag.value = false;//提示信息隐藏
+                            } else if(filterList.length == 0){//若当前数组项的name属性不包含keyValue字符，且filterList数组为空时
+                                InformationFlag.value = true;//提示信息显示
+                            }
+                        });
+                    } else {//若查询关键为空，显示默认用户信息数组userList
+                        filterList.lenght = 0;//设置filterList为空
+                        InformationFlag.value = false;//提示信息隐藏
+                    }
+                })
+            //计算属性,存储用户条数
+            const userTotal = computed(() => {
+                if (keyValue) {//查询关键字存在,渲染filterList数组
+                    return filterList.length;//返回filterList数组的长度
+                }
+            })
+            return { userList, title, keyValue, filterList, InformationFlag,userTotal }
+        }
+    }).mount('#app')
+</script>
+</body>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>watchAndConverter</title>
+    <style>
+        th,
+        td {
+            width: 80px;
+            text-align: center;
+        }
+
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <h1>watch()方法实现的单位转换器</h1>
+        <div id="app">
+            <p>时 : <input type="text" v-model="hour"></p>
+            <p>分 : <span>{{minute}}</span></p>
+            <p>秒 : <span>{{second}}</span></p>
+        </div>
+        <p id="info"></p>
+    </div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+        const {ref,watch} = Vue;
+        const vm = Vue.createApp({
+            setup() {
+                //响应式的商品信息数组
+                let hour = ref(1);
+                let minute = ref(0);
+                let second = ref(0);
+                watch(
+                    [hour,minute],//数据源
+                    ([noWHour,nowMinute],[preHour,preMinute])=>{//回调函数
+                        minute.value=noWHour*60;
+                        second.value=nowMinute*60;
+                    }
+                )
+                return {minute,second,hour}
+            }
+        }).mount('#app');
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <title>用户登录页面</title>
+</head>
+<style type="text/css">
+    /* 整个boby页面的样式 */
+    body {
+        background-image: url(./img/background2.jpg);
+        background-size: 100% 100%;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+    }
+
+    #app {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .main {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    /* 盒子外围的样式设置 */
+    .box2 {
+        width: 400px;
+        margin-right: 80px;
+        /* 弹性布局 */
+        display: flex;
+        /* 上下居中对齐 */
+        align-items: center;
+        /* 左右居中对齐 */
+        justify-content: center;
+    }
+
+    /* 整个注册界面的样式设置 */
+    .login_box {
+        width: 380px;
+        height: 400px;
+        /* 圆角边框 */
+        text-align: center;
+        background: white;
+    }
+
+    /* 注册标识文字的样式设置 */
+    .title {
+        font-size: 14px;
+        line-height: 48px;
+        border-bottom: 4px solid #36A7F4;
+        margin-bottom: 30px;
+        color: #7e8185;
+    }
+    /* 输入框的样式设置 */
+    .input_box input {
+        width: 70%;
+        height: 30px;
+        margin-bottom: 20px;
+    }
+    .sunbtn {
+        border-radius: 5px;
+    }
+    /* 记住用户名文字的样式设置 */
+    .agreement {
+        font-size: 14px;
+        text-align: left;
+        margin-left: 54px;
+        margin-bottom: 20px;
+        color: #565551;
+    }
+    /* 提交按钮的样式设置 */
+    button {
+        font-size: 17px;
+        color: white;
+        background: #145dff;
+        border: none;
+        height: 40px;
+        width: 71.5%;
+    }
+</style>
+
+<body>
+    <div id='app'>
+        <div class="main">
+            <form @submit.prevent="submitPost">
+                <div class="box2">
+                    <div class="login_box">
+                        <div class="title">手机号登陆</div>
+                        <div class="input_box">
+                            <input type="text" placeholder="请输入手机号" v-model="user.username">
+                        </div>
+                        <div class="input_box">
+                            <input type="password" placeholder="请输入密码" v-model="user.password">
+                        </div>
+                        <div class="agreement">
+                            <input v-model="user.agreement" type="checkbox" true-value="yes" false-value="no">记住用户名
+                        </div>
+                        <button type="submit" class="sunbtn">登录</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src='https://unpkg.com/vue@next'></script>
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    user: {
+                        username: '',
+                        password: '',
+                        sex: '',
+                        agreement: '',
+                        choseCity: '',
+                    },
+                    cityList: ["北京", "河北", "山西", "黑龙江", "吉林", "等"],
+                    sexList: ['男', '女']
+                }
+            },
+            methods: {
+                // 信息提交方法
+                submitPost() {
+                    alert(JSON.stringify(this.user));
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>

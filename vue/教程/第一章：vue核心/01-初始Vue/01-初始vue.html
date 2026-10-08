@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="icon" href="../favicon.ico">
+  <!-- 引入vue -->
+  <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+
+<body>
+
+  <div class="root">
+    <h1>hello,{{age}}岁的{{ name }},住址在{{ address }}</h1>
+    button
+  </div>
+
+  <script>
+    Vue.config.productionTip = false
+    new Vue({
+      // el:document.getElementById('root')
+      el: '.root',
+      data: {
+        name: '张三',
+        age: 18,
+        address: '北京市朝阳区'
+      },
+    })
+  </script>
+</body>
+
+</html>

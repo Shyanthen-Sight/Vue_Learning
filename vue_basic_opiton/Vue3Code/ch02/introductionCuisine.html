@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>菜系介绍页面</title>
+</head>
+<body>
+    <!-- DOM容器 -->
+    <div id="app">
+        <h1>{{style}}-{{repDishes}}</h1>
+        <div><img src="../ch02/img/tofu.jpg" alt="" style="width: 250px;height: 200px;"></div>
+        <p>{{detail}}</p>
+    </div>
+    <!-- CDN方式引入vue -->
+    <script src="https://unpkg.com/vue@next"></script>
+    <script> 
+    //创建一个应用程序实例
+    const vm=Vue.createApp({
+        //该函数返回数据对象
+        data(){
+            return{
+                style:'川菜',
+                repDishes:'麻婆豆腐',
+                detail:'此菜成菜麻、辣、鲜、香、烫、脆、嫩、酥，将川菜麻辣味型的特点展现的淋漓尽致。'
+            }
+        }
+    }).mount('#app')
+    //在指定的DOM元素容器上挂载应用程序实例的根组件
+    </script>
+</body>
+</html>

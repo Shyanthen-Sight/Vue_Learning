@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../vue.js"></script>
+</head>
+<body>
+  <div id="app">
+    <p>价格: {{ price }}</p>
+    <p>数量: {{ num }}</p>
+    <p>总价: {{ price * num }}</p>
+    <button @click="add()">+</button>
+    <button @click="reduce()">-</button>
+  </div>
+  <script >
+    const vm=Vue.createApp({
+      data(){
+        return {
+          price: 100,
+          num: 0,
+        }
+      },
+      methods:{
+        add(){
+          this.num++;
+        },
+        reduce(){
+          this.num--;
+        }
+      },
+    }).mount('#app')
+  </script>
+</body>
+</html>

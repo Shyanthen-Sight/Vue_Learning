@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise实例创建</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    const newPro = new Promise( (resolve, reject)=>{
+        // 开启异步操作
+        setTimeout(()=>{
+            try{
+                let x=1+2;
+                resolve(x);//异步操作成功时的回调函数
+            }catch(ex){
+                reject(ex);//异步操作失败时的回调函数
+            }
+        },1000)
+    })
+    // then调用
+    newPro.then(value=>console.log(value),error=>console.log(error.message));
+    newPro.then(value=>console.log(value));
+    newPro.then(null,error=>console.log(error.message));
+
+    // catch调用
+    const newPro2 = new Promise((resolve, reject)=>{
+        // 开启异步操作
+        let x=6;
+        if(x === 1){
+            resolve("success");//异步操作成功时的回调函数
+        }else{
+            reject("error");//异步操作失败时的回调函数
+        }
+    })
+    newPro2.catch(err=>console.log(err));//输出：error
+    
+</script>
+
+</html>

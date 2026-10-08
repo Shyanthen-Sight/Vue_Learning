@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>商品价格计算</title>
+</head>
+<body>
+    <div id='app'>
+        <p>{{message[0].name.toLowerCase()}}的总价为：{{message[0].price*message[0].total}}</p>
+        <p>{{message[1].name.toLowerCase()}}的总价为：{{message[1].price*message[1].total}}</p>
+        <p>{{message[2].name.toLowerCase()}}的总价为：{{message[2].price*message[2].total}}</p>
+        <h3>{{alert.split(" ").reverse().join('')}}</h3>
+    </div>
+    <script src='https://unpkg.com/vue@next'></script>
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    message:[
+                        {name:'LEMON',price:'10',total:'20'},
+                        {name:'BANANA',price:'15',total:'54'},
+                        {name:'ORANGE',price:'9',total:'33'}
+                    ] ,
+                    alert:'欢迎采购！ 本店橙子今日特价！ 好消息！'
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>

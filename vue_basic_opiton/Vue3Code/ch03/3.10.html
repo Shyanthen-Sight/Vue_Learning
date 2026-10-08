@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rest参数应用</title>
+</head>
+<body>
+</body>
+<script>
+    function fourOpt(op, ...data) {
+        if (op === "+") {
+            let result = 0;
+            for (let i = 0; i < data.length; i++) {
+                result += data[i];
+            }
+            console.log(result);
+        } else if (op === "-") {
+            let result = 0;
+            for (let i = 0; i < data.length; i++) {
+                result -= data[i];
+            }
+            console.log(result);
+        } 
+    }
+    fourOpt("-", 1, 2, 3, 4, 5)
+</script>
+
+</html>

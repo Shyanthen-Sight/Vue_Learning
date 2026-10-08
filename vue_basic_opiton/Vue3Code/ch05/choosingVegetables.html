@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>值绑定的单选选择框</title>
+</head>
+<body>
+    <div id='app'>
+        <h1>值绑定的单选选择框</h1>
+        <select v-model="isSelected">
+            <option value="" disabled>选择一种蔬菜</option>
+            <option  v-for="item in options" :value="item" :key="item">{{item}}</option>
+        </select>
+        <p>isSelected:{{isSelected}}</p>
+    </div>
+    <script src='https://unpkg.com/vue@next'></script>
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    isSelected:'',
+                    options:["萝卜","芹菜","南瓜","南瓜","辣椒"]
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>

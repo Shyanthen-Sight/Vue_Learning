@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../vue.js"></script>
+</head>
+<body>
+  <div id="app">
+    <div>name:<input v-model="names" type="text" /></div>
+    <div>origin product:<input v-model="cities" type="text" /></div>
+    <button @click="add()">Add</button>
+    <hr>
+    <p v-for="item in proList" v-bind:key="item.name">
+      {{ item.name }} - {{ item.city }}
+    </p>
+  </div>
+  <script>
+    const vm=Vue.createApp({
+      data(){
+        return {
+          names: '',
+          cities: '',
+          proList: [
+            {name:'apple',city:'shandong'},
+            {name:'banana',city:'hainan'},
+            {name:'pear',city:'shaanxi'},
+          ],
+        }
+      },
+      methods:{
+        add(){
+          this.proList.unshift({
+            name:this.names,
+            city:this.cities
+          })
+          this.names = '';
+          this.cities = '';
+        }
+      },
+    }).mount('#app')
+  </script>
+</body>
+</html>

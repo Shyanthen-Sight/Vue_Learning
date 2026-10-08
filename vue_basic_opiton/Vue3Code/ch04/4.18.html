@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <title>商品信息管理表格</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .borders {
+            border: 1px solid black
+        }
+        /* 文本居中 */
+        .text-center{
+            text-align: center;
+        }
+        /* 商品信息表格左浮动 */
+        .left {
+            float: left;
+            margin-left: 20px;
+        }
+        /* 商品信息修改表单右浮动 */
+        .right {
+            float: right;
+            margin-left: 20px;
+            margin-bottom: 50px;
+        }
+        #app{
+            display: flex;
+        }
+        /* 导航菜单 */
+        .tab{
+            width: 150px;
+            height: 100vh;
+            list-style: none;
+            background-color:rgb(115,136,193);
+            color: #fff;
+            line-height: 40px;
+            text-align: center;
+        }
+        /* 被激活的菜单项 */
+        .activity{
+            color: rgb(17,52,106);
+        }
+        .table{
+            flex:1;
+        }
+    </style>
+</head>
+
+<body>
+<div id='app'>
+    <!-- 导航菜单 -->
+    <div class="tab">
+        <li 
+        v-for="item,index in tabNameList" 
+        :key="item.id"
+        :class="{activity:item.isChoos == item.id}"
+        @click="changeTab(item)"
+        >{{item.name}}</li>
+    </div>
+    
+    <div>
+        <div class="home" v-show="tabNameList[0].isChoos == 1">欢迎进入，首页</div>
+        <div class="admin" v-show="tabNameList[0].isChoos == 2">欢迎进入，用户管理页</div>
+        <div class="table" v-show="tabNameList[0].isChoos == 3">
+            <h1 :class="{'text-center':true}">商品信息页</h1>
+                <table class="left" v-cloak>
+                    <tbody>
+                        <th class="borders" v-for="item in tableHead " :key="item">{{item}}</th>
+                        <tr v-for="item,index in proList" :key="item.id">
+                            <td class="borders">{{item.id}}</td>
+                            <td class="borders">{{item.name}}</td>
+                            <td class="borders">{{item.place}}</td>
+                            <td class="borders">{{item.price}}</td>
+                            <td class="borders">{{item.stock}}</td>
+                            <td class="borders">{{item.addTime}}</td>
+                            <td class="borders">
+                                <button @click="edit(item)">edit</button>
+                                <button @click="deletes(index)" style="margin-left: 3px;">delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- 修改表单 -->
+                <div v-show="flag" class="right">
+                    商品名称：<input type="text" v-model="common.thName"><br />
+                    产地：<input type="text" v-model="common.thPlace"><br />
+                    价格：<input type="text" v-model="common.thPrice"><br />
+                    库存：<input type="text" v-model="common.thStock"><br />
+                    入库时间：<input type="text" v-model="common.thAddtime"><br />
+                    <button type="submit" @click="over()" >提交</button>
+                </div>
+                <!-- 商品库存 -->
+                <p style="margin-left: 20px;">全部商品库存：{{totalstock}}</p>
+            </div>
+        <div class="addShop" v-show="tabNameList[0].isChoos == 4">欢迎进入，新增商品页</div>
+        <div class="order" v-show="tabNameList[0].isChoos == 5">欢迎进入，订单信息页</div>
+    </div>
+
+
+</div>
+    <script src='https://unpkg.com/vue@next'></script>
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    flag: false,
+                    tableHead: ['ID', '商品名称', '产地', '价格', '库存', '入库时间', '操作'],
+                    //公共对象
+                    common: {thID: '',thName: '',thPlace: '',thPrice: '',thStock: '',thAddtime: ''},
+                    proList: [
+                        {id: 001, name: '蜂王精',place: '北京',price: '99',stock: '55',addTime: '2021-12-02'},
+                        {id: 002, name: '罗汉果',place: '广西',price: '50',stock: '173',addTime: '2021-6-21'},
+                        {id: 003,name: '龙井',place: '浙江',price: '1499',stock: '89',addTime: '2021-6-26'},
+                        {id: 004,name: '大磨盘柿',place: '北京',price: '45',stock: '76',addTime: '2022-09-14'},
+                        {id: 005,name: '百色芒果',place: '广西',price: '67',stock: '99',addTime: '2022-08-13'}
+                    ],
+                    tabNameList:[
+                        {id:'1',name:'首页',isChoos:3},
+                        {id:'2',name:'用户管理',isChoos:3},
+                        {id:'3',name:'商品信息',isChoos:3},
+                        {id:'4',name:'新增商品',isChoos:3},
+                        {id:'5',name:'订单信息',isChoos:3},
+                    ]
+                }
+            },
+            methods: {
+                edit(item) {
+                    this.flag = true;
+                    this.common.thID = item.id;
+                    this.common.thName = item.name;
+                    this.common.thPlace = item.place;
+                    this.common.thPrice = item.price;
+                    this.common.thStock = item.stock;
+                    this.common.thAddtime = item.addTime;
+
+                },
+                deletes(index) {
+                    let told =confirm("确定删除本条信息"); 
+                    if (told) { this.proList.splice(index,1)} ; 
+                },
+                over() {
+                    this.flag = false,
+                    this.proList.splice(this.common.thID - 1, 1, {
+                        id: this.common.thID,
+                        name: this.common.thName,
+                        place:this.common.thPlace,
+                        price:this.common.thPlace,
+                        stock:this.common.thStock,
+                        addTime:this.common.thAddtime,
+                    })
+                },
+                changeTab(item){
+                    for(let key in this.tabNameList){
+                        this.tabNameList[key].isChoos = item.id
+                    }
+                }
+            },
+            computed:{
+                totalstock(){
+                    let total = 0;
+                       for (let item of this.proList) {
+                            total = total + item.stock * 1;
+                        }
+                    return total;
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>

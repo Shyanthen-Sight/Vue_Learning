@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>capture修饰符</title>
+</head>
+<style>
+    .box1{
+        width: 150px;
+        height: 150px;
+        border: 2px solid blue;
+    }
+    .box2{
+        width: 100px;
+        height: 100px;
+        border: 2px solid red  ;
+        margin-left: 22px;
+        margin-top: 12px;
+    }
+    .box3{
+        width: 50px;
+        height: 50px;
+        border: 2px solid black ;
+        margin-left: 22px;
+        margin-top: 12px;
+
+    }
+</style>
+<body>
+    <div id='app'>
+        <h1>capture修饰符</h1>
+        <div class="box1" @click.capture="outside">Box1
+            <div class="box2" @click.capture="center">Box2
+                <div class="box3" @click.capture="inside">Box3</div>
+            </div>
+        </div>
+    </div>
+    <script src='https://unpkg.com/vue@next'></script>
+    <script>
+        const vm = Vue.createApp({
+            methods:{
+                outside(){
+                    console.log("Box1");
+                },
+                center(){
+                    console.log("Box2");
+                },
+                inside(){
+                    console.log("Box3");
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>

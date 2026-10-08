@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>key 的作用与原理</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    body {
+      font-family: "Microsoft YaHei", sans-serif;
+      padding: 20px;
+      background: #f7f8fa;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .tip {
+      background: #fff7e6;
+      border: 1px solid #ffd591;
+      border-radius: 6px;
+      padding: 10px 14px;
+      margin-bottom: 16px;
+    }
+
+    h2 {
+      margin-top: 28px;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    li {
+      margin: 6px 0;
+    }
+
+    input {
+      margin-left: 8px;
+    }
+
+    button {
+      padding: 6px 16px;
+      cursor: pointer;
+    }
+
+    .explain {
+      background: #fff;
+      border: 1px solid #d9d9d9;
+      border-radius: 6px;
+      padding: 14px 18px;
+      margin-top: 30px;
+      line-height: 1.8;
+    }
+  </style>
+</head>
+<body>
+  <div id="root" class="container">
+    <h1>v-for 中 key 的作用与原理</h1>
+
+    <div class="tip">
+      <strong>动手试试：</strong>先在两个列表的输入框里随便打几个字，再点下面的按钮，观察输入框里的内容怎么变。
+    </div>
+
+    <button @click="add">在头部添加一个老刘</button>
+
+    <!-- ========== 用法一：key 用 p.id（正确） ========== -->
+    <h2>① :key="p.id"（正确用法）</h2>
+    <ul>
+      <li v-for="p in persons" :key="p.id"> 
+        {{p.name}}-{{p.age}} <input type="text">
+      </li>
+    </ul>
+
+    <!-- ========== 用法二：key 用 index（不推荐） ========== -->
+    <h2>② :key="index"（不推荐）</h2>
+    <ul>
+      <li v-for="(p, index) in persons" :key="index">
+        {{p.name}}-{{p.age}} <input type="text">
+      </li>
+    </ul>
+
+    <!-- ========== 原理讲解 ========== -->
+    <div class="explain">
+      <h3>一、key 是什么</h3>
+      <p>key 是每个虚拟 DOM（vnode）对象的<strong>唯一标识</strong>。数据变化后，Vue 会拿「新的虚拟 DOM」和「旧的虚拟 DOM」做 diff 差异对比，而对比时就是靠 key 来认"哪个节点是哪条数据"。</p>
+
+      <h3>二、diff 对比规则</h3>
+      <p>① 在旧虚拟 DOM 中<strong>找到了相同 key</strong> 的节点：</p>
+      <ul>
+        <li>内容没变 → 直接复用之前的真实 DOM（不重新创建，省性能）</li>
+        <li>内容变了 → 生成新的真实 DOM 替换掉旧的</li>
+      </ul>
+      <p>② 在旧虚拟 DOM 中<strong>没找到相同 key</strong> 的节点：创建新的真实 DOM 渲染到页面。</p>
+
+      <h3>三、用 index 作为 key 的问题</h3>
+      <p>当对列表做<strong>逆序添加、逆序删除</strong>等破坏原有顺序的操作时：</p>
+      <ul>
+        <li>会产生<strong>没有必要的真实 DOM 更新</strong> —— 界面效果没问题，但效率低（上面的对比里可看到 index 从 0 开始重新排，所有 li 都被误判为"变了"）</li>
+        <li>如果列表里有<strong>输入框等带状态的 DOM</strong>，会出现<strong>内容错位</strong> —— 这就是你在上面演示里看到的现象：① 正常，② 老刘借走了你打过的字</li>
+      </ul>
+
+      <h3>四、开发中怎么选 key</h3>
+      <ul>
+        <li><strong>最好用每条数据唯一的标识</strong>，如 id、身份证号、手机号、学号等</li>
+        <li>如果数据只是纯展示、从不做逆序增删，用 index 也没问题</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    new Vue({
+      el: "#root",
+      data: {
+        persons: [
+          {id: '001', name: '张三', age: 18},
+          {id: '002', name: '李四', age: 19},
+          {id: '003', name: '王五', age: 20}
+        ]
+      },
+      methods: {
+        add() {
+          this.persons.unshift({id: '004', name: '老刘', age: 40})
+        }
+      }
+    })
+  </script>
+</body>
+</html>

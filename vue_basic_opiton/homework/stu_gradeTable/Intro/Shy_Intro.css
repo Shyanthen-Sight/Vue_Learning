@@ -1,0 +1,266 @@
+ /* <div id="Shyanthen_Design"><span id="wordmark">Shyanthen <span class="accent">/</span>DESIGN<span class="accent">.</span></span></div> */
+@font-face {
+  font-family: "Chillax";
+  src: url("./Tanker_Complete/Fonts/WEB/fonts/Tanker-Regular.ttf") format("truetype");
+  font-weight: 200 700;
+  font-style: normal;
+  font-display: swap;
+}
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background-color:rgb(16, 16, 14);
+}
+
+#app {
+  min-height: 100%;
+}
+
+@-webkit-keyframes tracking-in-expand {
+  0% {
+    letter-spacing: -0.5em;
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes tracking-in-expand {
+  0% {
+    letter-spacing: -0.5em;
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+#Shyanthen_Design {
+  /* 斜杠和句点的强调色，改这一处就能换色 */
+  --accent: #ff3b30;
+
+  
+
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  word-spacing: 0.3em;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: "Chillax", system-ui, sans-serif;
+  font-weight: 450;
+  font-size: clamp(2.2rem, 8vw, 50rem);
+  color: #ffffe3;
+  background-color: #000;
+ 
+  pointer-events: none;
+  -webkit-animation: shyanthen-intro 4s cubic-bezier(0.215, 0.61, 0.355, 1) both;
+  animation: shyanthen-intro 4s cubic-bezier(0.215, 0.61, 0.355, 1) both;
+}
+
+
+#Shyanthen_Design .accent {
+  color: var(--accent);
+  -webkit-animation: shyanthen-accent 4s cubic-bezier(0.215, 0.61, 0.355, 1) both;
+  animation: shyanthen-accent 4s cubic-bezier(0.215, 0.61, 0.355, 1) both;
+}
+
+#wordmark {
+  position: relative;
+  display: inline-block;
+}
+#wordmark::before,
+#wordmark::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: clamp(2px, 0.04em, 6px);
+  -webkit-animation: shyanthen-rule 4s linear both;
+  animation: shyanthen-rule 4s linear both;
+}
+
+
+#wordmark::before {
+  bottom: 100%;
+  margin-bottom: 0.1em;
+  transform-origin: right center;
+  background-image: linear-gradient(to left, rgba(52, 61, 63, 0), #343d3f 55%);
+}
+
+
+#wordmark::after {
+  top: 100%;
+  margin-top: 0.1em;
+  transform-origin: left center;
+  background-image: linear-gradient(to right, rgba(52, 61, 63, 0), #343d3f 55%);
+}
+
+
+@-webkit-keyframes shyanthen-accent {
+  0% {
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  78% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes shyanthen-accent {
+  0% {
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  78% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+
+@-webkit-keyframes shyanthen-rule {
+  0% {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+
+  12% {
+    opacity: 1;
+    transform: scaleX(0.16);
+  }
+  75% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  78% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  88% {
+    opacity: 0;
+    transform: scaleX(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleX(1);
+  }
+}
+@keyframes shyanthen-rule {
+  0% {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  12% {
+    opacity: 1;
+    transform: scaleX(0.16);
+  }
+  75% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  78% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  88% {
+    opacity: 0;
+    transform: scaleX(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleX(1);
+  }
+}
+
+@-webkit-keyframes shyanthen-intro {
+  /* 0%：纯黑遮罩铺满，字距收紧、文字透明 */
+  0% {
+    letter-spacing: -0.5em;
+    color: rgba(255, 255, 227, 0);
+    opacity: 1;
+  }
+ 
+  12% {
+    color: #ffffe3;
+  }
+  
+  32% {
+    letter-spacing: normal;
+  }
+  78% {
+    letter-spacing: normal;
+    color: #ffffe3;
+    opacity: 1;
+  }
+ 
+  88% {
+    letter-spacing: normal;
+    color: rgba(255, 255, 227, 0);
+    opacity: 1;
+  }
+
+  100% {
+    letter-spacing: normal;
+    color: rgba(255, 255, 227, 0);
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+@keyframes shyanthen-intro {
+  0% {
+    letter-spacing: -0.5em;
+    color: rgba(255, 255, 227, 0);
+    opacity: 1;
+  }
+  12% {
+    color: #ffffe3;
+  }
+  32% {
+    letter-spacing: normal;
+  }
+  78% {
+    letter-spacing: normal;
+    color: #ffffe3;
+    opacity: 1;
+  }
+  88% {
+    letter-spacing: normal;
+    color: rgba(255, 255, 227, 0);
+    opacity: 1;
+  }
+  100% {
+    letter-spacing: normal;
+    color: rgba(255, 255, 227, 0);
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+

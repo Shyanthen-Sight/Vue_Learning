@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户信息页</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        li {
+            list-style: none;
+        }
+        html {
+            background-color: #EAE8EB;
+            padding-top: 4vh;
+            padding-bottom: 4vh;
+        }
+        .shop-list {
+            background-color: #fff;
+            margin: 0 auto;
+            width: 80%;
+            height: 92vh;
+            border-radius: 10px;
+        }
+
+        .shop-tab {
+            display: flex;
+            justify-content: space-around;
+            border-bottom: 2px solid #E8E8E8;
+            line-height: 80px;
+        }
+        .list-title {
+            line-height: 50px;
+            display: flex;
+            justify-content: space-between;
+            background-color: #F5F5F5;
+        }
+        .list-title li {
+            width: 20%;
+            text-align: center;
+        }
+        .list-style {
+            display: flex;
+            justify-content: space-between;
+        }
+        .list-style li {
+            width: 20%;
+            text-align: center;
+            line-height: 50px;
+            border-bottom: 1px solid #E8E8E8;
+        }
+        .page {
+            width: 100%;
+            display: flex;
+            justify-content: end;
+        }
+        .container {
+            margin-top: 30px;
+            margin-right: 70px;
+        }
+    </style>
+</head>
+<body>
+    <div class="shop-list">
+        <div class="shop-tab">
+            <span >用户信息页</span>
+        </div>
+        <!-- 表格title -->
+        <div>
+            <ul class="list-title">
+                <li>用户编号</li>
+                <li>用户姓名</li>
+                <li>联系方式</li>
+                <li>账户余额</li>
+                <li>用户生日</li>
+            </ul>
+            <ul id="list">
+            </ul>
+        </div>
+        <!-- 总条数 -->
+        <div class="page"></div>
+    </div>
+</body>
+<script type="module">
+    //对象按需导入所需参数
+    import { allList, pageMessage } from './data.js';
+    //获取list dom节点，动态渲染列表
+    let listDom = document.getElementById('list');
+    //获取页数dom
+    let pageContainer = document.getElementsByClassName('page');
+    // 动态渲染列表方法
+    function render(...rest) {//rest参数
+        const newArr = rest[0];
+        listDom.innerHTML = '';
+        newArr.forEach((item) => {//箭头函数
+            let divContainer = window.document.createElement('div');
+            let childLi = `
+            <li>${item.id}</li>    
+            <li>${item.username}</li>    
+            <li>${item.tel}</li>    
+            <li>${item.balance}</li>    
+            <li>${item.birthday}</li>`
+            divContainer.innerHTML = childLi;//将动态生成的列表信息放如div中
+            divContainer.setAttribute('class', 'list-style');//为动态生成的表格添加样式
+            listDom.appendChild(divContainer);
+        })
+    }
+    //动态渲染当前页信息条数 
+    const pageRender = ({ total }) => {// 箭头函数，对象解构语法
+        let childPage = `
+             <div class='container'>本页共${total}条数据</div>
+        `
+        pageContainer[0].innerHTML = childPage;//将表尾信息渲染进标签内
+    }
+    // 初始化render列表
+    render(allList);
+    //总条数动态渲染
+    pageRender(pageMessage);
+</script>
+</html>

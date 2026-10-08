@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>子组件向父组件传递数据</title>
+</head>
+<body>
+    <div id='app'>
+        <h1>子组件向父组件传递数据</h1>
+        <parent></parent>
+    </div>
+    <script src='https://unpkg.com/vue@next'></script>
+    <script>
+        const vm = Vue.createApp({})
+        //子组件
+        const Child={
+            data(){return{
+                num:2
+            }},
+            methods:{
+                handleClick(){
+                    this.$emit('minus',this.num)
+                }
+            },
+            template:`<button @click="handleClick">降价</button>`
+        }
+        //父组件
+        vm.component('Parent',{
+            components:{Child},
+            data(){
+                return{price:99}
+            },
+            methods:{
+                handleMinus(params){this.price=this.price-params}
+            },
+            template:`<p>price:{{price}}</p><child @minus="handleMinus"></child>`
+        })
+        vm.mount('#app')
+    </script>
+</body>

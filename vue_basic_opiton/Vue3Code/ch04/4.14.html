@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>购物车</title>
+		<style>
+            th,td{
+                width: 80px;
+                text-align: center;
+            }
+			[v-cloak] {
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+    <div id="app" v-cloak>
+        <table>
+        <tr>
+            <th>序号</th>
+            <th>商品名称</th>
+            <th>单价</th>
+            <th>数量</th>
+            <th>金额</th>
+        </tr>
+        <tr v-for="(item, index) in goods" :key="item.id">
+            <td>{{ item.id }}</td>
+            <td>{{ item.title }}</td>
+            <td>{{ item.price }}</td>
+            <td>
+                <button :disabled="item.num === 0"  @click="item.num-=1">-</button>
+                {{ item.num }}
+                <button @click="item.num+=1">+</button>
+            </td>
+            <td>
+                {{ itemPrice(item.price, item.num) }}
+            </td>
+        </tr>
+    </table>
+    <hr>
+    <span>总价：￥{{ totalPrice }}</span>
+    </div>
+	
+		<script src="https://unpkg.com/vue@next"></script>
+		<script>
+                const vm = Vue.createApp({
+                    data() {
+                        return {
+                            goods: [
+                            {id: 1,title: '盐水鸭',price: 66,num: 2},
+                            {id: 2,title: '羊蝎子',price: 99,num: 3},
+                            {id: 3,title: '京酱肉丝',price: 39,num: 1}
+                            ]
+                        }
+                    },
+                    methods: {
+                        itemPrice(price, num){
+                            return price * num;
+                        }
+                    },
+                    computed: {
+                        totalPrice(){
+                            let total = 0;
+                            for (let book of this.goods) {
+                                total += book.price * book.num;
+                            }
+                            return total;
+                        }
+                    }
+                }).mount('#app');
+		</script>
+	</body>
+</html>

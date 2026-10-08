@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1.基本列表 - v-for 遍历</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+  <div id="root">
+
+
+    <!-- 1. 遍历数组：v-for="(元素, 下标) in 数组" -->
+    <h2>1. 遍历数组</h2>
+    <ul>
+      <li v-for="(p, index) in persons" :key="p.id">
+        {{p.id}}-{{p.name}}-{{p.age}}（下标 {{index}}）
+      </li>
+    </ul>
+
+
+    <!-- 2. 遍历对象：v-for="(值, 键) in 对象" -->
+    <h2>2. 遍历对象</h2>
+    <ul>
+      <li v-for="(value, key) in car" :key="key">
+        {{key}} : {{value}}
+      </li>
+    </ul>
+
+    
+
+    <!-- 3. 遍历字符串：按字符逐个渲染 -->
+    <h2>3. 遍历字符串</h2>
+    <ul>
+      <li v-for="(char, i) in str" :key="i">{{char}}</li>
+    </ul>
+
+
+
+    <!-- 4. 遍历数字：v-for="n in 5"，n 取 1~5 -->
+    <h2>4. 遍历数字</h2>
+    <ul>
+      <li v-for="n in 5" :key="n">{{n}}</li>
+    </ul>
+  </div>
+
+  <script>
+    new Vue({
+      el: "#root",
+      data: {
+        // 数组
+        persons: [
+          {id: '001', name: '王五', age: 17},
+          {id: '002', name: '物五', age: 19},
+          {id: '003', name: '王刚', age: 12}
+        ],
+        // 对象
+        car: {
+          name: '奥迪A8',
+          price: '70万',
+          color: '黑色'
+        },
+        // 字符串
+        str: 'hello'
+      }
+    })
+  </script>
+</body>
+</html>

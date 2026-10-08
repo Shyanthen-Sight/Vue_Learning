@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>$refs访问子组件实例或子元素</title>
+</head>
+<body>
+    <div id='app'>
+        <h1>$refs访问子组件实例或子元素</h1>
+        <parent></parent>
+    </div>
+    <script src='https://unpkg.com/vue@next'></script>
+    <script>
+        const vm = Vue.createApp({})
+        vm.component('parent',{
+            data(){return{
+                potry:''
+            }},
+            mounted(){
+                this.$refs.inputName.value="何时杖尔看南雪";
+                this.potry=this.$refs.childName.msg;
+            },
+            template:`
+                <div>
+                    <input ref="inputName"><br>
+                    <child ref="childName"></child>
+                    <p>{{potry}}</p>
+                </div>`
+        })
+        vm.component('child',{
+            data(){
+                return{
+                msg:"我与梅花两白头"
+            }}
+        })
+        vm.mount('#app')
+    </script>
+</body>

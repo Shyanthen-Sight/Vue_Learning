@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>账户余额充值页面</title>
+</head>
+<body>
+<div id='app'>
+    <h1>toRefs()方法</h1>
+    <div>
+        <p>用户名称：{{userObj.username}}</p>
+        <!-- 无需通过.value获取内部值 -->
+        <p>账户余额：{{userObj.balance}}</p>
+        <button @click="changName">修改用户名称</button>
+        <button @click="changeBalance">账户充值</button>
+    </div>
+</div>
+<script src='https://unpkg.com/vue@next'></script>
+<script>
+    const {reactive,toRefs} =Vue;
+    const vm = Vue.createApp({
+        setup(){
+            let userObj=reactive({
+                username:'小明',
+                tel:12345678910,
+                balance:198,
+                frequency:7,
+                age:22,
+                birthday:0912,
+                favorite:"手撕牛肉",
+            });
+            //用户名称
+            let {username}=userObj;//直接解构
+            //修改用户名称的函数
+            function changName(){
+                username='小丽';
+                console.log(username);
+            }
+            //账户余额
+            let {balance}=toRefs(userObj);//toRefs()方法包装后进行解构
+            //修改账户余额的函数
+            function changeBalance(){
+                //解构出的balance是一个ref对象，需要通过.value属性进行访问或修改
+                balance.value=balance.value+100;
+                console.log(balance.value);
+            }
+            //抛出的数据与方法
+            return{ userObj,changName,changeBalance}
+            //toRefs()方法转化的ref对象与reavtive()方法生成的响应式对象，操作的是同一个数据，此二者会保持同步更新
+        }
+    }).mount('#app')
+    
+</script>
+</body>

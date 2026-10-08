@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <title>CSS动画</title>
+</head>
+<style>
+    /* 进入动画阶段 */
+    .bounce-enter-active {
+        animation: bounce-in 0.5s;
+    }
+
+    /* 离开动画阶段 */
+    .bounce-leave-active {
+        animation: bounce-in 1s reverse;
+    }
+
+    /* 自定义的动画，动画名为bounce-in */
+    @keyframes bounce-in {
+        0% {
+            transform: scale(0);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+</style>
+
+<body>
+    <div id='app'>
+        <h1>CSS动画</h1>
+        <button v-on:click="show = !show">
+            古诗欣赏
+        </button>
+        <h5>《赋得古草原送别》</h5>
+        <!-- 元素显示后，会显示在标签默认位置 -->
+        <transition name="bounce">
+            <p v-if="!show">野火烧不尽，春风吹又生。</p>
+        </transition>
+    </div>
+    <script src='https://unpkg.com/vue@next'></script>
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    show: true
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>

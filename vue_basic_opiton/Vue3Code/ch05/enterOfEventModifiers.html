@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>enter修饰符</title>
+</head>
+<style>
+    #tel{
+        margin-top: 20px;
+    }
+</style>
+<body>
+    <div id='app'>
+        <h1>enter修饰符</h1>
+        用户名称：<input v-on:keypress="editName" type="text" name="name" id="name" ><br>
+        联系方式：<input v-on:keypress.enter="editTel" type="number" name="tel" id="tel" >
+        <!-- 用户名称2：<input @click.ctrl.exact="editName" type="text" name="name" id="name" > -->
+    </div>
+    <script src='https://unpkg.com/vue@next'></script>
+    <script>
+        const vm = Vue.createApp({
+            methods:{
+                editName(){
+                    console.log("正在修改用户名称");
+                },
+                editTel(){
+                    console.log("正在修改用户联系方式");
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>

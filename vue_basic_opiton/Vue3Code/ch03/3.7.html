@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模板字面量</title>
+</head>
+<body>
+</body>
+<script>
+// 1.模板字面量
+// （1）基础用法
+let message=`Hello World`;
+console.log(message);             //输出结果:"Hello World"
+// （2）反引号转义
+let message2=`\`Hello\` World`;
+console.log(message2);            //输出结果:"`Hello` World"
+
+// 2.ES5的多行字符串创建方法:
+// （1）换行承接,输出结果不换行
+let message3="Hello \
+World";
+console.log(message3);            //输出结果:"Hello World"
+//（2） 输出多行字符串
+let message4="Hello \n\
+World";
+let message5="Hello"+"\n"+"World";
+console.log(message4);
+console.log(message5);
+
+// 3.ES6的多行字符串创建方法
+let message6=`Hello
+World`;
+console.log(message6);
+// 4.字符串占位符
+let name="北京烤鸭",price="88",detail=`一只${name}的价格为:${price}`
+console.log(detail);
+</script>
+</html>

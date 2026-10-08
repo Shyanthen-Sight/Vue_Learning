@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>创建应用程序实例</title>
+</head>
+<body>
+    <!-- DOM容器 -->
+    <div id="app">
+        <h1>{{msg}}</h1>
+    </div>
+    <!-- CDN方式引入vue -->
+    <script src="https://unpkg.com/vue@next"></script>
+    <script> 
+    //创建一个应用程序实例
+    const vm=Vue.createApp({//{}即组件选项对象
+        // data函数
+        data(){
+            return{
+                msg:'岁寒，然后知松柏之后凋也。'
+            }
+        },
+        //组件选项对象的methods属性：用于定义方法
+        methods:{},
+        //生命周期钩子
+        created(){},
+        //计算属性
+        computed:{},
+        //侦听器
+        watch:{}
+    }).mount('#app')
+    //在指定的DOM元素容器上挂载应用程序实例的根组件
+    </script>
+</body>
+</html>

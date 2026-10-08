@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- 使用CDN，告别本地路径问题 -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+  <!-- /*
+      ============ computed 计算属性 vs watch 监听属性的区别 ============
+
+      1. 定位不同
+         computed：声明式"推导" —— 根据已有数据"算"出一个新值，算完当数据用
+                   （适合：多个数据合成一个结果，如 fullName = firstName + lastName）
+         watch   ：命令式"监听" —— 盯着某个数据，它一变就执行额外的操作
+                   （适合：数据变化后去"做事情"，如发请求、console.log、联动改别的数据）
+
+      2. 缓存
+         computed 有缓存：依赖的数据没变，重复读取直接用上次的结果，不重复计算
+         watch    无缓存：数据一变，handler 立刻执行，每次都跑
+
+      3. 异步
+         computed 只能同步返回一个值，不能在里面做异步操作（setTimeout / 请求）
+         watch    可以做异步操作，等结果回来再更新数据
+
+      4. 在模板里的用法
+         computed 的结果像 data 一样，模板直接 {{ fullName }} 就能用
+         watch    的结果不是数据，只是"变化时的反应"，模板里不能用
+
+      5. 一句话选择
+         需要"算出来展示"     → 用 computed
+         需要"变了之后干点啥" → 用 watch
+
+      ============ 本案例 ============
+      这个案例故意用 watch 来实现 fullName，是为了对比两种写法。
+      注意：watch 版 fullName 初始是空字符串 ''（因为 watch 只在"变化时"触发，
+      页面刚加载时没变化，不会拼接）。而 computed 版一加载就会算好。
+      所以"由多个数据推导一个结果"这个场景，computed 更合适。
+    */ -->
+
+  <div id="root">
+    姓：<input type="text" placeholder="请输入姓氏" v-model="firstName"><br>
+    名：<input type="text" placeholder="请输入名字" v-model="lastName"><br>
+    姓名：{{ fullName }}
+  </div>
+
+  <script>
+    
+    Vue.config.productionTip = false
+
+  
+    const vm = new Vue({
+      el: '#root',
+      data: {
+        firstName: '',
+        lastName: '',
+        fullName: '' // watch 实现方式：初始是空，靠下面监听变化时再拼接
+      },
+      watch: {
+        // 姓一变，就用新姓 + 旧名 拼出 fullName
+        firstName(newfirstName) {
+          this.fullName = newfirstName + this.lastName
+        },
+        // 名一变，就用旧姓 + 新名 拼出 fullName
+        lastName(newlastName) {
+          this.fullName = this.firstName + newlastName
+        }
+      }
+    })
+  </script>
+</body>
+</html>

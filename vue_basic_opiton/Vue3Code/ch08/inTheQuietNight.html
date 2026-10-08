@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>组合式API中的生命周期钩子</title>
+</head>
+<body>
+<div id="app">
+    <h1>组合式API中的生命周期钩子</h1>
+    <h3>《静夜思》</h3>
+    <textarea v-model="msg" ></textarea>
+ </div>
+<script src="https://unpkg.com/vue@next"></script>
+<script>
+    const { ref,onBeforeMount,onMounted ,onBeforeUpdate,onUpdated} =Vue;
+    const vm= Vue.createApp({
+        setup(){
+            let msg=ref("床前明月光，疑是地上霜。");
+            console.log("setup()函数");
+            onBeforeMount(()=>{
+                console.log("onBeforeMount");
+            }),
+            onMounted(()=>{
+                console.log('onMounted');
+            }),
+            onBeforeUpdate(()=>{
+                console.log("onBeforeUpdate");
+            }),
+            onUpdated(()=>{
+                console.log("onUpdated");
+            })
+            return {msg}
+        }
+     }).mount('#app');
+</script>
+</body>
+</html>

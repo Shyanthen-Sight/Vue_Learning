@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>多行文本输入框</title>
+</head>
+<body>
+    <div id='app'>
+        <h1>多行文本输入框</h1>
+        <textarea v-model="message"></textarea>
+        <p>{{message}}</p>
+    </div>
+    <script src='https://unpkg.com/vue@next'></script>
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    message: '疾风知劲草，板荡识诚臣'
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>

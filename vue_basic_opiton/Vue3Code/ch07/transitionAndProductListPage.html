@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <title>商品列表页面</title>
+    <style>
+        * {
+            /*清除默认样式*/
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            list-style: none;
+            height: 50px;
+        }
+
+        #app {
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            /*页面标题居中显示*/
+            margin-top: 50px;
+        }
+
+        /* 搜索区域 */
+        .queryBox {
+            width: 850px;
+            margin: 0 auto;
+            height: 50px;
+        }
+
+        /* 文本框 */
+        .queryBox input {
+            height: 30px;
+            margin-top: 10px;
+        }
+
+        /* 新增按钮 */
+        button {
+            width: 50px;
+            height: 34px;
+            background-color: rgb(227, 107, 109);
+            border: 2px solid rgb(202, 90, 92);
+            color: white;
+        }
+
+        .table {
+            width: 850px;
+            margin: 0 auto;
+            /*表格居中显示*/
+        }
+        .th,
+        .tr,
+        .td {
+            display: inline-block;
+            text-align: center;
+            height: 50px;
+            line-height: 50px;
+            padding: 0 5px;
+        }
+        .th {
+            background-color: rgba(233, 233, 233);
+            box-shadow: 6px 0px 10px grey;
+            width: 80px;
+        }
+
+        .td {
+            background-color: rgba(247, 247, 247);
+            width: 80px;
+            box-shadow: 2px 0 2px gray;
+        }
+        /* 模态框 */
+        .modal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 400px;
+            transform: translate(-50%, -50%);
+            /*模态框居中*/
+            border-radius: 5px;
+            background: #fff;
+            box-shadow: 2px 3px 20px rgba(0, 0, 0, 0.2);
+            z-index: 1200;
+        }
+        .modal .modal-header {
+            height: 50px;
+            border-bottom: 1px solid #f5f5f5;
+            padding: 0 15px;
+        }
+        .modal .modal-header p {
+            line-height: 50px;
+            display: inline-block;
+            /*转换为内联块元素*/
+        }
+
+        .modal .modal-header .title {
+            font-size: 20px;
+            color: #333;
+            font-weight: bold;
+            margin-left: 20px;
+            margin-top: 0px;
+        }
+        .modal .modal-header .close {
+            float: right;
+            font-size: 26px;
+            margin-top: -2px;
+            color: #9C9FA4;
+            cursor: default;
+            /*鼠标形状为默认状态*/
+        }
+        .modal .modal-content {
+            min-height: 100px;
+            margin-left: 18px;
+        }
+
+        .modal .modal-content input {
+            height: 20px;
+
+        }
+        .modal-content p {
+            font-size: 14x;
+            align-items: center;
+            margin-left: 20px;
+            color: #838486;
+            line-height: 50px;
+            margin: 5px 0;
+        }
+        .modal-content p label {
+            margin-right: 5px;
+        }
+        .modal .modal-footer .btn {
+            width: 80px;
+            padding: 0 20px;
+            height: 36px;
+            line-height: 36px;
+            color: white;
+            background: #409EFF;
+            border: none;
+        }
+        .modal .modal-footer {
+            border-top: 1px solid #f5f5f5;
+            padding: 15px;
+            text-align: right;
+            display: flex;
+            justify-content: space-evenly;
+        }
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id='app'>
+        <h1>商品列表页面</h1>
+        <div class="queryBox">
+            <input type="text" v-model="query" placeholder="查询关键字">
+            <button @click="add">新增</button>
+        </div>
+        <div class="table">
+            <span class="th">商品编号</span>
+            <span class="th">商品名称</span>
+            <span class="th" style="width:380px">商品特点</span>
+            <span class="th">商品价格</span>
+            <span class="th">商品库存</span>
+            <span class="th"> 操作 </span>
+            <transition-group name="staggered-fade" v-on:before-enter="onBeforeEnter" v-on:enter="onEnter"
+                v-on:leave="onLeave" tag="ul">
+                <li v-for="(item,index) in queryList" :key="item" :data-index="index">
+                    <span class="td">{{item.id}}</span>
+                    <span class="td">{{item.name}}</span>
+                    <span class="td" style="width:380px">{{item.characteristic}}</span>
+                    <span class="td">{{item.price}}</span>
+                    <span class="td">{{item.stock}}</span>
+                    <span class="td">
+                        <span @click="remove(index)">删除</span>
+                    </span>
+                </li>
+            </transition-group>
+        </div>
+        <!-- 新增商品模态框 -->
+        <div class="modal" v-show="modalFlag">
+            <div class="modal-header">
+                <p class="title">添加商品</p>
+                <p class="close" @click="close">×</p>
+            </div>
+            <div class="modal-content">
+                <p>
+                    <label for="id">商品编号:</label>
+                    <input type="number" id="id" v-model="addPro.id">
+                </p>
+                <p>
+                    <label for="name">商品名称:</label>
+                    <input type="text" id="name" v-model="addPro.name">
+                </p>
+                <p>
+                    <label for="characteristic">商品特点:</label>
+                    <input type="text" id="characteristic" v-model="addPro.characteristic">
+                </p>
+                <p>
+                    <label for="price">商品价格:</label>
+                    <input type="text" id="price" v-model="addPro.price">
+                </p>
+                <p>
+                    <label for="stock">商品库存:</label>
+                    <input type="text" id="stock" v-model="addPro.stock">
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button class="close btn" @click="submitMessage">提交</button>
+                <button class="close btn" @click="close">关闭</button>
+            </div>
+        </div>
+        <div class="mask" v-show="modalFlag"></div>
+    </div>
+    </div>
+    <!-- 引入vue -->
+    <script src='https://unpkg.com/vue@next'></script>
+    <!-- 引入velocity.js动画库 -->
+    <script src="./velocity.js"></script>
+    <script>
+        const vm = Vue.createApp({//创建一个应用程序实例
+            data() {
+                return {
+                    query: "",//用于存储搜索关键字
+                    proList: [//商品列表数组
+                        { id: 1, name: '鸡蛋', characteristic: '新鲜鸡蛋土鸡蛋柴鸡蛋纯粮散养谷物虫草蛋', price: 79.9, stock: 199, },
+                        { id: 2, name: '高邮鸭蛋', characteristic: '咸鸭蛋高邮特产熟鸭蛋流油咸蛋鸭蛋', price: 39.9, stock: 499 },
+                        { id: 3, name: '松花蛋', characteristic: '松花蛋无铅工艺溏心皮蛋溏心变蛋', price: 79.9, stock: 299 },
+                        { id: 4, name: '海鸭蛋', characteristic: '咸鸭蛋正宗开袋即食烤海鸭蛋流油', price: 48.8, stock: 199 },
+                        { id: 5, name: '鸽子蛋', characteristic: '新鲜农家精选鸽子蛋30枚原粮喂养孕妇宝宝营养食物', price: 179.9, stock: 169 },
+                    ],
+                    modalFlag: false,//控制模态框显示与隐藏的变量
+                    addPro: {//存储新增商品数据的变量
+                        id: '',
+                        name: '',
+                        characteristic: '',
+                        price: '',
+                        stock: ''
+                    }
+                }
+            },
+            //计算属性
+            computed: {
+                queryList() {
+                    var temporary_this = this;//将正常的this指向存储至temporary_this
+                    //filter过滤器中的this指向，并不是Vue组件实例中的this，而是undefined
+                    return this.proList.filter(function (item) {//使用temporary_this调用实例中的query变量
+                        return item.name.indexOf(temporary_this.query) !== -1;//返回proList数组中name属性包含query的数据组成的数组
+                    })
+                }
+            },
+            methods: {
+                //JavaScript钩子函数
+                onBeforeEnter(el) {//进入动画开始前，即动画的初始状态
+                    el.style.opacity = 0;//透明度为0
+                    el.style.height = 0;//高度为0
+                },
+                onEnter(el, done) {//进入动画开始，即动画的结束状态
+                    Velocity(
+                        el,//列表项
+                        { opacity: 1, height: '50px' },//透明度为1，高度为50px
+                        { complete: done },
+                        { duration: 150 }//动画持续时间
+                    )
+                },
+                onLeave(el, done) {//离开动画开始，即离开动画的结束状态
+                    var delay = el.dataset.index * 150;//离开动画延迟时间
+                    setTimeout(function () {
+                        Velocity(
+                            el,//列表项
+                            { opacity: 0, height: 0 },//列表项隐藏时，最终动画状态height为0
+                            { complete: done }
+                        )
+                    }, delay)
+                },
+                //操作函数
+                // remove
+                remove(index) {
+                    this.proList.splice(index, 1);//根据index删除proList数组中同位置的数据
+                },
+                //查看商品信息
+                add() {
+                    this.modalFlag = true;//模态框显示
+                    // 清空表单信息
+                    this.addPro.id = '';
+                    this.addPro.name = '';
+                    this.addPro.characteristic = '';
+                    this.addPro.price = '';
+                    this.addPro.stock = '';
+                    this.modalFlag = true;
+                },
+                // 模态框隐藏方法
+                close() {
+                    this.modalFlag = false;//隐藏模态框
+                },
+                //提交商品参数的方法
+                submitMessage() {
+                    if (!(this.addPro.id && this.addPro.name && this.addPro.characteristic && this.addPro.price && this.addPro.stock) ){
+                        alert('请填写完整表单信息')
+                    } else {
+                        this.proList.push(this.addPro);
+                        // // 提交完成清空模态框信息
+                        this.addPro = {};//提交完成并清空模态框信息
+                        this.modalFlag = false;// 隐藏模态框
+                    }
+
+                },
+            }
+        })
+        vm.mount('#app')
+//将根组件挂载到指定DOM元素上
+    </script>
+</body>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>组合式API实现的单位转换器</title>
+    <!-- watchEffect方法与转换器 -->
+    <style>
+        th,
+        td {
+            width: 80px;
+            text-align: center;
+        }
+
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+<div id="app" v-cloak>
+    <h1>组合式API实现的单位转换器</h1>
+    <div id="app">
+        <p>分 : <input type="text" v-model="minute"></p>
+        <p>秒 : <span>{{second}}</span> </p>
+    </div>
+    <p id="info"></p>
+</div>
+<script src="https://unpkg.com/vue@next"></script>
+<script>
+    const {ref,watchEffect} = Vue;
+    const vm = Vue.createApp({
+        setup() {
+            //响应式的商品信息数组
+            const minute = ref(1);
+            const second=ref(0);
+            watchEffect(
+                ()=>{second.value=minute.value*60;}
+                //该侦听器会立即执行
+                //在页面初次渲染时将second转换为60
+            )
+            return{minute,second}
+        }
+    }).mount('#app');
+</script>
+</body>
+
+</html>

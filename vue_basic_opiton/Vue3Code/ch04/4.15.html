@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>单位转换</title>
+	</head>
+	<body>
+		<div id = "app">
+		   分 : <input type = "text" v-model="minute">
+		   秒 : <input type = "text" v-model="second">
+		</div>
+		<p id="info"></p>
+		<script src="https://unpkg.com/vue@next"></script>
+		<script>
+			const vm = Vue.createApp({
+    		    data() {
+    		        return {
+    		            minute: 0,
+    		            second: 0
+    		        }
+    		    },
+    		    watch: {
+                    //监听器函数可以接受1个参数，val是当前值
+    	            minute(val) {
+    	                this.second = val * 60;
+    	            },
+	                // 监听器函数也可以接受两个参数，val是当前值，oldVal是改变之前的值
+    	            second(val, oldVal) {
+    	                this.minute = val / 60;
+    	            },
+                    
+		        }
+		    }).mount('#app');
+		</script>
+	</body>
+</html>

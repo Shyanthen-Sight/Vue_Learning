@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+  <div class="root">
+    <h1>{{ name }}</h1>
+  </div>
+
+  <script>
+    Vue.config.productionTip = false
+       //===========================================================
+    // //el的两种写法
+    // new Vue({
+    //   el: '.root',//first way to mount
+    //   data: {
+    //     name: '张三'
+    //   }
+    // })
+
+    // v.$mount('.root')//second way to mount
+
+    //===========================================================
+    //data的两种写法
+    new Vue({
+      el: '.root',
+
+      // //data的第一种写法，对象式
+      // data: {
+      //   name: '张三'
+      // }
+
+      //data的第二种写法，函数式
+      data() {
+        console.log('@@@', this);//此处的this指向Vue实例对象
+        return {
+          name: '张三'
+        }
+      }
+    })
+  </script>
+</body>
+</html>

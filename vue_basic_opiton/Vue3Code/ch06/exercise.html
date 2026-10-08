@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>自定义警告框组件</title>
+</head>
+<style>
+    .alert-box {
+        padding: 10px 20px;
+        background:#f3beb8;
+        border: 1px solid #fe9898;
+    }
+</style>
+<body>
+    <div id='app'>
+        <h1>自定义警告框组件</h1>
+        <alert>当前操作出现错误。</alert>
+    </div>
+    <script src='https://unpkg.com/vue@next'></script>
+    <script>
+        const vm = Vue.createApp({})
+        vm.component('alert',{
+            template:`
+                <div class="alert-box">
+                    <strong>错误！</strong>
+                    <slot></slot>
+                </div>`
+        })
+        vm.mount('#app')
+    </script>
+</body>

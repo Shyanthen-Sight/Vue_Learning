@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>书籍信息编辑页面</title>
+    <style>
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id='app'>
+        <div v-cloak>
+            <h2>书籍信息编辑页面</h2>
+            书籍名称：<span v-text="bookName">Vue</span>
+            <p v-bind:style="{color:Color}">书籍价格:{{price}}</p>
+            <p>资源链接：<a v-html="source">链接</a><br/></p>
+            <p v-pre>联系邮箱:textbook@1000phone.com</p>
+            <button v-on:click="edit()">修改书籍信息</button><br/>
+            <hr>
+            <div v-show="flag">
+                书籍名称：<input type="text"  v-model.trim="bookName" v-on:focus="bookName=''"><br/>
+                书籍价格：<input type="text"  v-model.trim.number="price" v-on:focus="price=''"><br/>
+                <button v-on:click="submits()">提交</button>
+            </div>
+       </div>
+    </div>
+    <script src='https://unpkg.com/vue@next'></script>
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    bookName:'HTML5+CSS3+JavaScript 网页设计基础与实践',
+                    pressTime:'2022',
+                    source:'http://tea.fengyunedu.cn/',
+                    price:55.9,
+                    Color:'red',
+                    flag:false
+                }
+            },
+            methods:{
+                edit(){
+                    this.flag=true
+                },
+                submits(){
+                    this.flag=false
+                }
+
+            }
+        }).mount('#app')
+    </script>
+</body>

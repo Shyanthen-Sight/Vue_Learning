@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>值绑定的单选按钮</title>
+</head>
+<body>
+    <div id='app'>
+        <h1>值绑定的单选按钮</h1>
+        <input type="radio"  id="boy" v-model="isChecked" :value="checkedVal[0]">
+        <label for="boy">男</label>
+        <input type="radio"  id="girl" v-model="isChecked" :value="checkedVal[1]">
+        <label for="girl">女</label>
+        <p>isChecked:{{isChecked}}</p>
+    </div>
+    <script src='https://unpkg.com/vue@next'></script>
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    isChecked:'空',
+                    checkedVal:['男生','女生']
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>

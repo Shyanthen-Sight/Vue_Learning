@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>列表渲染</title>
+    <script src='../../vue.js'></script>
+</head>
+
+<body>
+    <div id='app'>
+        <!-- 遍历数组 -->
+        <template v-for="item in userList">
+            <span>用户名：{{item.name}},</span>
+            <span>收件地址：{{item.address}},</span>
+            <span>联系方式：{{item.tel}}</span><br>
+        </template>
+        <!-- 遍历对象 -->
+        <p v-for="(value,valueName,index) in userDetail">{{valueName}}:{{value}}---{{index}}</p>
+    </div>
+    <script src='../../vue.js'></script>
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    userList:[
+                        {id:'001',name:'王明明',address:'北京市朝阳区小红门地区',tel:12456787609},
+                        {id:'002',name:'赵红红',address:'北京市大兴区经海大厦',tel:16787676465},
+                        {id:'003',name:'李利利',address:'北京市丰台区丰台科技园',tel:17689867836}
+                    ],
+                    userDetail:{name:'王明明',identity:'回头客',frequency:3,praiseRate:'95%',int:3}
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <title>商品信息管理表格</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+
+        .borders {
+            border: 1px solid black
+        }
+
+        .left {
+            float: left;
+            margin-left: 20px;
+        }
+
+        .right {
+            float: right;
+            margin-right: 20px;
+        }
+    </style>
+    <script src="../../vue.js"></script>
+</head>
+
+<body>
+<div id='app'>
+    <h1>商品信息管理表格</h1>
+    <table class="left" v-cloak>
+        <tbody>
+            <th class="borders" v-for="item in tableHead " :key="item">{{item}}</th>
+            <tr v-for="item,index) in proList" :key="item.id">
+                <td class="borders">{{item.id}}</td>
+                <td class="borders">{{item.name}}</td>
+                <td class="borders">{{item.place}}</td>
+                <td class="borders">{{item.price}}</td>
+                <td class="borders">{{item.stock}}</td>
+                <td class="borders">{{item.addTime}}</td>
+                <td class="borders">
+                    <button @click="edit(item)">edit</button>
+                    <!-- <button @click="deletes(index)">delete</button> -->
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <!-- 修改表单 -->
+    <div v-show="flag" class="right">
+        商品名称：<input type="text" v-model="common.thName"><br />
+        产地：<input type="text" v-model="common.thPlace"><br />
+        价格：<input type="text" v-model="common.thPrice"><br />
+        库存：<input type="text" v-model="common.thStock"><br />
+        入库时间：<input type="text" v-model="common.thAddtime"><br />
+        <button type="submit" @click="over()">提交</button>
+    </div>
+</div>
+    <script src='https://unpkg.com/vue@next'></script>
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    flag: false,
+                    tableHead: ['ID', '商品名称', '产地', '价格', '库存', '入库时间', '操作'],
+                    //公共对象
+                    common: {thID: '',thName: '',thPlace: '',thPrice: '',thStock: '',thAddtime: ''},
+                    proList: [
+                        {id: 1, name: '蜂王精',place: '北京',price: '99',stock: '55',addTime: '2021-12-02'},
+                        {id: 2, name: '罗汉果',place: '广西',price: '50',stock: '173',addTime: '2021-6-21'},
+                        {id: 3,name: '龙井',place: '浙江',price: '1499',stock: '89',addTime: '2021-6-26'},
+                        {id: 4,name: '大磨盘柿',place: '北京',price: '45',stock: '76',addTime: '2022-09-14'},
+                        {id: 5,name: '百色芒果',place: '广西',price: '67',stock: '99',addTime: '2022-08-13'}
+                    ]
+                }
+            },
+            methods: {
+                edit(item) {
+                    this.flag = true;
+                    this.common.thID = item.id;
+                    this.common.thName = item.name;
+                    this.common.thPlace = item.place;
+                    this.common.thPrice = item.price;
+                    this.common.thStock = item.stock;
+                    this.common.thAddtime = item.addTime;
+
+                },
+                // deletes(index) {
+                //     let told =confirm("确定删除本条信息"); 
+                //     if (told) { this.proList.splice(index,1)} ; 
+                // },
+                over() {
+                    this.flag = false,
+                    this.proList.splice(this.common.thID - 1, 1, {
+                        id: this.common.thID,
+                        name: this.common.thName,
+                        place:this.common.thPlace,
+                        price:this.common.thPrice,
+                        stock:this.common.thStock,
+                        addTime:this.common.thAddtime,
+                    })
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>
