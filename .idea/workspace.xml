@@ -7,25 +7,10 @@
     <option name="selectedModelId" value="auto" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ecd63366-6e1a-4ad3-a34d-5fe69c196e61" name="Changes" comment="test1">
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project_vue/test1/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project_vue/test1/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project_vue/test1/env.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project_vue/test1/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project_vue/test1/package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project_vue/test1/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project_vue/test1/public/favicon.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project_vue/test1/src/App.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project_vue/test1/src/assets/main.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project_vue/test1/src/components/person.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project_vue/test1/src/main.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project_vue/test1/tsconfig.app.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project_vue/test1/tsconfig.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project_vue/test1/tsconfig.node.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project_vue/test1/vite.config.ts" afterDir="false" />
+    <list default="true" id="ecd63366-6e1a-4ad3-a34d-5fe69c196e61" name="Changes" comment="26-10-10">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vue_class/homework/stu_gradeTable/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/vue_class/homework/stu_gradeTable/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue_class/Vue3Code/ch05/addProductPage.html" beforeDir="false" afterPath="$PROJECT_DIR$/vue_class/Vue3Code/ch05/addProductPage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue_class/Vue3Code/ch05/userRegistrationPage.html" beforeDir="false" afterPath="$PROJECT_DIR$/vue_class/Vue3Code/ch05/userRegistrationPage.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,8 +69,10 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;JavaScript Debug.addProductPage.html.executor&quot;: &quot;Run&quot;,
     &quot;JavaScript Debug.index.html.executor&quot;: &quot;Run&quot;,
     &quot;JavaScript Debug.localhost:5173.executor&quot;: &quot;Run&quot;,
+    &quot;JavaScript Debug.userRegistrationPage.html.executor&quot;: &quot;Run&quot;,
     &quot;JavaScript Debug.不使用key属性.html.executor&quot;: &quot;Run&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
@@ -104,6 +91,11 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;settings.vue&quot;,
     &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Shyanthen\\Desktop\\Vue\\project_vue\\test1\\node_modules\\typescript\\lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;PLAIN_TEXT&quot;
+    ]
   }
 }</component>
   <component name="RecentsManager">
@@ -141,7 +133,9 @@
       <workItem from="1791606409628" duration="107000" />
       <workItem from="1791607880013" duration="1527000" />
       <workItem from="1791609439135" duration="2852000" />
-      <workItem from="1791614421503" duration="4456000" />
+      <workItem from="1791614421503" duration="4792000" />
+      <workItem from="1791620656894" duration="3233000" />
+      <workItem from="1791624088454" duration="2071000" />
     </task>
     <task id="LOCAL-00001" summary="修改文件树">
       <option name="closed" value="true" />
@@ -167,7 +161,15 @@
       <option name="project" value="LOCAL" />
       <updated>1791605425029</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="26-10-10">
+      <option name="closed" value="true" />
+      <created>1791620487842</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1791620487842</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -176,7 +178,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="修改文件树" />
     <MESSAGE value="test1" />
-    <option name="LAST_COMMIT_MESSAGE" value="test1" />
+    <MESSAGE value="26-10-10" />
+    <option name="LAST_COMMIT_MESSAGE" value="26-10-10" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
