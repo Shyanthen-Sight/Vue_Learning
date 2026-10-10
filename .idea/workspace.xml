@@ -3,12 +3,39 @@
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
+  <component name="BackgroundAgentGlobalSettings">
+    <option name="selectedModelId" value="auto" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="ecd63366-6e1a-4ad3-a34d-5fe69c196e61" name="Changes" comment="修改文件树" />
+    <list default="true" id="ecd63366-6e1a-4ad3-a34d-5fe69c196e61" name="Changes" comment="test1">
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project_vue/test1/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project_vue/test1/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project_vue/test1/env.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project_vue/test1/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project_vue/test1/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project_vue/test1/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project_vue/test1/public/favicon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project_vue/test1/src/App.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project_vue/test1/src/assets/main.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project_vue/test1/src/components/person.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project_vue/test1/src/main.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project_vue/test1/tsconfig.app.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project_vue/test1/tsconfig.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project_vue/test1/tsconfig.node.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project_vue/test1/vite.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue_class/homework/stu_gradeTable/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/vue_class/homework/stu_gradeTable/index.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_C:/Users/Shyanthen/Desktop/Vue" value="3KUO0BMWK8KQH5DOfBN2oDB1DnB" />
+    </persistenceIdMap>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -25,10 +52,31 @@
     &quot;accountId&quot;: &quot;54fe091b-f29c-4365-8f4b-5c5eb54fe0f8&quot;
   }
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
   <component name="ProjectId" id="3KUGx8sRpehd7apiLlpTQsLpSWR" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectSessionTemplates">
+    <option name="panelTemplate">
+      <template>
+        <option name="modeId" value="Agent" />
+        <option name="model">
+          <model>
+            <option name="modelType" value="builtin_id" />
+            <option name="modelValue" value="auto" />
+          </model>
+        </option>
+        <option name="targetType" value="BACKGROUND" />
+        <option name="worktreeMode" value="WORKSPACE" />
+      </template>
+    </option>
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -36,10 +84,14 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;JavaScript Debug.index.html.executor&quot;: &quot;Run&quot;,
+    &quot;JavaScript Debug.localhost:5173.executor&quot;: &quot;Run&quot;,
+    &quot;JavaScript Debug.不使用key属性.html.executor&quot;: &quot;Run&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;copilot.chat.legacySessionMetadata.migrated&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
@@ -49,13 +101,26 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.vue&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Shyanthen\\Desktop\\Vue\\project_vue\\test1\\node_modules\\typescript\\lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Shyanthen\Desktop\Vue" />
       <recent name="C:\Users\Shyanthen\Desktop\Vue\Resource" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="localhost:5173" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:5173/">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JavaScript Debug.localhost:5173" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -74,6 +139,9 @@
       <workItem from="1791604978098" duration="523000" />
       <workItem from="1791606068313" duration="24000" />
       <workItem from="1791606409628" duration="107000" />
+      <workItem from="1791607880013" duration="1527000" />
+      <workItem from="1791609439135" duration="2852000" />
+      <workItem from="1791614421503" duration="4456000" />
     </task>
     <task id="LOCAL-00001" summary="修改文件树">
       <option name="closed" value="true" />
@@ -107,6 +175,17 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="修改文件树" />
-    <option name="LAST_COMMIT_MESSAGE" value="修改文件树" />
+    <MESSAGE value="test1" />
+    <option name="LAST_COMMIT_MESSAGE" value="test1" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/project_vue/test1/src/components/person.vue</url>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
