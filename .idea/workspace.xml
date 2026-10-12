@@ -7,10 +7,56 @@
     <option name="selectedModelId" value="auto" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ecd63366-6e1a-4ad3-a34d-5fe69c196e61" name="Changes" comment="26-10-10">
+    <list default="true" id="ecd63366-6e1a-4ad3-a34d-5fe69c196e61" name="Changes" comment="创建car_menchant实验工程文件">
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/public/video/vi-hero-4.mp4" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/MPV/zeekr 009.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/MPV/传祺M8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/MPV/别克GL8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/MPV/小鹏x9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/MPV/岚图梦想家.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/MPV/零跑D99.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/Pickup/Cybertruck.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/Pickup/Ford ranger.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/Pickup/大道.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/Pickup/山海炮.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/Pickup/炮phev.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/Pickup/纵横F700.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/Pickup/长安猎手k50.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/SUV/BYD tang.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/SUV/Benz.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/SUV/Leapmotor D19.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/SUV/Lincoln navigator.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/SUV/NIO es8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/SUV/Volkswagen.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/SUV/XiaoMi N70.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/SUV/XiaoMi N90.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/SUV/Xpeng GX.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/SUV/Zeeker.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/Sedan/Audi A6L.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/Sedan/Audi E5 sportback.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/Sedan/BMW 7.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/Sedan/FengYun A9L.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/Sedan/Lincoln Z.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/Sedan/XiaoMi Su7.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/Sedan/Xpeng mono.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/Sedan/Xpeng p7.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/Sedan/panamera.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/Sedan/volvo s90.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/SportsCar/AMG GT.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/SportsCar/BMW M2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/SportsCar/Bentley PHEV.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/SportsCar/Benz CLE.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/SportsCar/Ferrari 296.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/SportsCar/Ford Mustang.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/SportsCar/Lexus LC.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/SportsCar/Lotus Emira.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/SportsCar/Subaru BRZ.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/assets/image/CarClass/SportsCar/porsche 718.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/components/Home_hero_page.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/src/components/Rent_page.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vue_class/Vue3Code/ch05/addProductPage.html" beforeDir="false" afterPath="$PROJECT_DIR$/vue_class/Vue3Code/ch05/addProductPage.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vue_class/Vue3Code/ch05/userRegistrationPage.html" beforeDir="false" afterPath="$PROJECT_DIR$/vue_class/Vue3Code/ch05/userRegistrationPage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/ref.md" beforeDir="false" afterPath="$PROJECT_DIR$/vue_class/homework/Car_Merchant/Car_Merchant/ref.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue_class/homework/stu_gradeTable/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/vue_class/homework/stu_gradeTable/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,6 +67,13 @@
     <persistenceIdMap>
       <entry key="_C:/Users/Shyanthen/Desktop/Vue" value="3KUO0BMWK8KQH5DOfBN2oDB1DnB" />
     </persistenceIdMap>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Vue Composition API Component" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -75,9 +128,9 @@
     &quot;JavaScript Debug.userRegistrationPage.html.executor&quot;: &quot;Run&quot;,
     &quot;JavaScript Debug.不使用key属性.html.executor&quot;: &quot;Run&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Node.js.counter.ts.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;copilot.chat.legacySessionMetadata.migrated&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
@@ -88,20 +141,27 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;settings.vue&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Shyanthen\\Desktop\\Vue\\project_vue\\test1\\node_modules\\typescript\\lib&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;C:\\Users\\Shyanthen\\Desktop\\Vue\\vue_class\\homework\\Car_Merchant\\Car_Merchant\\node_modules\\prettier&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.file-colors&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Shyanthen\\Desktop\\Vue\\vue_class\\homework\\Car_Merchant\\Car_Merchant\\node_modules\\typescript\\lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
     &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
       &quot;PLAIN_TEXT&quot;
+    ],
+    &quot;vue.recent.templates&quot;: [
+      &quot;Vue Composition API Component&quot;
     ]
   }
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Shyanthen\Desktop\Vue" />
-      <recent name="C:\Users\Shyanthen\Desktop\Vue\Resource" />
+      <recent name="C:\Users\Shyanthen\Desktop\Vue\vue_class\homework\Car_Merchant\Car_Merchant\public" />
+      <recent name="C:\Users\Shyanthen\Desktop\Vue\vue_class\homework\Car_Merchant\Car_Merchant\src\assets\video" />
+      <recent name="C:\Users\Shyanthen\Desktop\Vue\vue_class\homework\Car_Merchant\Car_Merchant\src\assets\fonts" />
+      <recent name="C:\Users\Shyanthen\Desktop\Vue\vue_class\homework\Car_Merchant\Car_Merchant\src\assets\image\CarClass" />
+      <recent name="C:\Users\Shyanthen\Desktop\Vue\vue_class\homework\Car_Merchant\Car_Merchant\src" />
     </key>
   </component>
   <component name="RunManager">
@@ -135,7 +195,14 @@
       <workItem from="1791609439135" duration="2852000" />
       <workItem from="1791614421503" duration="4792000" />
       <workItem from="1791620656894" duration="3233000" />
-      <workItem from="1791624088454" duration="2071000" />
+      <workItem from="1791624088454" duration="2278000" />
+      <workItem from="1791628789605" duration="4526000" />
+      <workItem from="1791637720372" duration="2112000" />
+      <workItem from="1791640017827" duration="6266000" />
+      <workItem from="1791692952800" duration="496000" />
+      <workItem from="1791723070347" duration="2491000" />
+      <workItem from="1791762658748" duration="1747000" />
+      <workItem from="1791764667591" duration="3890000" />
     </task>
     <task id="LOCAL-00001" summary="修改文件树">
       <option name="closed" value="true" />
@@ -169,7 +236,15 @@
       <option name="project" value="LOCAL" />
       <updated>1791620487842</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="创建car_menchant实验工程文件">
+      <option name="closed" value="true" />
+      <created>1791626426485</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1791626426485</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -179,7 +254,8 @@
     <MESSAGE value="修改文件树" />
     <MESSAGE value="test1" />
     <MESSAGE value="26-10-10" />
-    <option name="LAST_COMMIT_MESSAGE" value="26-10-10" />
+    <MESSAGE value="创建car_menchant实验工程文件" />
+    <option name="LAST_COMMIT_MESSAGE" value="创建car_menchant实验工程文件" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
