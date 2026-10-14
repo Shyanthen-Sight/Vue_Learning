@@ -66,8 +66,9 @@ const emit = defineEmits<{
 .car_card:hover { box-shadow: 0 10px 24px rgba(23, 35, 52, 0.14); }
 .car_card.selected { border-color: var(--accent); background: #fffaf3; box-shadow: 0 0 0 3px rgba(181, 139, 82, 0.35), 0 8px 18px rgba(143, 105, 58, 0.18); outline: 2px solid var(--accent); outline-offset: 2px; }
 .car_card:focus-visible { outline: 2px solid var(--accent-dark); outline-offset: 2px; }
-.car_image_container { height: 10rem; background: var(--navy-soft); }
-.car_image { width: 100%; height: 100%; object-fit: contain; }
+.car_image_container { height: 10rem; overflow: hidden; background: var(--navy-soft); }
+.car_image { width: 100%; height: 100%; object-fit: contain; transition: transform 0.3s ease; }
+.car_card:hover .car_image { transform: scale(1.1); }
 .no_car_image { display: flex; align-items: center; justify-content: center; height: 100%; color: var(--soft-muted); }
 .car_card_content { display: flex; min-height: 7rem; padding: 0.85rem 0.95rem 0.95rem; flex-direction: column; }
 .car_id_row, .car_title_row, .car_card_footer { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
