@@ -12,11 +12,18 @@ html,
 body {
   margin: 0;
   padding: 0;
+  font-family: 'Nunito-Regular', sans-serif;
+}
+
+button,
+input {
+  font-family: inherit;
 }
 
 .title {
   font-family: 'BebasNeue-Regular', sans-serif;
 }
+
 .text {
   font-family: 'Nunito-Regular', sans-serif;
 }

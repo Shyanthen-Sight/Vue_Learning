@@ -11,10 +11,15 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AddVehicleModal: typeof import('./src/components/car/AddVehicleModal.vue')['default']
+    DeleteVehicleModal: typeof import('./src/components/car/DeleteVehicleModal.vue')['default']
     Home_hero_page: typeof import('./src/components/Home_hero_page.vue')['default']
     Nav_header: typeof import('./src/components/Nav_header.vue')['default']
     Rent_page: typeof import('./src/components/Rent_page.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SuccessToast: typeof import('./src/components/car/SuccessToast.vue')['default']
+    VehicleGrid: typeof import('./src/components/car/VehicleGrid.vue')['default']
+    VehicleToolbar: typeof import('./src/components/car/VehicleToolbar.vue')['default']
   }
 }
